@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Golden Goose Crush 🪿 — Play Free | Golden Goose of Springfield</title>
-<meta name="description" content="Golden Goose Crush — a free match-3 puzzle game. Swap the goose, the golden egg, the crown and more. Match 3 to crush it.">
+<meta name="description" content="Golden Goose Crush — a free match-3 puzzle game. Swap the goose, the golden egg, the crown and more. Match 3 to crush it. 30 levels, Golden Goose music.">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body {
@@ -67,6 +67,8 @@
   }
   #newBtn { background: linear-gradient(180deg, #ffd700, #e0a800); color: #111; }
   #hintBtn { background: #262626; color: #ffd700; border: 1px solid #c9a227; }
+  #musicBtn { background: #262626; color: #ffd700; border: 1px solid #c9a227; }
+  #levelsBtn { background: linear-gradient(180deg, #ffd700, #e0a800); color: #111; }
   .howto {
     margin-top: 14px; background: #161616; border: 1px solid #2c2c2c; border-radius: 12px;
     padding: 12px 14px; font-size: 14px; line-height: 1.55; color: #ddd;
@@ -87,22 +89,50 @@
   .card h2 { margin: 0 0 8px; font-size: 26px; color: #ffd700; }
   .card p { color: #ddd; line-height: 1.5; margin: 0 0 16px; }
   .card .big { font-size: 20px; font-weight: 800; color: #fff; }
+  .card .stars { font-size: 30px; letter-spacing: 4px; margin: 4px 0 10px; color: #ffd700; }
   .card button {
     width: 100%; padding: 13px; font-size: 16px; font-weight: 800; border: none;
     border-radius: 12px; background: linear-gradient(180deg, #ffd700, #e0a800); color: #111; cursor: pointer;
   }
+  #lvlOverlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.88); display: none;
+    align-items: center; justify-content: center; z-index: 11; padding: 20px;
+  }
+  #lvlOverlay.show { display: flex; }
+  .lvl-card {
+    background: #181818; border: 2px solid #c9a227; border-radius: 18px;
+    padding: 22px 18px; text-align: center; max-width: 380px; width: 100%;
+    box-shadow: 0 0 40px rgba(255, 215, 0, .25); max-height: 86vh; overflow-y: auto;
+  }
+  .lvl-card h2 { margin: 0 0 4px; font-size: 24px; color: #ffd700; }
+  .lvl-card p { color: #bbb; font-size: 13px; margin: 0 0 14px; }
+  .lvl-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .lvl-btn {
+    border: 1px solid #c9a227; background: #262626; color: #fff; border-radius: 10px;
+    padding: 10px 2px 8px; cursor: pointer; font-weight: 800; font-size: 16px;
+  }
+  .lvl-btn .st { display: block; font-size: 11px; color: #ffd700; letter-spacing: 1px; margin-top: 2px; }
+  .lvl-btn.locked { opacity: .35; cursor: not-allowed; border-color: #444; }
+  .lvl-btn.current { background: linear-gradient(180deg, #ffd700, #e0a800); color: #111; }
+  .lvl-btn.current .st { color: #111; }
+  .lvl-close {
+    width: 100%; margin-top: 14px; padding: 12px; font-size: 15px; font-weight: 800;
+    border: none; border-radius: 12px; background: #262626; color: #ffd700;
+    border: 1px solid #c9a227; cursor: pointer;
+  }
 </style>
 </head>
 <body>
+<audio id="bgMusic" src="golden-goose-theme.mp3" loop preload="auto"></audio>
 <div class="wrap">
   <h1>🪿 Golden Goose Crush</h1>
-  <p class="sub">Match 3 &middot; crush the board &middot; free to play</p>
+  <p class="sub">Match 3 &middot; crush the board &middot; 30 levels &middot; Golden Goose music</p>
 
   <div class="hud">
-    <div class="stat"><div class="label">Level</div><div class="value" id="level">1</div></div>
+    <div class="stat"><div class="label">Level</div><div class="value" id="level">1 / 30</div></div>
     <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
     <div class="stat"><div class="label">Target</div><div class="value" id="target">1,500</div></div>
-    <div class="stat"><div class="label">Moves</div><div class="value" id="moves">30</div></div>
+    <div class="stat"><div class="label">Moves</div><div class="value" id="moves">45</div></div>
   </div>
   <div class="bar"><div id="progress"></div></div>
 
@@ -113,12 +143,17 @@
     <button class="action" id="newBtn">🔄 New Game</button>
     <button class="action" id="hintBtn">💡 Hint</button>
   </div>
+  <div class="btns">
+    <button class="action" id="musicBtn">🎵 Music: On</button>
+    <button class="action" id="levelsBtn">🗺️ Levels</button>
+  </div>
 
   <div class="howto">
     <b>How to play:</b> Tap a tile, then tap a tile next to it to swap them.
     Match <b>3 or more</b> in a row or column to crush them and score.
     Match <b>4+</b> for a GOLDEN bonus. Reach the target score before your moves run out.
-    Beat the level and the next one gets tougher. Best score is saved on this device.
+    <b>30 levels</b> — beat one to unlock the next. New tiles join the board as you climb,
+    and the Golden Goose theme plays while you crush. Best score and stars are saved on this device.
   </div>
 
   <p class="foot">A Golden Goose game &middot; <a href="https://goldengoose413.github.io">Back to the Golden Goose Hub 🪿</a></p>
@@ -126,31 +161,79 @@
 
 <div id="overlay"><div class="card">
   <h2 id="ovTitle">Level Complete!</h2>
+  <div class="stars" id="ovStars"></div>
   <p id="ovText"></p>
   <button id="ovBtn">Next Level →</button>
+</div></div>
+
+<div id="lvlOverlay"><div class="lvl-card">
+  <h2>🗺️ Choose a Level</h2>
+  <p>Beat a level to unlock the next. Stars are saved on this device.</p>
+  <div class="lvl-grid" id="lvlGrid"></div>
+  <button class="lvl-close" id="lvlClose">Close</button>
 </div></div>
 
 <script>
 "use strict";
 const ROWS = 8, COLS = 8;
-const TYPES = ["🪿", "🥚", "👑", "⭐", "🍬", "💎"];
-const MOVES_PER_LEVEL = 30;
+const BASE_TYPES = ["🪿", "🥚", "👑", "⭐", "🍬", "💎"];
+const EXTRA_TYPES = ["🎵", "🍀"];
+const MOVES_PER_LEVEL = 45;
+const MAX_CAMPAIGN_LEVEL = 30;
 
-let board = [];          // ROWS x COLS of type index (0..5)
+let TYPES = BASE_TYPES.slice(0, 5); // set per level in startLevel
+let board = [];          // ROWS x COLS of type index
 let score = 0, moves = MOVES_PER_LEVEL, level = 1, target = 1500;
 let selected = null;     // {r, c} or null
 let busy = false;        // input locked while tiles resolve
 let best = 0;
 try { best = parseInt(localStorage.getItem("ggc-best") || "0", 10) || 0; } catch (e) {}
 
+let starsMap = {};
+try { starsMap = JSON.parse(localStorage.getItem("ggc-stars") || "{}") || {}; } catch (e) {}
+let unlocked = 1;
+try { unlocked = parseInt(localStorage.getItem("ggc-unlocked") || "1", 10) || 1; } catch (e) {}
+unlocked = Math.max(1, Math.min(MAX_CAMPAIGN_LEVEL, unlocked));
+
 const $ = (id) => document.getElementById(id);
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 const randType = () => Math.floor(Math.random() * TYPES.length);
 
+function typesForLevel(lvl) {
+  if (lvl >= 8) return BASE_TYPES.concat(EXTRA_TYPES);      // 8 types
+  if (lvl >= 5) return BASE_TYPES.concat([EXTRA_TYPES[0]]); // 7 types
+  if (lvl >= 3) return BASE_TYPES;                           // 6 types
+  return BASE_TYPES.slice(0, 5);                             // 5 types
+}
+
 function computeTarget(lvl) { return lvl === 1 ? 1500 : 1500 + (lvl - 1) * 800; }
 
+function computeStars(sc, tgt) {
+  if (sc >= tgt * 2) return 3;
+  if (sc >= tgt * 1.5) return 2;
+  return 1;
+}
+
+function starStr(n) {
+  return "★".repeat(n) + "☆".repeat(3 - n);
+}
+
+function saveStars(lvl, n) {
+  if ((starsMap[lvl] || 0) < n) {
+    starsMap[lvl] = n;
+    try { localStorage.setItem("ggc-stars", JSON.stringify(starsMap)); } catch (e) {}
+  }
+}
+
+function saveUnlocked(n) {
+  if (n > unlocked) {
+    unlocked = Math.min(MAX_CAMPAIGN_LEVEL, n);
+    try { localStorage.setItem("ggc-unlocked", String(unlocked)); } catch (e) {}
+  }
+}
+
 function updateHud() {
-  $("level").textContent = level;
+  $("level").textContent = level <= MAX_CAMPAIGN_LEVEL ? level + " / " + MAX_CAMPAIGN_LEVEL : level + " ∞";
   $("score").textContent = score.toLocaleString();
   $("target").textContent = computeTarget(level).toLocaleString();
   $("moves").textContent = moves;
@@ -161,6 +244,26 @@ function showMsg(text) {
   $("msg").textContent = text;
   if (text) setTimeout(() => { if ($("msg").textContent === text) $("msg").textContent = ""; }, 1600);
 }
+
+/* ---------- music: Golden Goose theme ---------- */
+const bgMusic = $("bgMusic");
+bgMusic.volume = 0.35;
+let musicOn = true;
+try { musicOn = localStorage.getItem("ggc-music") !== "off"; } catch (e) {}
+function setMusic(on) {
+  musicOn = on;
+  try { localStorage.setItem("ggc-music", on ? "on" : "off"); } catch (e) {}
+  $("musicBtn").textContent = on ? "🎵 Music: On" : "🔇 Music: Off";
+  if (on) { bgMusic.play().catch(() => {}); } else { bgMusic.pause(); }
+}
+$("musicBtn").addEventListener("click", () => setMusic(!musicOn));
+// browsers block autoplay until a tap — start the theme on first interaction
+const startMusicOnce = () => {
+  if (musicOn) bgMusic.play().catch(() => {});
+  document.removeEventListener("pointerdown", startMusicOnce);
+};
+document.addEventListener("pointerdown", startMusicOnce);
+if (!musicOn) $("musicBtn").textContent = "🔇 Music: Off";
 
 /* ---------- board setup ---------- */
 function createsMatch(r, c, t) {
@@ -370,23 +473,29 @@ async function onTile(r, c) {
 function checkEnd() {
   if (score >= computeTarget(level)) {
     saveBest();
-    $("ovTitle").textContent = "🎉 Level " + level + " Complete!";
-    $("ovText").innerHTML = "You crushed it — <span class='big'>" + score.toLocaleString() + "</span> points with <b>" + moves + "</b> moves to spare.<br>Best score: <b>" + best.toLocaleString() + "</b>";
-    $("ovBtn").textContent = "Next Level →";
+    const stars = computeStars(score, computeTarget(level));
+    saveStars(level, stars);
+    if (level < MAX_CAMPAIGN_LEVEL) saveUnlocked(level + 1);
+    $("ovTitle").textContent = level >= MAX_CAMPAIGN_LEVEL
+      ? "🏆 You Beat All 30 Levels!"
+      : "🎉 Level " + level + " Complete!";
+    $("ovStars").textContent = starStr(stars);
+    $("ovText").innerHTML = "You crushed it — <span class='big'>" + score.toLocaleString() + "</span> points with <b>" + moves + "</b> moves to spare.<br>Best score: <b>" + best.toLocaleString() + "</b>"
+      + (level >= MAX_CAMPAIGN_LEVEL ? "<br>Keep crushing in endless mode — the board only gets tougher." : "");
+    $("ovBtn").textContent = level >= MAX_CAMPAIGN_LEVEL ? "Keep Crushing ∞" : "Next Level →";
     $("ovBtn").onclick = () => {
       $("overlay").classList.remove("show");
       level++;
       moves = MOVES_PER_LEVEL;
       score = 0;
-      newBoard();
-      render();
-      updateHud();
-      showMsg("Level " + level + " — target " + computeTarget(level).toLocaleString() + "!");
+      startLevel(level);
+      showMsg("Level " + level + (level <= MAX_CAMPAIGN_LEVEL ? " — target " + computeTarget(level).toLocaleString() + "!" : " — endless mode!"));
     };
     $("overlay").classList.add("show");
   } else if (moves <= 0) {
     saveBest();
     $("ovTitle").textContent = "Out of Moves 😢";
+    $("ovStars").textContent = "";
     $("ovText").innerHTML = "So close! You scored <span class='big'>" + score.toLocaleString() + "</span> of " + computeTarget(level).toLocaleString() + ".<br>Best score: <b>" + best.toLocaleString() + "</b>";
     $("ovBtn").textContent = "Try Again ↻";
     $("ovBtn").onclick = () => {
@@ -406,6 +515,7 @@ function saveBest() {
 
 function startLevel(lvl) {
   level = lvl;
+  TYPES = typesForLevel(lvl);
   score = 0;
   moves = MOVES_PER_LEVEL;
   selected = null;
@@ -413,6 +523,36 @@ function startLevel(lvl) {
   render();
   updateHud();
 }
+
+/* ---------- level select ---------- */
+function renderLevelGrid() {
+  const grid = $("lvlGrid");
+  grid.innerHTML = "";
+  for (let l = 1; l <= MAX_CAMPAIGN_LEVEL; l++) {
+    const b = document.createElement("button");
+    b.className = "lvl-btn";
+    const isLocked = l > unlocked;
+    const isCurrent = l === level;
+    if (isLocked) b.classList.add("locked");
+    if (isCurrent) b.classList.add("current");
+    const st = starsMap[l] || 0;
+    b.innerHTML = l + "<span class='st'>" + (isLocked ? "🔒" : starStr(st)) + "</span>";
+    b.disabled = isLocked;
+    if (!isLocked) {
+      b.addEventListener("click", () => {
+        $("lvlOverlay").classList.remove("show");
+        startLevel(l);
+        showMsg("Level " + l + " — target " + computeTarget(l).toLocaleString() + "!");
+      });
+    }
+    grid.appendChild(b);
+  }
+}
+$("levelsBtn").addEventListener("click", () => {
+  renderLevelGrid();
+  $("lvlOverlay").classList.add("show");
+});
+$("lvlClose").addEventListener("click", () => $("lvlOverlay").classList.remove("show"));
 
 $("newBtn").addEventListener("click", () => { startLevel(1); showMsg("Fresh board — good luck! 🍀"); });
 $("hintBtn").addEventListener("click", () => {
