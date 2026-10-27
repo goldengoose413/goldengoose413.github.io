@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Golden Goose Walls 🪿 — Play Free | Golden Goose of Springfield</title>
+<meta name="description" content="Golden Goose Walls — a castle puzzle game. Build walls to lock the Golden Goose and friends safely inside, and keep the red invaders outside.">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; min-height: 100vh; background: #0d0d0d;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #f5f5f5; display: flex; flex-direction: column; align-items: center;
+    padding: 14px 10px 28px;
+  }
+  .wrap { width: 100%; max-width: 480px; }
+  h1 {
+    text-align: center; margin: 6px 0 2px; font-size: 29px; letter-spacing: .5px;
+    background: linear-gradient(90deg, #ffd700, #ffb700, #fff3b0, #ffd700);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sub { text-align: center; color: #c9a227; margin: 0 0 12px; font-size: 14px; }
+  .topbar { display: flex; gap: 8px; margin-bottom: 10px; align-items: stretch; }
+  .lvl-box {
+    flex: 1; background: #1a1a1a; border: 1px solid #3a2f00; border-radius: 12px;
+    padding: 8px 10px; text-align: center;
+  }
+  .lvl-box .label { font-size: 11px; color: #c9a227; text-transform: uppercase; letter-spacing: 1px; }
+  .lvl-box .value { font-size: 18px; font-weight: 800; color: #fff; }
+  .icon-btn {
+    min-width: 48px; padding: 8px 10px; font-size: 20px; border-radius: 12px; cursor: pointer;
+    background: #262626; color: #ffd700; border: 1px solid #c9a227;
+  }
+  .icon-btn:active { transform: scale(.95); }
+  #board {
+    display: grid; gap: 5px;
+    background: linear-gradient(160deg, #1c1c1c, #111); border: 2px solid #c9a227;
+    border-radius: 16px; padding: 8px;
+    box-shadow: 0 0 0 4px #000, 0 10px 30px rgba(0,0,0,.6), 0 0 24px rgba(255, 215, 0, .15);
+    touch-action: manipulation;
+  }
+  .cell {
+    aspect-ratio: 1; border: none; border-radius: 10px; cursor: pointer;
+    font-size: clamp(24px, 7vw, 34px); line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(160deg, #2b2b2b, #1e1e1e);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 2px 4px rgba(0,0,0,.5);
+    transition: transform .12s, background .12s;
+    user-select: none; padding: 0;
+  }
+  .cell:active { transform: scale(.94); }
+  .cell.gold { background: linear-gradient(160deg, #4a3a00, #2e2500); box-shadow: inset 0 0 0 2px rgba(255,215,0,.55), 0 2px 4px rgba(0,0,0,.5); }
+  .cell.red { background: linear-gradient(160deg, #4a0d0d, #2e0505); box-shadow: inset 0 0 0 2px rgba(255,80,80,.6), 0 2px 4px rgba(0,0,0,.5); }
+  .cell.wall { background: linear-gradient(160deg, #6b6b6b, #3d3d3d); box-shadow: inset 0 0 0 2px #9a9a9a, 0 2px 4px rgba(0,0,0,.5); font-size: clamp(20px, 6vw, 28px); }
+  .cell.hintflash { animation: hintpulse .45s ease-in-out 3; }
+  @keyframes hintpulse { 0%,100% { box-shadow: inset 0 0 0 2px rgba(255,215,0,.4); } 50% { box-shadow: inset 0 0 0 4px #ffd700, 0 0 18px rgba(255,215,0,.9); } }
+  .cell.shake { animation: shake .3s ease-in-out; }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  #msg {
+    min-height: 28px; text-align: center; font-size: 16px; font-weight: 700;
+    color: #ffd700; margin: 10px 0 4px; text-shadow: 0 2px 8px rgba(0,0,0,.6); line-height: 1.35;
+  }
+  #msg.bad { color: #ff7b7b; }
+  .tray-label { font-size: 12px; color: #c9a227; text-transform: uppercase; letter-spacing: 1px; margin: 6px 2px 6px; }
+  #tray { display: flex; gap: 8px; flex-wrap: wrap; }
+  .wall-chip {
+    flex: 1 1 30%; min-width: 96px; min-height: 58px; padding: 8px 6px;
+    background: #1a1a1a; border: 2px solid #3a2f00; border-radius: 12px;
+    color: #fff; cursor: pointer; font-size: 15px; font-weight: 700;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  }
+  .wall-chip .shape { font-size: 20px; letter-spacing: 1px; line-height: 1; }
+  .wall-chip .state { font-size: 11px; color: #c9a227; font-weight: 600; }
+  .wall-chip.sel { border-color: #ffd700; background: #2e2500; box-shadow: 0 0 14px rgba(255,215,0,.45); }
+  .wall-chip.placed { opacity: .55; }
+  .wall-chip.placed .state { color: #8aff8a; }
+  .btns { display: flex; gap: 8px; margin-top: 12px; }
+  button.action {
+    flex: 1; padding: 13px 8px; font-size: 16px; font-weight: 800; border-radius: 12px;
+    border: none; cursor: pointer; min-height: 50px;
+  }
+  button.action:active { transform: scale(.98); }
+  #checkBtn { background: linear-gradient(180deg, #ffd700, #e0a800); color: #111; }
+  #hintBtn { background: #262626; color: #ffd700; border: 1px solid #c9a227; flex: 0 0 96px; }
+  #resetBtn { background: #262626; color: #ddd; border: 1px solid #555; flex: 0 0 96px; }
+  .levels { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+  .levels button {
+    flex: 1 1 17%; min-width: 52px; min-height: 44px; border-radius: 10px; cursor: pointer;
+    background: #1a1a1a; color: #ffd700; border: 1px solid #3a2f00; font-size: 15px; font-weight: 800;
+  }
+  .levels button.cur { border-color: #ffd700; background: #2e2500; }
+  .levels button.done { color: #8aff8a; }
+  .levels button.done::after { content: " ✓"; font-size: 12px; }
+  .howto {
+    margin-top: 14px; background: #161616; border: 1px solid #2c2c2c; border-radius: 12px;
+    padding: 12px 14px; font-size: 14px; line-height: 1.55; color: #ddd;
+  }
+  .howto b { color: #ffd700; }
+  .foot { text-align: center; margin-top: 16px; font-size: 13px; color: #999; }
+  .foot a { color: #ffd700; text-decoration: none; font-weight: 700; }
+  #overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.82); display: none;
+    align-items: center; justify-content: center; z-index: 10; padding: 20px;
+  }
+  #overlay.show { display: flex; }
+  .card {
+    background: #181818; border: 2px solid #c9a227; border-radius: 18px;
+    padding: 26px 22px; text-align: center; max-width: 340px; width: 100%;
+    box-shadow: 0 0 40px rgba(255, 215, 0, .25);
+  }
+  .card h2 { margin: 0 0 8px; font-size: 26px; color: #ffd700; }
+  .card p { color: #ddd; line-height: 1.5; margin: 0 0 16px; }
+  .card .big { font-size: 20px; font-weight: 800; color: #fff; }
+  .card button {
+    width: 100%; padding: 13px; font-size: 16px; font-weight: 800; border: none;
+    border-radius: 12px; background: linear-gradient(180deg, #ffd700, #e0a800); color: #111; cursor: pointer;
+    margin-top: 8px;
+  }
+  .card button.ghost { background: #262626; color: #ffd700; border: 1px solid #c9a227; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🪿 Golden Goose Walls</h1>
+  <p class="sub">Build the walls &middot; guard the goose &middot; shut out the invaders</p>
+
+  <div class="topbar">
+    <div class="lvl-box"><div class="label">Level</div><div class="value" id="lvlName">1 &middot; First Walls</div></div>
+    <button class="icon-btn" id="musicBtn" title="Music on/off" aria-label="Toggle music">🔊</button>
+    <button class="icon-btn" id="helpBtn" title="How to play" aria-label="How to play">❓</button>
+  </div>
+
+  <div id="board" role="grid" aria-label="Golden Goose Walls board"></div>
+  <div id="msg"></div>
+
+  <div class="tray-label">Your walls — tap one, then tap the board to place it</div>
+  <div id="tray"></div>
+
+  <div class="btns">
+    <button class="action" id="checkBtn">✅ Check the Walls</button>
+    <button class="action" id="hintBtn">💡 Hint</button>
+    <button class="action" id="resetBtn">↻ Reset</button>
+  </div>
+
+  <div class="levels" id="levels" aria-label="Choose a level"></div>
+
+  <div class="howto">
+    <b>How to play:</b> Tap a wall below, then tap a square to place it.
+    Tap a selected wall again to turn it before placing; tap a placed wall
+    to turn it, or tap its chip to pick it back up.
+    When every wall is placed, press <b>Check the Walls</b> — the Golden Goose,
+    its friends and the towers must be locked <b>inside</b>, and every red
+    invader must be left <b>outside</b>. Each level has exactly one answer.
+  </div>
+
+  <p class="foot">A Golden Goose game &middot; <a href="https://goldengoose413.github.io">Back to the Golden Goose Hub 🪿</a></p>
+</div>
+
+<audio id="theme" src="golden-goose-theme.mp3" loop preload="auto"></audio>
+
+<div id="overlay"><div class="card">
+  <h2 id="ovTitle">🏰 Castle Saved!</h2>
+  <p id="ovText"></p>
+  <button id="ovBtn">Next Level →</button>
+  <button id="ovBtn2" class="ghost">Replay This Level</button>
+</div></div>
+
+<div id="helpOverlay" class="card" style="display:none; position:fixed; z-index:11; left:50%; top:50%; transform:translate(-50%,-50%);">
+  <h2>How to play</h2>
+  <p style="text-align:left">Build walls to lock the <b style="color:#ffd700">Golden Goose</b>, its friends and the towers safely <b>inside</b> the castle — and keep every <b style="color:#ff7b7b">red invader</b> outside.<br><br>
+  1️⃣ Tap a wall, then tap a square to place it.<br>
+  2️⃣ Tap a selected wall again to turn it before placing.<br>
+  3️⃣ Tap a placed wall to turn it, or tap its chip to pick it back up.<br>
+  4️⃣ Press <b>Check the Walls</b> when all walls are placed.<br><br>
+  Each level has exactly one correct answer. Good luck, guardian! 🪿</p>
+  <button id="helpClose">Got it!</button>
+</div>
+
+<script>
+"use strict";
+/* ================= level data =================
+   pieces: "r,c" -> G goose, F friend, T tower (protect = inside),
+           R red invader (must stay outside).
+   walls: shape names. sol: the unique solution's wall cells (for Hint).
+   Every level below was brute-force verified to have exactly ONE solution.
+*/
+const LEVELS = [
+  { name: "First Walls", n: 5,
+    pieces: {"0,0":"G", "4,4":"R"}, walls: ["L3"],
+    sol: [[0,1],[1,0],[1,1]] },
+  { name: "Two Corners", n: 5,
+    pieces: {"0,0":"G", "4,4":"T", "2,2":"R"}, walls: ["L3","L3"],
+    sol: [[0,1],[1,0],[1,1],[3,3],[3,4],[4,3]] },
+  { name: "Twin Peaks", n: 5,
+    pieces: {"0,0":"G", "0,4":"F", "4,2":"R"}, walls: ["L3","L3"],
+    sol: [[0,1],[0,3],[1,0],[1,1],[1,3],[1,4]] },
+  { name: "The Pocket", n: 5,
+    pieces: {"1,1":"G", "2,1":"F", "3,0":"R", "0,4":"R", "4,4":"R"}, walls: ["L3","L3","I2"],
+    sol: [[0,1],[0,2],[1,0],[1,2],[2,0],[2,2],[3,1],[3,2]] },
+  { name: "Side Pocket", n: 5,
+    pieces: {"2,3":"G", "1,3":"T", "2,0":"R", "3,2":"R"}, walls: ["L3","L3","I2"],
+    sol: [[0,3],[0,4],[1,2],[1,4],[2,2],[2,4],[3,3],[3,4]] },
+  { name: "The Little Fort", n: 5,
+    pieces: {"1,1":"G", "2,2":"F", "0,4":"R", "4,0":"R"}, walls: ["I2","I2","I2","I2"],
+    sol: [[0,1],[0,2],[1,0],[1,3],[2,0],[2,3],[3,1],[3,2]] },
+  { name: "Corner to Corner", n: 6,
+    pieces: {"0,5":"G", "5,0":"T", "3,3":"R", "0,3":"R", "5,4":"R"}, walls: ["L3","L3"],
+    sol: [[0,4],[1,4],[1,5],[4,0],[4,1],[5,1]] },
+  { name: "Far Corners", n: 6,
+    pieces: {"0,0":"G", "5,5":"F", "5,2":"R"}, walls: ["L3","L3"],
+    sol: [[0,1],[1,0],[1,1],[4,4],[4,5],[5,4]] },
+  { name: "The Big Castle", n: 6,
+    pieces: {"1,1":"G", "3,3":"F", "3,2":"T", "4,4":"R", "1,5":"R"}, walls: ["I3","I3","I3","I3"],
+    sol: [[0,1],[0,2],[0,3],[1,0],[1,4],[2,0],[2,4],[3,0],[3,4],[4,1],[4,2],[4,3]] },
+  { name: "The Long Hall", n: 6,
+    pieces: {"1,3":"G", "2,3":"T", "2,1":"F", "1,5":"R", "5,0":"R", "4,3":"R"}, walls: ["I3","I3","I2","I2"],
+    sol: [[0,1],[0,2],[0,3],[1,0],[1,4],[2,0],[2,4],[3,1],[3,2],[3,3]] },
+];
+
+/* ================= shapes ================= */
+const SHAPES = {
+  I2: [[0,0],[0,1]],
+  I3: [[0,0],[0,1],[0,2]],
+  L3: [[0,0],[1,0],[1,1]],
+};
+const SHAPE_LABEL = { I2: "Wall ×2", I3: "Wall ×3", L3: "Corner ×3" };
+
+function orientations(cells) {
+  const seen = new Set(), out = [];
+  let cur = cells.map(([r, c]) => [r, c]);
+  for (let k = 0; k < 4; k++) {
+    const mnR = Math.min(...cur.map(p => p[0])), mnC = Math.min(...cur.map(p => p[1]));
+    const norm = cur.map(([r, c]) => [r - mnR, c - mnC]).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const key = JSON.stringify(norm);
+    if (!seen.has(key)) { seen.add(key); out.push(norm); }
+    cur = cur.map(([r, c]) => [c, -r]);
+  }
+  return out;
+}
+const ORIENTS = {};
+for (const k of Object.keys(SHAPES)) ORIENTS[k] = orientations(SHAPES[k]);
+
+function shapeCells(shape, rot, ar, ac) {
+  return ORIENTS[shape][rot % ORIENTS[shape].length].map(([r, c]) => [ar + r, ac + c]);
+}
+
+/* ================= flood fill / win check =================
+   A piece is OUTSIDE iff flood from the board edge reaches it.
+   Flood seeds = EMPTY edge cells (not walls, not pieces); it spreads
+   through all non-wall cells (pieces don't block). A corner piece can
+   be enclosed by walls on its two neighbours (board edge + walls).
+*/
+function floodOutside(n, pieceSet, blockedSet) {
+  const key = (r, c) => r + "," + c;
+  const seen = new Set();
+  const stack = [];
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+    if (r === 0 || r === n - 1 || c === 0 || c === n - 1) {
+      const k = key(r, c);
+      if (!blockedSet.has(k) && !pieceSet.has(k)) stack.push([r, c]);
+    }
+  }
+  while (stack.length) {
+    const [r, c] = stack.pop();
+    const k = key(r, c);
+    if (seen.has(k) || blockedSet.has(k)) continue;
+    seen.add(k);
+    for (const [dr, dc] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+      const nr = r + dr, nc = c + dc;
+      if (nr >= 0 && nr < n && nc >= 0 && nc < n) stack.push([nr, nc]);
+    }
+  }
+  return seen;
+}
+
+function checkWin(level, blockedSet) {
+  const n = level.n;
+  const pieceSet = new Set(Object.keys(level.pieces));
+  const outside = floodOutside(n, pieceSet, blockedSet);
+  const exposed = [], trapped = [];
+  for (const [cell, kind] of Object.entries(level.pieces)) {
+    if (kind === "R") { if (!outside.has(cell)) trapped.push(cell); }
+    else { if (outside.has(cell)) exposed.push(cell); }
+  }
+  return { win: exposed.length === 0 && trapped.length === 0, exposed, trapped };
+}
+
+/* brute-force solution counter (used by the test harness, not the UI) */
+function placementsFor(level, shape) {
+  const n = level.n, pieceSet = new Set(Object.keys(level.pieces));
+  const res = new Set();
+  for (const orient of ORIENTS[shape]) {
+    const maxR = Math.max(...orient.map(p => p[0])), maxC = Math.max(...orient.map(p => p[1]));
+    for (let ar = 0; ar + maxR < n; ar++) for (let ac = 0; ac + maxC < n; ac++) {
+      const cells = orient.map(([r, c]) => (ar + r) + "," + (ac + c));
+      if (cells.some(k => pieceSet.has(k))) continue;
+      res.add(cells.slice().sort().join("|"));
+    }
+  }
+  return [...res].map(s => s.split("|"));
+}
+function countSolutions(level, cap) {
+  const lists = level.walls.map(w => placementsFor(level, w));
+  lists.sort((a, b) => a.length - b.length);
+  const sols = new Set();
+  function rec(i, used, chosen) {
+    if (sols.size >= cap) return;
+    if (i === lists.length) {
+      const blocked = new Set(chosen.flat());
+      if (checkWin(level, blocked).win) sols.add(chosen.map(c => c.slice().sort().join("|")).sort().join("||"));
+      return;
+    }
+    for (const cells of lists[i]) {
+      if (cells.some(k => used.has(k))) continue;
+      cells.forEach(k => used.add(k));
+      chosen.push(cells);
+      rec(i + 1, used, chosen);
+      chosen.pop();
+      cells.forEach(k => used.delete(k));
+      if (sols.size >= cap) return;
+    }
+  }
+  rec(0, new Set(), []);
+  return sols.size;
+}
+
+/* ================= game state ================= */
+const $ = (id) => document.getElementById(id);
+const PIECE_EMOJI = { G: "🪿", F: "🐥", T: "🏰", R: "👹" };
+const PIECE_NAME = { G: "the Golden Goose", F: "a friend", T: "a tower", R: "a red invader" };
+
+let levelIdx = 0;
+let placed = [];      // [{shape, rot, ar, ac, cells:[[r,c]...], tray}]
+let selected = null;  // index into level.walls (tray) or null
+let trayRot = [];     // current orientation per tray wall (rotate before placing)
+let done = new Set();
+try { done = new Set(JSON.parse(localStorage.getItem("ggw-done") || "[]")); } catch (e) {}
+let muted = false;
+try { muted = localStorage.getItem("ggw-muted") === "1"; } catch (e) {}
+
+function level() { return LEVELS[levelIdx]; }
+function pieceAt(r, c) { return level().pieces[r + "," + c] || null; }
+function wallAt(r, c, ignoreIdx) {
+  for (let i = 0; i < placed.length; i++) {
+    if (i === ignoreIdx) continue;
+    if (placed[i].cells.some(([rr, cc]) => rr === r && cc === c)) return i;
+  }
+  return -1;
+}
+function blockedSet() {
+  const s = new Set();
+  for (const w of placed) for (const [r, c] of w.cells) s.add(r + "," + c);
+  return s;
+}
+function isPlacedTray(i) { return placed.some(w => w.tray === i); }
+
+function fits(shape, rot, ar, ac, ignoreIdx) {
+  const n = level().n;
+  const cells = shapeCells(shape, rot, ar, ac);
+  for (const [r, c] of cells) {
+    if (r < 0 || r >= n || c < 0 || c >= n) return null;
+    if (pieceAt(r, c)) return null;
+    if (wallAt(r, c, ignoreIdx) !== -1) return null;
+  }
+  return cells;
+}
+
+/* ================= rendering ================= */
+function render() {
+  const lv = level();
+  const board = $("board");
+  board.style.gridTemplateColumns = "repeat(" + lv.n + ", 1fr)";
+  board.innerHTML = "";
+  for (let r = 0; r < lv.n; r++) for (let c = 0; c < lv.n; c++) {
+    const b = document.createElement("button");
+    b.className = "cell";
+    b.dataset.r = r; b.dataset.c = c;
+    b.setAttribute("role", "gridcell");
+    const p = pieceAt(r, c);
+    if (p) {
+      b.textContent = PIECE_EMOJI[p];
+      b.classList.add(p === "R" ? "red" : "gold");
+      b.setAttribute("aria-label", PIECE_NAME[p] + " at row " + (r + 1) + ", column " + (c + 1));
+    } else if (wallAt(r, c) !== -1) {
+      b.textContent = "🧱";
+      b.classList.add("wall");
+      b.setAttribute("aria-label", "Wall at row " + (r + 1) + ", column " + (c + 1) + ". Tap to turn it.");
+    } else {
+      b.setAttribute("aria-label", "Empty square, row " + (r + 1) + ", column " + (c + 1));
+    }
+    b.addEventListener("click", () => onCell(r, c));
+    board.appendChild(b);
+  }
+  $("lvlName").textContent = (levelIdx + 1) + " · " + lv.name;
+  renderTray();
+  renderLevels();
+}
+
+function glyphFor(shape, rot) {
+  const cells = ORIENTS[shape][rot % ORIENTS[shape].length];
+  const maxR = Math.max(...cells.map(p => p[0])), maxC = Math.max(...cells.map(p => p[1]));
+  const rows = [];
+  for (let r = 0; r <= maxR; r++) {
+    let row = "";
+    for (let c = 0; c <= maxC; c++) row += cells.some(([rr, cc]) => rr === r && cc === c) ? "█" : " ";
+    rows.push(row);
+  }
+  return rows.join("<br>");
+}
+
+function renderTray() {
+  const lv = level();
+  const tray = $("tray");
+  tray.innerHTML = "";
+  lv.walls.forEach((shape, i) => {
+    const chip = document.createElement("button");
+    chip.className = "wall-chip";
+    const isSel = selected === i, isPl = isPlacedTray(i);
+    if (isSel) chip.classList.add("sel");
+    if (isPl) chip.classList.add("placed");
+    chip.innerHTML = "<span class='shape'>" + glyphFor(shape, trayRot[i] || 0) + "</span>" +
+      "<span>" + SHAPE_LABEL[shape] + "</span>" +
+      "<span class='state'>" + (isPl ? "placed — tap to pick up" : isSel ? "selected — tap again to turn" : "tap to select") + "</span>";
+    chip.addEventListener("click", () => onTray(i));
+    tray.appendChild(chip);
+  });
+}
+
+function renderLevels() {
+  const el = $("levels");
+  el.innerHTML = "";
+  LEVELS.forEach((lv, i) => {
+    const b = document.createElement("button");
+    b.textContent = (i + 1);
+    b.title = lv.name;
+    if (i === levelIdx) b.classList.add("cur");
+    if (done.has(i)) b.classList.add("done");
+    b.addEventListener("click", () => startLevel(i));
+    el.appendChild(b);
+  });
+}
+
+function showMsg(text, bad) {
+  const m = $("msg");
+  m.textContent = text;
+  m.classList.toggle("bad", !!bad);
+  if (text) setTimeout(() => { if (m.textContent === text) { m.textContent = ""; m.classList.remove("bad"); } }, 3500);
+}
+
+/* ================= input ================= */
+function onTray(i) {
+  if (isPlacedTray(i)) {
+    // pick the wall back up (keep its orientation for re-placing)
+    const w = placed.find(w => w.tray === i);
+    if (w) trayRot[i] = w.rot;
+    placed = placed.filter(w => w.tray !== i);
+    if (selected === i) selected = null;
+    showMsg("Wall picked up — place it somewhere else.");
+    render();
+    return;
+  }
+  if (selected === i) {
+    // tap a selected wall again to turn it before placing
+    const shape = level().walls[i];
+    trayRot[i] = ((trayRot[i] || 0) + 1) % ORIENTS[shape].length;
+    render();
+    return;
+  }
+  selected = i;
+  render();
+}
+
+function onCell(r, c) {
+  const wi = wallAt(r, c);
+  if (wi !== -1) {
+    // tap a placed wall -> rotate it
+    const w = placed[wi];
+    const cells = fits(w.shape, w.rot + 1, w.ar, w.ac, wi);
+    if (!cells) {
+      const el = document.querySelector('[data-r="' + r + '"][data-c="' + c + '"]');
+      if (el) { el.classList.add("shake"); setTimeout(() => el.classList.remove("shake"), 320); }
+      showMsg("No room to turn that wall here.", true);
+      return;
+    }
+    w.rot = (w.rot + 1) % ORIENTS[w.shape].length;
+    w.cells = cells;
+    render();
+    return;
+  }
+  if (pieceAt(r, c) && selected === null) { showMsg("Tap a wall below first, then tap a square.", true); return; }
+  if (selected === null) { showMsg("Tap a wall below first, then tap a square.", true); return; }
+  const shape = level().walls[selected];
+  const rot = trayRot[selected] || 0;
+  const cells = fits(shape, rot, r, c);
+  if (!cells) {
+    const el = document.querySelector('[data-r="' + r + '"][data-c="' + c + '"]');
+    if (el) { el.classList.add("shake"); setTimeout(() => el.classList.remove("shake"), 320); }
+    showMsg("That wall doesn't fit there — tap its chip to turn it, or try another square.", true);
+    return;
+  }
+  placed.push({ shape, rot, ar: r, ac: c, cells, tray: selected });
+  selected = null;
+  render();
+}
+
+function onCheck() {
+  const lv = level();
+  if (placed.length < lv.walls.length) {
+    showMsg("Place all " + lv.walls.length + " walls first — " + (lv.walls.length - placed.length) + " still in the tray.", true);
+    return;
+  }
+  const res = checkWin(lv, blockedSet());
+  if (res.win) {
+    done.add(levelIdx);
+    try { localStorage.setItem("ggw-done", JSON.stringify([...done])); } catch (e) {}
+    $("ovTitle").textContent = "🏰 Castle Saved!";
+    $("ovText").innerHTML = "The Golden Goose and friends are safe inside, and every red invader is locked out. <span class='big'>Level " + (levelIdx + 1) + " complete!</span>";
+    $("ovBtn").textContent = levelIdx + 1 < LEVELS.length ? "Next Level →" : "Play Again ↻";
+    $("ovBtn").onclick = () => {
+      $("overlay").classList.remove("show");
+      startLevel(levelIdx + 1 < LEVELS.length ? levelIdx + 1 : 0);
+    };
+    $("ovBtn2").onclick = () => { $("overlay").classList.remove("show"); startLevel(levelIdx); };
+    $("overlay").classList.add("show");
+    renderLevels();
+    return;
+  }
+  const bits = [];
+  if (res.exposed.length) bits.push("still exposed: " + res.exposed.map(k => PIECE_NAME[level().pieces[k]]).join(", "));
+  if (res.trapped.length) bits.push("trapped inside: " + res.trapped.length + " red invader" + (res.trapped.length > 1 ? "s" : ""));
+  showMsg("Not yet — " + bits.join(" · ") + ".", true);
+}
+
+function onHint() {
+  const lv = level();
+  lv.sol.forEach(([r, c]) => {
+    const el = document.querySelector('[data-r="' + r + '"][data-c="' + c + '"]');
+    if (el) {
+      el.classList.remove("hintflash");
+      void el.offsetWidth;
+      el.classList.add("hintflash");
+      setTimeout(() => el.classList.remove("hintflash"), 1500);
+    }
+  });
+  showMsg("💡 The glowing squares are where the walls belong.");
+}
+
+function startLevel(i) {
+  levelIdx = i;
+  placed = [];
+  selected = null;
+  trayRot = level().walls.map(() => 0);
+  $("overlay").classList.remove("show");
+  render();
+  showMsg("");
+}
+
+/* ================= music ================= */
+const audio = $("theme");
+function applyMute() {
+  audio.muted = muted;
+  $("musicBtn").textContent = muted ? "🔇" : "🔊";
+  try { localStorage.setItem("ggw-muted", muted ? "1" : "0"); } catch (e) {}
+}
+$("musicBtn").addEventListener("click", () => { muted = !muted; applyMute(); if (!muted) audio.play().catch(() => {}); });
+// browsers need a user gesture before audio: start the loop on first tap
+document.addEventListener("pointerdown", function once() {
+  if (!muted) audio.play().catch(() => {});
+  document.removeEventListener("pointerdown", once);
+});
+
+/* ================= wire up ================= */
+$("checkBtn").addEventListener("click", onCheck);
+$("hintBtn").addEventListener("click", onHint);
+$("resetBtn").addEventListener("click", () => { placed = []; selected = null; render(); showMsg("Walls cleared — fresh start."); });
+$("helpBtn").addEventListener("click", () => { $("helpOverlay").style.display = "block"; });
+$("helpClose").addEventListener("click", () => { $("helpOverlay").style.display = "none"; try { localStorage.setItem("ggw-seen", "1"); } catch (e) {} });
+
+applyMute();
+startLevel(0);
+try { if (!localStorage.getItem("ggw-seen")) $("helpOverlay").style.display = "block"; } catch (e) {}
+
+/* test hooks (harmless in the browser) */
+window.__GGW__ = { LEVELS, ORIENTS, shapeCells, floodOutside, checkWin, countSolutions, placementsFor,
+  onTray, onCell, onCheck, startLevel,
+  state: () => ({ levelIdx, placed: placed.map(w => ({ shape: w.shape, rot: w.rot, ar: w.ar, ac: w.ac, cells: w.cells })), selected, trayRot: trayRot.slice() }) };
+</script>
+</body>
+</html>
