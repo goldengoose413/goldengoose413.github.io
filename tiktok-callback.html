@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golden Goose Publisher — Connected</title>
+<style>
+  body { background:#141821; color:#f2e9d8; font-family:-apple-system,Segoe UI,Roboto,sans-serif;
+         display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; padding:20px; }
+  .card { background:#1e2532; border:1px solid #d9a441; border-radius:16px; padding:32px;
+          max-width:520px; width:100%; text-align:center; }
+  h1 { color:#d9a441; font-size:22px; margin:0 0 8px; }
+  p { color:#b9c0cf; font-size:15px; }
+  #code { background:#0d1117; border:1px dashed #d9a441; border-radius:10px; padding:16px;
+          font-family:ui-monospace,Menlo,monospace; font-size:15px; word-break:break-all;
+          color:#ffd97a; margin:16px 0; }
+  button { background:#d9a441; color:#141821; border:0; border-radius:10px; padding:12px 28px;
+           font-size:16px; font-weight:700; cursor:pointer; }
+  .err { color:#ff7a7a; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🪿 Golden Goose Publisher</h1>
+  <div id="ok" style="display:none">
+    <p>TikTok connected. Copy this code and paste it back to Anthony Silver:</p>
+    <div id="code"></div>
+    <button onclick="copyCode()">Copy code</button>
+  </div>
+  <div id="fail" style="display:none">
+    <p class="err">Authorization didn't go through.</p>
+    <p id="edetail"></p>
+  </div>
+</div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const code = q.get('code'), err = q.get('error');
+  if (code) {
+    document.getElementById('ok').style.display = 'block';
+    document.getElementById('code').textContent = code;
+  } else {
+    document.getElementById('fail').style.display = 'block';
+    document.getElementById('edetail').textContent = err ? ('Reason: ' + err) : 'No code returned.';
+  }
+  function copyCode() {
+    const t = document.getElementById('code').textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
+      .then(() => { document.querySelector('button').textContent = 'Copied ✓'; })
+      .catch(() => { window.prompt('Copy this code:', t); });
+  }
+</script>
+</body>
+</html>
