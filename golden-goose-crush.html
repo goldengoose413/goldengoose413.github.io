@@ -471,7 +471,7 @@ async function onTile(r, c) {
   checkEnd();
 }
 
-function playWinVideo(){ var wv = $("winVideo"); if(!wv) return; wv.style.display = "block"; try{ wv.currentTime = 0; var _p = wv.play(); if(_p && _p.catch){ _p.catch(function(){}); } }catch(e){} }
+function playWinVideo(){ var wv = $("winVideo"); if(!wv) return; wv.style.display = "block"; try{ var _vids=['superstar-celebration.mp4','thats-how-its-done.mp4']; wv.src=_vids[Math.floor(Math.random()*_vids.length)]; wv.currentTime = 0; var _p = wv.play(); if(_p && _p.catch){ _p.catch(function(){}); } }catch(e){} }
 function stopWinVideo(){ var wv = $("winVideo"); if(!wv) return; try{ wv.pause(); }catch(e){} wv.style.display = "none"; }
 function checkEnd() {
   if (score >= computeTarget(level)) {
