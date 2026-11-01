@@ -162,6 +162,7 @@
 <div id="overlay"><div class="card">
   <h2 id="ovTitle">Level Complete!</h2>
   <div class="stars" id="ovStars"></div>
+  <video id="winVideo" src="superstar-celebration.mp4" playsinline preload="auto" style="display:none;width:min(70vw,260px);border-radius:14px;margin:8px auto;"></video>
   <p id="ovText"></p>
   <button id="ovBtn">Next Level →</button>
 </div></div>
@@ -470,6 +471,8 @@ async function onTile(r, c) {
   checkEnd();
 }
 
+function playWinVideo(){ var wv = $("winVideo"); if(!wv) return; wv.style.display = "block"; try{ wv.currentTime = 0; var _p = wv.play(); if(_p && _p.catch){ _p.catch(function(){}); } }catch(e){} }
+function stopWinVideo(){ var wv = $("winVideo"); if(!wv) return; try{ wv.pause(); }catch(e){} wv.style.display = "none"; }
 function checkEnd() {
   if (score >= computeTarget(level)) {
     saveBest();
@@ -484,6 +487,7 @@ function checkEnd() {
       + (level >= MAX_CAMPAIGN_LEVEL ? "<br>Keep crushing in endless mode — the board only gets tougher." : "");
     $("ovBtn").textContent = level >= MAX_CAMPAIGN_LEVEL ? "Keep Crushing ∞" : "Next Level →";
     $("ovBtn").onclick = () => {
+      stopWinVideo();
       $("overlay").classList.remove("show");
       level++;
       moves = MOVES_PER_LEVEL;
@@ -492,13 +496,16 @@ function checkEnd() {
       showMsg("Level " + level + (level <= MAX_CAMPAIGN_LEVEL ? " — target " + computeTarget(level).toLocaleString() + "!" : " — endless mode!"));
     };
     $("overlay").classList.add("show");
+    playWinVideo();
   } else if (moves <= 0) {
+    stopWinVideo();
     saveBest();
     $("ovTitle").textContent = "Out of Moves 😢";
     $("ovStars").textContent = "";
     $("ovText").innerHTML = "So close! You scored <span class='big'>" + score.toLocaleString() + "</span> of " + computeTarget(level).toLocaleString() + ".<br>Best score: <b>" + best.toLocaleString() + "</b>";
     $("ovBtn").textContent = "Try Again ↻";
     $("ovBtn").onclick = () => {
+      stopWinVideo();
       $("overlay").classList.remove("show");
       startLevel(level);
     };

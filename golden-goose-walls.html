@@ -161,6 +161,7 @@
 <div id="overlay"><div class="card">
   <h2 id="ovTitle">🏰 Castle Saved!</h2>
   <p id="ovText"></p>
+  <video id="winVideo" src="superstar-celebration.mp4" playsinline preload="auto" style="display:none;width:min(70vw,260px);border-radius:14px;margin:8px auto;"></video>
   <button id="ovBtn">Next Level →</button>
   <button id="ovBtn2" class="ghost">Replay This Level</button>
 </div></div>
@@ -503,6 +504,8 @@ function onCell(r, c) {
   render();
 }
 
+function playWinVideo(){ var wv = $("winVideo"); if(!wv) return; wv.style.display = "block"; try{ wv.currentTime = 0; var _p = wv.play(); if(_p && _p.catch){ _p.catch(function(){}); } }catch(e){} }
+function stopWinVideo(){ var wv = $("winVideo"); if(!wv) return; try{ wv.pause(); }catch(e){} wv.style.display = "none"; }
 function onCheck() {
   const lv = level();
   if (placed.length < lv.walls.length) {
@@ -517,11 +520,13 @@ function onCheck() {
     $("ovText").innerHTML = "The Golden Goose and friends are safe inside, and every red invader is locked out. <span class='big'>Level " + (levelIdx + 1) + " complete!</span>";
     $("ovBtn").textContent = levelIdx + 1 < LEVELS.length ? "Next Level →" : "Play Again ↻";
     $("ovBtn").onclick = () => {
+      stopWinVideo();
       $("overlay").classList.remove("show");
       startLevel(levelIdx + 1 < LEVELS.length ? levelIdx + 1 : 0);
     };
-    $("ovBtn2").onclick = () => { $("overlay").classList.remove("show"); startLevel(levelIdx); };
+    $("ovBtn2").onclick = () => { stopWinVideo(); $("overlay").classList.remove("show"); startLevel(levelIdx); };
     $("overlay").classList.add("show");
+    playWinVideo();
     renderLevels();
     return;
   }
