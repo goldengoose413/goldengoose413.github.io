@@ -341,10 +341,10 @@
     stadium.classList.add('show');
     stadium.setAttribute('aria-hidden','false');
     confettiBurst();
-    // celebration video: alternate Daniel's two clips
+    // celebration video: alternate Daniel's three clips
     var hv = document.getElementById('homerunVideo');
     try{
-      var _vids = ['homerun-great-job.mp4','superstar-celebration.mp4'];
+      var _vids = ['homerun-great-job.mp4','superstar-celebration.mp4','thats-how-its-done.mp4'];
       hv.src = _vids[Math.floor(Math.random()*_vids.length)];
       hv.currentTime = 0; var vp = hv.play(); if(vp && vp.catch){ vp.catch(function(){}); }
     }catch(e){}
