@@ -115,6 +115,10 @@
   }
   #stadium.show{display:flex}
   #stadium .lights{font-size:3rem;letter-spacing:1rem;margin-bottom:6px}
+  #homerunVideo{
+    width:min(78vw,300px);height:auto;border-radius:18px;border:4px solid #ffd700;
+    box-shadow:0 0 30px rgba(255,215,0,.7);margin:6px 0;background:#000;
+  }
   #stadium h2{
     font-size:3rem;color:#ffd700;text-shadow:0 4px 0 #7a5200,0 0 30px rgba(255,215,0,.8);
     animation:cheerBounce .6s ease-in-out infinite alternate;margin:10px 0;
@@ -128,11 +132,11 @@
 </style>
 </head>
 <body>
-<audio id="bgMusic" src="golden-goose-theme.mp3" loop preload="auto"></audio>
+<audio id="bgMusic" preload="auto"></audio>
 
 <div class="wrap">
   <h1>🥚 Golden Egg Tap</h1>
-  <p class="sub">Tap the golden eggs! Daniel cheers you on! 🪿</p>
+  <p class="sub">Tap the golden eggs! The golden goose is watching! 🪿</p>
 
   <div class="hud">
     <div class="stat"><div class="label">⭐ Score</div><div class="value" id="score">0</div></div>
@@ -158,7 +162,7 @@
 <div id="startOverlay">
   <div class="start-card">
     <h2>🥚 Golden Egg Tap! 🪿</h2>
-    <p>Golden eggs are popping up everywhere!<br>Tap them as fast as you can!<br>Daniel will cheer for you! 🎉</p>
+    <p>Golden eggs are popping up everywhere!<br>Tap them as fast as you can!<br>The golden goose is watching! 🎉</p>
     <button class="action green" id="playBtn" aria-label="Start playing">▶ PLAY!</button>
   </div>
 </div>
@@ -199,6 +203,7 @@
   <div id="confetti"></div>
   <div class="lights">💡💡💡💡💡</div>
   <h2>⚾ HOME RUN! ⚾</h2>
+  <video id="homerunVideo" src="homerun-goose.mp4" playsinline preload="auto" aria-label="Golden goose home run celebration video"></video>
   <p id="stadiumScore">10 points! The crowd goes wild!</p>
   <div class="field">🏟️🪿🎉</div>
 </div>
@@ -225,8 +230,32 @@
 
   var praises = ["Great job!","Awesome!","You did it!","Superstar!","Woohoo!","Amazing!","High five!","Way to go!"];
 
-  /* ---------- Music: MP3 first, cheerful synth fallback ---------- */
+  /* ---------- Music: playlist shuffles, cheerful synth fallback ---------- */
   var audio = document.getElementById('bgMusic');
+  var PLAYLIST = ['golden-goose-theme.mp3','golden-goose-theme-reggaeton-take1.mp3','golden-goose-intro-full.mp3'];
+  var trackIdx = Math.floor(Math.random()*PLAYLIST.length);
+  function loadTrack(){
+    try{ audio.src = PLAYLIST[trackIdx]; audio.load(); }catch(e){}
+  }
+  function playAudio(){
+    var p = audio.play();
+    if(p && p.catch){ p.catch(function(){ startSynth(); }); }
+  }
+  audio.addEventListener('ended', function(){
+    if(synthMode) return;
+    var n = trackIdx, guard = 0;
+    while(n === trackIdx && PLAYLIST.length > 1 && guard < 10){ n = Math.floor(Math.random()*PLAYLIST.length); guard++; }
+    trackIdx = n;
+    loadTrack();
+    if(musicOn && playing){ playAudio(); }
+  });
+  audio.addEventListener('error', function(){
+    // try the next track before falling back to synth
+    var n = (trackIdx + 1) % PLAYLIST.length;
+    if(n !== trackIdx){ trackIdx = n; loadTrack(); if(musicOn && playing){ playAudio(); } }
+    else { startSynth(); }
+  });
+  loadTrack();
   var musicOn = true;
   var synthMode = false;
   var actx = null, synthTimer = null;
@@ -312,14 +341,18 @@
     stadium.classList.add('show');
     stadium.setAttribute('aria-hidden','false');
     confettiBurst();
+    // fun golden goose video for the home run
+    var hv = document.getElementById('homerunVideo');
+    try{ hv.currentTime = 0; var vp = hv.play(); if(vp && vp.catch){ vp.catch(function(){}); } }catch(e){}
     // happy ascending fanfare on the synth (always available)
     var fanfare = [523.25,659.25,783.99,1046.5,783.99,1046.5];
     fanfare.forEach(function(f,i){ setTimeout(function(){ synthNote(f); }, i*140); });
     setTimeout(function(){
+      try{ hv.pause(); }catch(e){}
       stadium.classList.remove('show');
       stadium.setAttribute('aria-hidden','true');
       celebrating = false;
-    }, 3000);
+    }, 6000);
   }
 
   /* ---------- Eggs ---------- */
