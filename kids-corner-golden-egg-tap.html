@@ -2,18 +2,422 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Golden Egg Tap 🥚 — Kids Corner</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Golden Egg Tap 🥚 — Kids Corner | Golden Goose of Springfield</title>
 <style>
-body{font-family:system-ui,sans-serif;background:linear-gradient(180deg,#7ec8ff,#fff3b0);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
-h1{font-size:2.5rem;margin-bottom:10px}
-p{font-size:1.2rem;margin-bottom:20px}
-a{display:inline-block;background:#ffd700;color:#000;padding:15px 30px;border-radius:15px;text-decoration:none;font-weight:bold;font-size:1.2rem}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:"Comic Sans MS","Chalkboard SE","Segoe UI Rounded",system-ui,sans-serif;
+    background:linear-gradient(180deg,#7ec8ff 0%,#bfe9ff 45%,#fff3b0 100%);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    user-select:none;-webkit-user-select:none;touch-action:manipulation;overflow-x:hidden;
+    color:#3a2b00;
+  }
+  .wrap{width:100%;max-width:560px;padding:12px 14px 24px;display:flex;flex-direction:column;align-items:center}
+  h1{font-size:2rem;margin:6px 0 2px;text-shadow:0 2px 0 #fff;text-align:center}
+  .sub{font-size:1.05rem;margin-bottom:10px;text-align:center;font-weight:bold}
+  .hud{display:flex;gap:12px;width:100%;justify-content:center;margin-bottom:10px}
+  .stat{
+    background:#fff;border:4px solid #ffd700;border-radius:20px;
+    padding:8px 18px;text-align:center;min-width:110px;
+    box-shadow:0 4px 0 #d4a017;
+  }
+  .stat .label{font-size:.85rem;font-weight:bold;color:#8a6208}
+  .stat .value{font-size:1.9rem;font-weight:bold}
+  #field{
+    position:relative;width:100%;height:52vh;min-height:340px;
+    background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,.05));
+    border:5px dashed #ffd700;border-radius:28px;overflow:hidden;margin-bottom:12px;
+  }
+  .egg{
+    position:absolute;width:88px;height:108px;border:none;cursor:pointer;background:transparent;padding:0;
+    animation:wiggle 1.1s ease-in-out infinite;
+  }
+  .egg .shell{
+    display:block;width:100%;height:100%;
+    border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;
+    background:radial-gradient(circle at 35% 28%,#fff8d6 0%,#ffe27a 30%,#ffc93c 55%,#e89b0c 85%,#b97e04 100%);
+    border:4px solid #fff3b0;
+    box-shadow:0 0 22px rgba(255,205,40,.9),inset -8px -10px 14px rgba(150,90,0,.35);
+    position:relative;
+  }
+  .egg .shell::after{
+    content:"✦";position:absolute;top:16%;left:22%;color:#fff;font-size:26px;
+    text-shadow:0 0 8px #fff;animation:twinkle .8s ease-in-out infinite alternate;
+  }
+  .egg.super{width:118px;height:142px;z-index:5}
+  .egg.super .shell{box-shadow:0 0 34px rgba(255,215,0,1),inset -8px -10px 14px rgba(150,90,0,.35)}
+  .egg.super .tag{
+    position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);
+    background:#ff5722;color:#fff;font-weight:bold;font-size:.85rem;
+    padding:2px 10px;border-radius:12px;white-space:nowrap;
+  }
+  .egg.pop{animation:pop .28s ease-out forwards}
+  .egg.leaving{opacity:0;transition:opacity .3s}
+  @keyframes wiggle{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(8deg) scale(1.06)}}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.35)}100%{transform:scale(0);opacity:0}}
+  @keyframes twinkle{from{opacity:.4;transform:scale(.8)}to{opacity:1;transform:scale(1.2)}}
+  .floatpts{
+    position:absolute;font-size:1.8rem;font-weight:bold;color:#e65100;pointer-events:none;z-index:20;
+    text-shadow:0 2px 0 #fff;animation:floatUp .9s ease-out forwards;
+  }
+  @keyframes floatUp{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-70px)}}
+  .btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+  .action{
+    font-family:inherit;font-size:1.25rem;font-weight:bold;color:#fff;
+    background:linear-gradient(180deg,#ffb300,#ff8f00);border:4px solid #fff;border-radius:24px;
+    padding:14px 26px;cursor:pointer;box-shadow:0 6px 0 #c96a00,0 8px 14px rgba(0,0,0,.2);
+    min-height:64px;
+  }
+  .action:active{transform:translateY(4px);box-shadow:0 2px 0 #c96a00}
+  .action.green{background:linear-gradient(180deg,#66bb6a,#43a047);box-shadow:0 6px 0 #2e7d32,0 8px 14px rgba(0,0,0,.2)}
+  .action.green:active{box-shadow:0 2px 0 #2e7d32}
+  .howto{
+    background:#fff;border-radius:18px;padding:12px 16px;font-size:1rem;line-height:1.5;
+    border:3px solid #ffd700;max-width:100%;text-align:center;
+  }
+  .foot{margin-top:14px;font-size:.9rem;text-align:center}
+  .foot a{color:#8a6208;font-weight:bold}
+  /* Start overlay */
+  #startOverlay{
+    position:fixed;inset:0;background:rgba(30,60,120,.55);z-index:50;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+  }
+  #startOverlay.hidden{display:none}
+  .start-card{
+    background:linear-gradient(180deg,#fff8d6,#ffe27a);border:6px solid #fff;border-radius:32px;
+    padding:34px 28px;text-align:center;max-width:420px;box-shadow:0 12px 40px rgba(0,0,0,.35);
+  }
+  .start-card h2{font-size:2.2rem;margin-bottom:8px}
+  .start-card p{font-size:1.15rem;margin-bottom:18px}
+  #playBtn{font-size:1.8rem;padding:18px 54px}
+  /* Avatar cheer popup */
+  #avatarPop{
+    position:fixed;left:50%;bottom:8px;transform:translate(-50%,140%);z-index:40;
+    display:flex;align-items:flex-end;gap:6px;transition:transform .3s ease-out;pointer-events:none;
+  }
+  #avatarPop.show{transform:translate(-50%,0)}
+  #avatarPop svg{width:110px;height:auto;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
+  .bubble{
+    background:#fff;border:3px solid #ffd700;border-radius:18px;padding:10px 16px;
+    font-size:1.3rem;font-weight:bold;margin-bottom:70px;white-space:nowrap;
+    box-shadow:0 4px 10px rgba(0,0,0,.2);position:relative;
+  }
+  .bubble::after{
+    content:"";position:absolute;left:-12px;bottom:14px;border:8px solid transparent;border-right-color:#ffd700;
+  }
+  /* Stadium celebration */
+  #stadium{
+    position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;flex-direction:column;
+    background:radial-gradient(ellipse at 50% 120%,#2e7d32 0%,#1b5e20 55%,#0d3311 100%);
+    overflow:hidden;text-align:center;padding:20px;
+  }
+  #stadium.show{display:flex}
+  #stadium .lights{font-size:3rem;letter-spacing:1rem;margin-bottom:6px}
+  #stadium h2{
+    font-size:3rem;color:#ffd700;text-shadow:0 4px 0 #7a5200,0 0 30px rgba(255,215,0,.8);
+    animation:cheerBounce .6s ease-in-out infinite alternate;margin:10px 0;
+  }
+  #stadium p{font-size:1.5rem;color:#fff;font-weight:bold;text-shadow:0 2px 4px #000}
+  #stadium .field{font-size:4rem;margin-top:8px}
+  @keyframes cheerBounce{from{transform:scale(1) rotate(-2deg)}to{transform:scale(1.12) rotate(2deg)}}
+  #confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .confetti-piece{position:absolute;top:-24px;width:12px;height:18px;border-radius:3px;animation-name:cfall;animation-timing-function:linear;animation-fill-mode:forwards}
+  @keyframes cfall{to{transform:translateY(112vh) rotate(720deg)}}
 </style>
 </head>
 <body>
-<h1>🥚 Golden Egg Tap</h1>
-<p>Coming soon! The full game is on its way.</p>
-<a href="index.html">← Back to Hub</a>
+<audio id="bgMusic" src="golden-goose-theme.mp3" loop preload="auto"></audio>
+
+<div class="wrap">
+  <h1>🥚 Golden Egg Tap</h1>
+  <p class="sub">Tap the golden eggs! Daniel cheers you on! 🪿</p>
+
+  <div class="hud">
+    <div class="stat"><div class="label">⭐ Score</div><div class="value" id="score">0</div></div>
+    <div class="stat"><div class="label">🏆 Best</div><div class="value" id="best">0</div></div>
+  </div>
+
+  <div id="field" aria-label="Tap the golden eggs play area"></div>
+
+  <div class="btns">
+    <button class="action green" id="newBtn" aria-label="Start a new game">🔄 New Game</button>
+    <button class="action" id="musicBtn" aria-label="Toggle music">🎵 Music: On</button>
+  </div>
+
+  <div class="howto">
+    <b>How to play:</b> Golden eggs pop up — <b>tap them fast!</b> ⭐ eggs are worth <b>3 points</b>!
+    Every 10 points is a <b>⚾ HOME RUN</b> baseball celebration!
+  </div>
+
+  <p class="foot">🧒 A Kids Corner game &middot; <a href="https://goldengoose413.github.io">Back to the Golden Goose Hub 🪿</a></p>
+</div>
+
+<!-- Start overlay -->
+<div id="startOverlay">
+  <div class="start-card">
+    <h2>🥚 Golden Egg Tap! 🪿</h2>
+    <p>Golden eggs are popping up everywhere!<br>Tap them as fast as you can!<br>Daniel will cheer for you! 🎉</p>
+    <button class="action green" id="playBtn" aria-label="Start playing">▶ PLAY!</button>
+  </div>
+</div>
+
+<!-- Daniel avatar cheer -->
+<div id="avatarPop" aria-hidden="true">
+  <svg viewBox="0 0 150 185" role="img" aria-label="Cartoon Daniel pointing and cheering">
+    <!-- pointing arm (behind body, extends right) -->
+    <g>
+      <rect x="98" y="108" width="34" height="17" rx="8.5" fill="#d4a017" stroke="#8a6208" stroke-width="2.5"/>
+      <circle cx="136" cy="116.5" r="10" fill="#c98d5f"/>
+      <rect x="141" y="112" width="18" height="9" rx="4.5" fill="#c98d5f"/>
+    </g>
+    <!-- body: gold vest -->
+    <rect x="48" y="98" width="54" height="80" rx="14" fill="#d4a017" stroke="#8a6208" stroke-width="3"/>
+    <rect x="66" y="98" width="18" height="80" fill="#fff8e1"/>
+    <circle cx="75" cy="120" r="4" fill="#8a6208"/><circle cx="75" cy="140" r="4" fill="#8a6208"/>
+    <!-- left arm -->
+    <rect x="26" y="106" width="17" height="46" rx="8.5" fill="#d4a017" stroke="#8a6208" stroke-width="2.5"/>
+    <circle cx="34.5" cy="156" r="9" fill="#c98d5f"/>
+    <!-- head -->
+    <circle cx="75" cy="58" r="34" fill="#c98d5f"/>
+    <!-- buzz cut -->
+    <path d="M42 54 Q44 24 75 24 Q106 24 108 54 Q94 40 75 40 Q56 40 42 54 Z" fill="#2b2b2b"/>
+    <!-- eyes -->
+    <circle cx="62" cy="60" r="4.5" fill="#222"/><circle cx="88" cy="60" r="4.5" fill="#222"/>
+    <circle cx="63.5" cy="58.5" r="1.5" fill="#fff"/><circle cx="89.5" cy="58.5" r="1.5" fill="#fff"/>
+    <!-- smile -->
+    <path d="M60 74 Q75 88 90 74" stroke="#5b3418" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <!-- goatee -->
+    <ellipse cx="75" cy="90" rx="9" ry="6.5" fill="#2b2b2b"/>
+  </svg>
+  <div class="bubble" id="praiseBubble">Great job!</div>
+</div>
+
+<!-- Baseball stadium celebration -->
+<div id="stadium" aria-hidden="true">
+  <div id="confetti"></div>
+  <div class="lights">💡💡💡💡💡</div>
+  <h2>⚾ HOME RUN! ⚾</h2>
+  <p id="stadiumScore">10 points! The crowd goes wild!</p>
+  <div class="field">🏟️🪿🎉</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var field = document.getElementById('field');
+  var scoreEl = document.getElementById('score');
+  var bestEl = document.getElementById('best');
+  var avatarPop = document.getElementById('avatarPop');
+  var praiseBubble = document.getElementById('praiseBubble');
+  var stadium = document.getElementById('stadium');
+  var stadiumScore = document.getElementById('stadiumScore');
+  var startOverlay = document.getElementById('startOverlay');
+
+  var score = 0;
+  var best = parseInt(localStorage.getItem('gg_eggtap_best') || '0', 10) || 0;
+  var playing = false;
+  var celebrating = false;
+  var cheerTimer = null;
+
+  bestEl.textContent = best;
+
+  var praises = ["Great job!","Awesome!","You did it!","Superstar!","Woohoo!","Amazing!","High five!","Way to go!"];
+
+  /* ---------- Music: MP3 first, cheerful synth fallback ---------- */
+  var audio = document.getElementById('bgMusic');
+  var musicOn = true;
+  var synthMode = false;
+  var actx = null, synthTimer = null;
+  var MELODY = [523.25,659.25,783.99,659.25,880,783.99,659.25,587.33,523.25,659.25,783.99,1046.5,880,783.99,659.25,523.25];
+  var step = 0;
+
+  function synthNote(freq){
+    try{
+      if(!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+      if(actx.state === 'suspended') actx.resume();
+      var o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'triangle'; o.frequency.value = freq;
+      var t = actx.currentTime;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.25, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.24);
+      o.connect(g); g.connect(actx.destination);
+      o.start(t); o.stop(t + 0.26);
+    }catch(e){/* no audio, no problem */}
+  }
+  function startSynth(){
+    if(synthTimer) return;
+    synthMode = true;
+    synthTimer = setInterval(function(){
+      if(!musicOn || !playing) return;
+      synthNote(MELODY[step % MELODY.length]);
+      step++;
+    }, 240);
+  }
+  function stopSynth(){
+    if(synthTimer){ clearInterval(synthTimer); synthTimer = null; }
+  }
+  audio.addEventListener('error', function(){ startSynth(); });
+  function startMusic(){
+    if(!musicOn) return;
+    if(synthMode){ return; }
+    var p = audio.play();
+    if(p && p.catch){ p.catch(function(){ startSynth(); }); }
+    // If the file 404s silently, double-check shortly after
+    setTimeout(function(){
+      if(audio.networkState === 3 || (audio.error && !synthMode)) startSynth();
+    }, 1500);
+  }
+  function stopMusic(){
+    try{ audio.pause(); }catch(e){}
+    stopSynth();
+  }
+  document.getElementById('musicBtn').addEventListener('click', function(){
+    musicOn = !musicOn;
+    this.textContent = musicOn ? '🎵 Music: On' : '🎵 Music: Off';
+    if(musicOn){ startMusic(); } else { stopMusic(); }
+  });
+
+  /* ---------- Avatar cheer ---------- */
+  function cheer(){
+    praiseBubble.textContent = praises[Math.floor(Math.random()*praises.length)];
+    avatarPop.classList.add('show');
+    if(cheerTimer) clearTimeout(cheerTimer);
+    cheerTimer = setTimeout(function(){ avatarPop.classList.remove('show'); }, 1100);
+  }
+
+  /* ---------- Confetti ---------- */
+  function confettiBurst(){
+    var layer = document.getElementById('confetti');
+    layer.innerHTML = '';
+    var colors = ['#ffd700','#ff6b6b','#4ecdc4','#ffe66d','#a8e6cf','#ff9ff3','#ffffff','#ffb300'];
+    for(var i=0;i<80;i++){
+      var c = document.createElement('div');
+      c.className = 'confetti-piece';
+      c.style.left = (Math.random()*100) + '%';
+      c.style.background = colors[i % colors.length];
+      c.style.animationDelay = (Math.random()*0.7) + 's';
+      c.style.animationDuration = (1.8 + Math.random()*1.8) + 's';
+      layer.appendChild(c);
+    }
+    setTimeout(function(){ layer.innerHTML=''; }, 4500);
+  }
+
+  /* ---------- Stadium celebration ---------- */
+  function stadiumCelebration(){
+    celebrating = true;
+    stadiumScore.textContent = score + ' points! The crowd goes wild! 🎉';
+    stadium.classList.add('show');
+    stadium.setAttribute('aria-hidden','false');
+    confettiBurst();
+    // happy ascending fanfare on the synth (always available)
+    var fanfare = [523.25,659.25,783.99,1046.5,783.99,1046.5];
+    fanfare.forEach(function(f,i){ setTimeout(function(){ synthNote(f); }, i*140); });
+    setTimeout(function(){
+      stadium.classList.remove('show');
+      stadium.setAttribute('aria-hidden','true');
+      celebrating = false;
+    }, 3000);
+  }
+
+  /* ---------- Eggs ---------- */
+  function floatPts(x, y, txt){
+    var s = document.createElement('span');
+    s.className = 'floatpts';
+    s.textContent = txt;
+    s.style.left = x + 'px';
+    s.style.top = y + 'px';
+    field.appendChild(s);
+    setTimeout(function(){ s.remove(); }, 950);
+  }
+
+  function tapEgg(btn, isSuper, evt){
+    if(!playing || celebrating) return;
+    var pts = isSuper ? 3 : 1;
+    score += pts;
+    scoreEl.textContent = score;
+    if(score > best){ best = score; bestEl.textContent = best; localStorage.setItem('gg_eggtap_best', String(best)); }
+
+    var r = field.getBoundingClientRect();
+    var x = (evt && evt.clientX ? evt.clientX - r.left : parseInt(btn.style.left||'40',10) + 40);
+    var y = (evt && evt.clientY ? evt.clientY - r.top : parseInt(btn.style.top||'40',10));
+    floatPts(x - 14, y - 10, '+' + pts);
+
+    btn.classList.remove('wiggle');
+    btn.classList.add('pop');
+    setTimeout(function(){ btn.remove(); }, 300);
+
+    cheer();
+    if(score % 10 === 0){ stadiumCelebration(); }
+  }
+
+  function spawnEgg(){
+    if(!playing || celebrating) return;
+    if(field.querySelectorAll('.egg').length >= 4) return;
+    var isSuper = Math.random() < 0.15;
+    var b = document.createElement('button');
+    b.className = 'egg' + (isSuper ? ' super' : '');
+    b.setAttribute('aria-label', isSuper ? 'Tap the super star egg for 3 points' : 'Tap the golden egg');
+    var shell = document.createElement('span');
+    shell.className = 'shell';
+    b.appendChild(shell);
+    if(isSuper){
+      b.querySelector('.shell').textContent = '⭐';
+      b.querySelector('.shell').style.fontSize = '44px';
+      b.querySelector('.shell').style.display = 'flex';
+      b.querySelector('.shell').style.alignItems = 'center';
+      b.querySelector('.shell').style.justifyContent = 'center';
+      var tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = '3 PTS!';
+      b.appendChild(tag);
+    }
+    var fw = field.clientWidth, fh = field.clientHeight;
+    var w = isSuper ? 118 : 88, h = isSuper ? 166 : 108;
+    var x = 8 + Math.random() * Math.max(10, fw - w - 16);
+    var y = 8 + Math.random() * Math.max(10, fh - h - 16);
+    b.style.left = x + 'px';
+    b.style.top = y + 'px';
+    b.addEventListener('pointerdown', function(e){
+      e.preventDefault();
+      tapEgg(b, isSuper, e);
+    });
+    field.appendChild(b);
+    setTimeout(function(){
+      if(b.parentNode && !b.classList.contains('pop')){
+        b.classList.add('leaving');
+        setTimeout(function(){ b.remove(); }, 320);
+      }
+    }, 4500);
+  }
+  setInterval(spawnEgg, 850);
+
+  /* ---------- Game control ---------- */
+  function reset(){
+    score = 0;
+    scoreEl.textContent = '0';
+    field.querySelectorAll('.egg,.floatpts').forEach(function(e){ e.remove(); });
+  }
+  document.getElementById('newBtn').addEventListener('click', function(){
+    reset();
+    if(!playing){ startOverlay.classList.remove('hidden'); }
+  });
+  document.getElementById('playBtn').addEventListener('click', function(){
+    startOverlay.classList.add('hidden');
+    reset();
+    playing = true;
+    startMusic();
+    for(var i=0;i<3;i++){ setTimeout(spawnEgg, i*250); }
+  });
+
+  // Pause when tab hidden so eggs don't pile up unfairly
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){ try{ audio.pause(); }catch(e){} }
+    else if(playing && musicOn && !synthMode){ startMusic(); }
+  });
+})();
+</script>
 </body>
 </html>
