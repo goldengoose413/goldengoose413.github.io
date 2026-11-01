@@ -232,7 +232,7 @@
 
   /* ---------- Music: playlist shuffles, cheerful synth fallback ---------- */
   var audio = document.getElementById('bgMusic');
-  var PLAYLIST = ['golden-goose-theme.mp3','golden-goose-theme-reggaeton-take1.mp3','golden-goose-intro-full.mp3'];
+  var PLAYLIST = ['golden-goose-intro-full.mp3','money-dont-spend-it-all.mp3','money-sharing-circle.mp3','money-money-train.mp3','money-patience-pays.mp3','money-needs-vs-wants.mp3','money-little-investor.mp3','money-smart-choices.mp3','money-waiting-game.mp3','money-try-again-tomorrow.mp3','money-goodnight-money.mp3','money-ringmasters-final-lesson.mp3','money-build-it-again.mp3'];
   var trackIdx = Math.floor(Math.random()*PLAYLIST.length);
   function loadTrack(){
     try{ audio.src = PLAYLIST[trackIdx]; audio.load(); }catch(e){}
