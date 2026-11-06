@@ -162,7 +162,7 @@
 <div id="overlay"><div class="card">
   <h2 id="ovTitle">Level Complete!</h2>
   <div class="stars" id="ovStars"></div>
-  <video id="winVideo" src="superstar-celebration.mp4" playsinline preload="auto" style="display:none;width:min(70vw,260px);border-radius:14px;margin:8px auto;"></video>
+  <video id="winVideo" src="superstar-celebration.mp4" playsinline muted preload="auto" style="display:none;width:min(70vw,260px);border-radius:14px;margin:8px auto;"></video>
   <p id="ovText"></p>
   <button id="ovBtn">Next Level →</button>
 </div></div>
@@ -471,8 +471,8 @@ async function onTile(r, c) {
   checkEnd();
 }
 
-function playWinVideo(){ var wv = $("winVideo"); if(!wv) return; wv.style.display = "block"; try{ var _vids=['superstar-celebration.mp4','thats-how-its-done.mp4']; wv.src=_vids[Math.floor(Math.random()*_vids.length)]; wv.currentTime = 0; var _p = wv.play(); if(_p && _p.catch){ _p.catch(function(){}); } }catch(e){} }
-function stopWinVideo(){ var wv = $("winVideo"); if(!wv) return; try{ wv.pause(); }catch(e){} wv.style.display = "none"; }
+function playWinVideo(){ var wv = $("winVideo"); if(!wv) return; wv.style.display = "block"; try{ wv.muted = true; wv.currentTime = 0; var _p = wv.play(); if(_p && _p.catch){ _p.catch(function(){}); } }catch(e){} }
+function stopWinVideo(){ var wv = $("winVideo"); if(!wv) return; try{ wv.pause(); }catch(e){} wv.style.display = "none"; if (musicOn) { try { bgMusic.play().catch(()=>{}); } catch(e){} } }
 function checkEnd() {
   if (score >= computeTarget(level)) {
     saveBest();
