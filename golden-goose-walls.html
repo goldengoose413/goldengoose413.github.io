@@ -161,7 +161,7 @@
 <div id="overlay"><div class="card">
   <h2 id="ovTitle">🏰 Castle Saved!</h2>
   <p id="ovText"></p>
-  <video id="winVideo" src="superstar-celebration.mp4" playsinline preload="auto" style="display:none;width:min(70vw,260px);border-radius:14px;margin:8px auto;"></video>
+  <video id="winVideo" src="superstar-celebration.mp4" playsinline muted preload="auto" style="display:none;width:min(70vw,260px);border-radius:14px;margin:8px auto;"></video>
   <button id="ovBtn">Next Level →</button>
   <button id="ovBtn2" class="ghost">Replay This Level</button>
 </div></div>
@@ -504,8 +504,8 @@ function onCell(r, c) {
   render();
 }
 
-function playWinVideo(){ var wv = $("winVideo"); if(!wv) return; wv.style.display = "block"; try{ var _vids=['superstar-celebration.mp4','thats-how-its-done.mp4']; wv.src=_vids[Math.floor(Math.random()*_vids.length)]; wv.currentTime = 0; var _p = wv.play(); if(_p && _p.catch){ _p.catch(function(){}); } }catch(e){} }
-function stopWinVideo(){ var wv = $("winVideo"); if(!wv) return; try{ wv.pause(); }catch(e){} wv.style.display = "none"; }
+function playWinVideo(){ var wv = $("winVideo"); if(!wv) return; wv.style.display = "block"; try{ wv.muted = true; wv.currentTime = 0; var _p = wv.play(); if(_p && _p.catch){ _p.catch(function(){}); } }catch(e){} }
+function stopWinVideo(){ var wv = $("winVideo"); if(!wv) return; try{ wv.pause(); }catch(e){} wv.style.display = "none"; if (!audio.muted) { try { audio.play().catch(()=>{}); } catch(e){} } }
 function onCheck() {
   const lv = level();
   if (placed.length < lv.walls.length) {
