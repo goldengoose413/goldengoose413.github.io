@@ -203,7 +203,7 @@
   <div id="confetti"></div>
   <div class="lights">💡💡💡💡💡</div>
   <h2>⚾ HOME RUN! ⚾</h2>
-  <video id="homerunVideo" src="homerun-great-job.mp4" playsinline preload="auto" aria-label="Golden goose home run celebration video"></video>
+  <video id="homerunVideo" src="homerun-great-job.mp4" playsinline muted preload="auto" aria-label="Golden goose home run celebration video"></video>
   <p id="stadiumScore">10 points! The crowd goes wild!</p>
   <div class="field">🏟️🪿🎉</div>
 </div>
@@ -341,12 +341,12 @@
     stadium.classList.add('show');
     stadium.setAttribute('aria-hidden','false');
     confettiBurst();
-    // celebration video: alternate Daniel's three clips
+    // celebration video: alternate Daniel's two clips
     var hv = document.getElementById('homerunVideo');
     try{
-      var _vids = ['homerun-great-job.mp4','superstar-celebration.mp4','thats-how-its-done.mp4'];
+      var _vids = ['homerun-great-job.mp4','superstar-celebration.mp4'];
       hv.src = _vids[Math.floor(Math.random()*_vids.length)];
-      hv.currentTime = 0; var vp = hv.play(); if(vp && vp.catch){ vp.catch(function(){}); }
+      hv.muted = true; hv.currentTime = 0; var vp = hv.play(); if(vp && vp.catch){ vp.catch(function(){}); }
     }catch(e){}
     // happy ascending fanfare on the synth (always available)
     var fanfare = [523.25,659.25,783.99,1046.5,783.99,1046.5];
@@ -356,6 +356,8 @@
       stadium.classList.remove('show');
       stadium.setAttribute('aria-hidden','true');
       celebrating = false;
+      // iOS pauses the background music when a video with sound plays — bring Noah's album back
+      if(musicOn && playing){ startMusic(); }
     }, 6000);
   }
 
