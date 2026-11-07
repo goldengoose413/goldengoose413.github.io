@@ -163,6 +163,8 @@
   <h2 id="ovTitle">Level Complete!</h2>
   <div class="stars" id="ovStars"></div>
   <video id="winVideo" src="superstar-celebration.mp4" playsinline muted preload="auto" style="display:none;width:min(70vw,260px);border-radius:14px;margin:8px auto;"></video>
+  <video id="tryVideo" src="daniel-noah-keep-trying.mp4" playsinline preload="auto" style="display:none;width:min(70vw,260px);border-radius:14px;margin:8px auto;"></video>
+  <button id="tryPlayBtn" style="display:none;width:100%;padding:10px;margin-top:8px;font-size:15px;font-weight:800;border:none;border-radius:12px;background:#262626;color:#ffd700;border:1px solid #c9a227;cursor:pointer;">🔊 Play the pep talk ▸</button>
   <p id="ovText"></p>
   <button id="ovBtn">Next Level →</button>
 </div></div>
@@ -473,6 +475,14 @@ async function onTile(r, c) {
 
 function playWinVideo(){ var wv = $("winVideo"); if(!wv) return; wv.style.display = "block"; try{ wv.muted = true; wv.currentTime = 0; var _p = wv.play(); if(_p && _p.catch){ _p.catch(function(){}); } }catch(e){} }
 function stopWinVideo(){ var wv = $("winVideo"); if(!wv) return; try{ wv.pause(); }catch(e){} wv.style.display = "none"; if (musicOn) { try { bgMusic.play().catch(()=>{}); } catch(e){} } }
+/* "Keep trying" pep talk (Daniel + Noah): plays WITH its spoken audio, unlike the
+   muted win clip. Music pauses for the line, then resumes when the clip ends
+   or the player closes it. If the browser blocks autoplay with sound, the
+   Play button appears instead. */
+function playTryVideo(){ var tv = $("tryVideo"); if(!tv) return; try{ bgMusic.pause(); }catch(e){} tv.style.display = "block"; $("tryPlayBtn").style.display = "none"; try{ tv.muted = false; tv.volume = 1; tv.currentTime = 0; var _p = tv.play(); if(_p && _p.catch){ _p.catch(function(){ $("tryPlayBtn").style.display = "block"; }); } }catch(e){} }
+function stopTryVideo(){ var tv = $("tryVideo"); if(!tv) return; try{ tv.pause(); }catch(e){} tv.style.display = "none"; $("tryPlayBtn").style.display = "none"; if (musicOn) { try { bgMusic.play().catch(()=>{}); } catch(e){} } }
+$("tryVideo").addEventListener("ended", stopTryVideo);
+$("tryPlayBtn").addEventListener("click", function(){ $("tryPlayBtn").style.display = "none"; var tv = $("tryVideo"); try{ tv.muted = false; tv.play().catch(function(){}); }catch(e){} });
 function checkEnd() {
   if (score >= computeTarget(level)) {
     saveBest();
@@ -488,6 +498,7 @@ function checkEnd() {
     $("ovBtn").textContent = level >= MAX_CAMPAIGN_LEVEL ? "Keep Crushing ∞" : "Next Level →";
     $("ovBtn").onclick = () => {
       stopWinVideo();
+      stopTryVideo();
       $("overlay").classList.remove("show");
       level++;
       moves = MOVES_PER_LEVEL;
@@ -499,6 +510,7 @@ function checkEnd() {
     playWinVideo();
   } else if (moves <= 0) {
     stopWinVideo();
+    stopTryVideo();
     saveBest();
     $("ovTitle").textContent = "Out of Moves 😢";
     $("ovStars").textContent = "";
@@ -506,10 +518,12 @@ function checkEnd() {
     $("ovBtn").textContent = "Try Again ↻";
     $("ovBtn").onclick = () => {
       stopWinVideo();
+      stopTryVideo();
       $("overlay").classList.remove("show");
       startLevel(level);
     };
     $("overlay").classList.add("show");
+    playTryVideo();
   }
 }
 
