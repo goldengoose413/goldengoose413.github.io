@@ -129,6 +129,21 @@
   #confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
   .confetti-piece{position:absolute;top:-24px;width:12px;height:18px;border-radius:3px;animation-name:cfall;animation-timing-function:linear;animation-fill-mode:forwards}
   @keyframes cfall{to{transform:translateY(112vh) rotate(720deg)}}
+  /* Daniel + Noah "keep trying" pep talk (plays WITH its spoken audio) */
+  #tryAgain{
+    position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;flex-direction:column;
+    background:radial-gradient(ellipse at 50% 120%,#8a6208 0%,#5c3d05 55%,#2e1e02 100%);
+    overflow:hidden;text-align:center;padding:20px;
+  }
+  #tryAgain.show{display:flex}
+  #tryVideo{
+    width:min(78vw,300px);height:auto;border-radius:18px;border:4px solid #ffd700;
+    box-shadow:0 0 30px rgba(255,215,0,.7);margin:6px 0;background:#000;
+  }
+  #tryAgain h2{
+    font-size:2.2rem;color:#ffd700;text-shadow:0 4px 0 #7a5200,0 0 30px rgba(255,215,0,.8);margin:10px 0;
+  }
+  #tryAgain p{font-size:1.3rem;color:#fff;font-weight:bold;text-shadow:0 2px 4px #000}
 </style>
 </head>
 <body>
@@ -208,6 +223,15 @@
   <div class="field">🏟️🪿🎉</div>
 </div>
 
+<!-- Daniel + Noah "keep trying" pep talk -->
+<div id="tryAgain" aria-hidden="true">
+  <h2>NO MONEY, NO HONEY —<br>KEEP TRYING! 🪿</h2>
+  <video id="tryVideo" src="daniel-noah-keep-trying.mp4" playsinline preload="auto" aria-label="Daniel and Noah say keep trying"></video>
+  <p>Tap the next egg — you can do it!</p>
+  <button class="action green" id="tryPlayBtn" style="display:none;margin-top:10px;">🔊 Play the pep talk ▸</button>
+  <button class="action green" id="tryAgainBtn" style="margin-top:10px;">Keep Tapping →</button>
+</div>
+
 <script>
 (function(){
   "use strict";
@@ -225,6 +249,11 @@
   var playing = false;
   var celebrating = false;
   var cheerTimer = null;
+  var tryAgainEl = document.getElementById('tryAgain');
+  var tryVideo = document.getElementById('tryVideo');
+  var tryAgainPlaying = false;
+  var tryAgainTimer = null;
+  var missedStreak = 0;
 
   bestEl.textContent = best;
 
@@ -361,6 +390,43 @@
     }, 6000);
   }
 
+  /* ---------- "Keep trying" pep talk (Daniel + Noah) ----------
+     Plays when eggs keep getting missed. The clip MUST play with its spoken
+     audio, so the album pauses for the line and resumes when the clip ends
+     or the player closes it (synth fallback included). */
+  function resumeMusic(){
+    if(!musicOn || !playing) return;
+    if(synthMode){ startSynth(); } else { startMusic(); }
+  }
+  function showTryAgain(){
+    if(tryAgainPlaying || celebrating || !playing) return;
+    tryAgainPlaying = true;
+    stopMusic();
+    tryAgainEl.classList.add('show');
+    tryAgainEl.setAttribute('aria-hidden','false');
+    document.getElementById('tryPlayBtn').style.display = 'none';
+    try{
+      tryVideo.muted = false; tryVideo.volume = 1; tryVideo.currentTime = 0;
+      var p = tryVideo.play();
+      if(p && p.catch){ p.catch(function(){ document.getElementById('tryPlayBtn').style.display = 'block'; }); }
+    }catch(e){}
+    tryAgainTimer = setTimeout(hideTryAgain, 9000);
+  }
+  function hideTryAgain(){
+    if(tryAgainTimer){ clearTimeout(tryAgainTimer); tryAgainTimer = null; }
+    try{ tryVideo.pause(); }catch(e){}
+    tryAgainEl.classList.remove('show');
+    tryAgainEl.setAttribute('aria-hidden','true');
+    tryAgainPlaying = false;
+    resumeMusic();
+  }
+  tryVideo.addEventListener('ended', hideTryAgain);
+  document.getElementById('tryAgainBtn').addEventListener('click', hideTryAgain);
+  document.getElementById('tryPlayBtn').addEventListener('click', function(){
+    this.style.display = 'none';
+    try{ tryVideo.muted = false; tryVideo.play().catch(function(){}); }catch(e){}
+  });
+
   /* ---------- Eggs ---------- */
   function floatPts(x, y, txt){
     var s = document.createElement('span');
@@ -373,7 +439,8 @@
   }
 
   function tapEgg(btn, isSuper, evt){
-    if(!playing || celebrating) return;
+    if(!playing || celebrating || tryAgainPlaying) return;
+    missedStreak = 0;
     var pts = isSuper ? 3 : 1;
     score += pts;
     scoreEl.textContent = score;
@@ -393,7 +460,7 @@
   }
 
   function spawnEgg(){
-    if(!playing || celebrating) return;
+    if(!playing || celebrating || tryAgainPlaying) return;
     if(field.querySelectorAll('.egg').length >= 4) return;
     var isSuper = Math.random() < 0.15;
     var b = document.createElement('button');
@@ -426,6 +493,9 @@
     field.appendChild(b);
     setTimeout(function(){
       if(b.parentNode && !b.classList.contains('pop')){
+        // an egg that pops away untapped is a miss — 3 in a row earns the pep talk
+        missedStreak++;
+        if(missedStreak >= 3){ missedStreak = 0; showTryAgain(); }
         b.classList.add('leaving');
         setTimeout(function(){ b.remove(); }, 320);
       }
