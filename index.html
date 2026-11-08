@@ -242,6 +242,9 @@ a{color:inherit;text-decoration:none}
 .album-cover-coming{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line-soft)}
 .album-cover-coming img{display:block;width:100%;height:auto}
 .album-cover-coming .soon{position:absolute;top:12px;right:12px}
+.album-teaser{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line-soft);border-radius:12px;background:rgba(255,255,255,.03)}
+.album-teaser span{font-size:14px;white-space:nowrap}
+.album-teaser audio{width:100%;height:36px;min-width:0}
 .qr-block{
   text-align:center;
   margin-top:22px;
@@ -388,6 +391,10 @@ footer{
         <div class="album-cover-coming">
           <img src="la-reina-de-la-casa-cover.jpg" alt="LA REINA DE LA CASA — album cover, Carmen as the Queen" />
           <span class="soon">Coming soon</span>
+        </div>
+        <div class="album-teaser">
+          <span>🔊 Teaser</span>
+          <audio controls preload="metadata" src="la-reina-teaser-clip.mp3"></audio>
         </div>
         <div class="btn btn-album btn-disabled" aria-disabled="true">
           <span class="icon">👑</span>
