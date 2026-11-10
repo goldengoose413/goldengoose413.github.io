@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the Big Birds Have Been — One Week with the Jets</title>
+<meta name="description" content="Four jets, nine stops, three countries, about 12,800 miles — one week of Costco jet travel, Nov 2–9, 2026.">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root{--cream:#faf6ee;--ink:#1c1c1a;--muted:#5c5648;--green:#1e3d2f;--gold:#c9a227;
+    --blue:#2e7fc2;--teal:#1f8a70;--slate:#6b7280;--line:#e5dcc6;--card:#fffdf7}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1020px;margin:0 auto;padding:0 22px}
+  header{padding:52px 0 8px;text-align:center}
+  .eyebrow{letter-spacing:.14em;text-transform:uppercase;font-size:12px;font-weight:700;color:var(--gold)}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:46px;line-height:1.08;margin:10px 0}
+  h1 em{font-style:italic;color:var(--green)}
+  h2{font-family:Georgia,"Times New Roman",serif;font-size:30px;line-height:1.15;margin:0 0 10px}
+  .lede{font-size:18px;color:#3d3a33;max-width:640px;margin:0 auto}
+  #map{height:540px;border-radius:18px;border:1px solid var(--line);margin:28px 0 8px;
+    box-shadow:0 14px 34px rgba(30,61,47,.16)}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center;
+    font-size:14px;font-weight:600;margin:10px 0 4px}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:13px;height:13px;border-radius:50%;display:inline-block}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:30px 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 14px;text-align:center}
+  .stat .n{font-family:Georgia,serif;font-size:34px;font-weight:700;color:var(--green);line-height:1}
+  .stat .l{font-size:13px;color:var(--muted);margin-top:6px}
+  section{padding:34px 0}
+  .timeline{max-width:760px;margin:0 auto}
+  .stop{display:flex;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+  .stop:first-child{border-top:0}
+  .stop .when{flex:0 0 92px;font-weight:800;color:var(--green);font-size:14px;padding-top:2px}
+  .stop .swatch{flex:0 0 14px;height:14px;border-radius:50%;margin-top:5px}
+  .stop p{margin:0}
+  .stop .where{font-weight:800}
+  .stop .what{color:#3d3a33}
+  .logistics{background:var(--green);color:#f4efe2;border-radius:20px;padding:36px 32px}
+  .logistics h2{color:#fff}
+  .logistics h2 em{color:#e8d9a0;font-style:italic}
+  .logistics p{color:#e6e0cd}
+  .logistics ul{margin:0;padding-left:20px}
+  .logistics li{margin:8px 0;color:#e6e0cd}
+  .logistics li b{color:#fff}
+  footer{border-top:1px solid var(--line);padding:28px 0 44px;font-size:13px;color:var(--muted);text-align:center}
+  @media (max-width:760px){
+    h1{font-size:34px}
+    #map{height:420px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .stop .when{flex-basis:74px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">For Carmen &middot; Nov 2&ndash;9, 2026</p>
+    <h1>Where the Big Birds <em>Have Been</em></h1>
+    <p class="lede">Yes, this is one real week. Four jets, nine stops, three countries, about 12,800 miles &mdash; and a car waiting at the end of every runway.</p>
+  </header>
+
+  <div id="map"></div>
+  <div class="legend">
+    <span><i class="dot" style="background:#c9a227"></i>Ron&rsquo;s jet (G650)</span>
+    <span><i class="dot" style="background:#2e7fc2"></i>Tom &amp; Yoram&rsquo;s jet (G280)</span>
+    <span><i class="dot" style="background:#1f8a70"></i>Newest jet (G280)</span>
+    <span><i class="dot" style="background:#6b7280"></i>The 2015 G280</span>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">4</div><div class="l">jets on this map</div></div>
+    <div class="stat"><div class="n">9</div><div class="l">stops in 8 days</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">countries</div></div>
+    <div class="stat"><div class="n">~12,800</div><div class="l">miles flown</div></div>
+    <div class="stat"><div class="n">1</div><div class="l">Pacific crossing</div></div>
+  </div>
+
+  <section>
+    <div class="timeline">
+      <h2 style="text-align:center">The week, stop by stop</h2>
+
+      <div class="stop"><div class="when">Sun Nov 2</div><div class="swatch" style="background:#2e7fc2"></div>
+        <p><span class="where">Washington, DC &rarr; Seattle</span><br><span class="what">Tom &amp; Yoram&rsquo;s jet finishes a cross-country run from the DC area and lands at Boeing Field, Seattle, in the afternoon.</span></p></div>
+
+      <div class="stop"><div class="when">Mon Nov 2</div><div class="swatch" style="background:#c9a227"></div>
+        <p><span class="where">Seattle &mdash; evening loop</span><br><span class="what">Ron&rsquo;s jet takes off from Boeing Field around 7:25 PM, flies a 45-minute loop over the Wenatchee area, and lands back at Boeing Field by 8:11 PM.</span></p></div>
+
+      <div class="stop"><div class="when">Tue Nov 4</div><div class="swatch" style="background:#c9a227"></div>
+        <p><span class="where">Boise, Idaho</span><br><span class="what">Ron&rsquo;s jet crosses eastern Oregon and lands near Boise. It sits there for about a day.</span></p></div>
+
+      <div class="stop"><div class="when">Wed Nov 5</div><div class="swatch" style="background:#c9a227"></div>
+        <p><span class="where">Boise &rarr; Santa Rosa &rarr; Napa</span><br><span class="what">Ron&rsquo;s jet flies Boise to Santa Rosa, California, in the early afternoon, then hops to Napa County Airport by early evening. Wine country, same day.</span></p></div>
+
+      <div class="stop"><div class="when">Wed Nov 5</div><div class="swatch" style="background:#2e7fc2"></div>
+        <p><span class="where">Seattle &rarr; Ottawa, Canada</span><br><span class="what">Tom &amp; Yoram&rsquo;s jet leaves Boeing Field, crosses the continent at 41,000 feet, and lands in Ottawa around 9:27 PM.</span></p></div>
+
+      <div class="stop"><div class="when">Sun Nov 9</div><div class="swatch" style="background:#2e7fc2"></div>
+        <p><span class="where">Ottawa &rarr; Edmonton, Canada</span><br><span class="what">Tom &amp; Yoram&rsquo;s jet heads west across Canada and lands at Edmonton International around 7:02 PM &mdash; nine days before the new Edmonton store opens.</span></p></div>
+
+      <div class="stop"><div class="when">Sun Nov 9</div><div class="swatch" style="background:#c9a227"></div>
+        <p><span class="where">Napa &rarr; Seoul, South Korea</span><br><span class="what">Ron&rsquo;s jet crosses the entire Pacific and is on the ground at Seoul Gimpo. California wine country to South Korea in one hop.</span></p></div>
+
+      <div class="stop"><div class="when">Sun Nov 9</div><div class="swatch" style="background:#1f8a70"></div>
+        <p><span class="where">Newport News, Virginia</span><br><span class="what">The newest jet in the fleet is on the ground at Newport News, landed in the late afternoon.</span></p></div>
+
+      <div class="stop"><div class="when">Sun Nov 9</div><div class="swatch" style="background:#6b7280"></div>
+        <p><span class="where">Near Washington Dulles</span><br><span class="what">The 2015 G280 was last seen near Dulles. Its signal is stale, and this exact spot has been tied to another jet before &mdash; so take this one with a grain of salt.</span></p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="logistics">
+      <h2>The operation <em>behind the dots</em></h2>
+      <p>Every dot on this map is a landing &mdash; and a landing is never just a landing. Here&rsquo;s what has to happen at the other end:</p>
+      <ul>
+        <li><b>Cars waiting on the ramp.</b> When the jet touches down, there&rsquo;s ground transport already there &mdash; rental cars, drivers, a way off the airport and to the next meeting. Nobody&rsquo;s standing around calling an Uber.</li>
+        <li><b>Fuel, crews, and a place to sleep.</b> Each stop means fueling, a crew, hotels, catering &mdash; the whole machine moves with the plane.</li>
+        <li><b>The jets go where the business is.</b> Edmonton, nine days before a new store opens. Ottawa, on the way. Napa and Santa Rosa. Then straight across the Pacific to Seoul. This isn&rsquo;t wandering &mdash; it&rsquo;s the company&rsquo;s calendar, at 41,000 feet.</li>
+        <li><b>And sometimes they just go dark.</b> The jets&rsquo; transponders go silent for hours or days &mdash; hangared, or out of coverage &mdash; and then they pop up on the other side of the world. That&rsquo;s how Napa turns into Seoul overnight.</li>
+      </ul>
+      <p style="margin-bottom:0">Four jets. Nine stops. About 12,800 miles. One week. That&rsquo;s the scale of it.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Positions from public flight tracking (ADS-B), Nov 2&ndash;9, 2026. Lines connect verified stops; some legs weren&rsquo;t tracked live, so the lines show where each jet ended up, not the exact path it flew. No tail numbers shown. A fifth jet in the fleet is tracked silently and left off this map.</p>
+  </footer>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+var map = L.map('map', {scrollWheelZoom: false}).setView([38, -110], 3);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd', maxZoom: 12
+}).addTo(map);
+
+var GOLD = '#c9a227', BLUE = '#2e7fc2', TEAL = '#1f8a70', SLATE = '#6b7280';
+
+function marker(lat, lng, color, title, body) {
+  var icon = L.divIcon({className: '', html:
+    '<div style="background:' + color + ';width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,.45)"></div>',
+    iconSize: [16, 16], iconAnchor: [8, 8]});
+  L.marker([lat, lng], {icon: icon}).addTo(map)
+    .bindPopup('<b>' + title + '</b><br>' + body);
+}
+function route(points, color) {
+  L.polyline(points, {color: color, weight: 3, opacity: .9}).addTo(map);
+}
+
+/* Ron's jet (G650) — gold */
+var ron = [
+  [47.53, -122.30], [43.57, -116.23], [38.51, -122.81], [38.21, -122.28],
+  [40, -140], [42, -160], [45, -180], [42, 160], [40, 140], [37.56, 126.79]
+];
+route(ron, GOLD);
+marker(47.53, -122.30, GOLD, 'Seattle, WA — Boeing Field', 'Nov 2 &middot; Ron&rsquo;s jet. Home base this week; evening loop over Wenatchee, back by 8:11 PM.');
+marker(43.57, -116.23, GOLD, 'Boise, ID', 'Nov 4 &middot; Ron&rsquo;s jet. Landed after crossing eastern Oregon.');
+marker(38.51, -122.81, GOLD, 'Santa Rosa, CA', 'Nov 5 &middot; Ron&rsquo;s jet. Flew in from Boise in the early afternoon.');
+marker(38.21, -122.28, GOLD, 'Napa, CA', 'Nov 5 &middot; Ron&rsquo;s jet. Short hop from Santa Rosa, on the ground by early evening.');
+marker(37.56, 126.79, GOLD, 'Seoul, South Korea — Gimpo', 'Nov 9 &middot; Ron&rsquo;s jet. Crossed the entire Pacific. California wine country to South Korea in one hop.');
+
+/* Tom & Yoram's jet (G280) — blue */
+var tom = [
+  [38.95, -77.44], [47.53, -122.30], [45.32, -75.67], [53.33, -113.57]
+];
+route(tom, BLUE);
+marker(38.95, -77.44, BLUE, 'Washington, DC — Dulles', 'Nov 2 &middot; Tom &amp; Yoram&rsquo;s jet. Last known here before heading west.');
+marker(47.53, -122.30, BLUE, 'Seattle, WA — Boeing Field', 'Nov 2 &middot; Tom &amp; Yoram&rsquo;s jet. Cross-country arrival in the afternoon.');
+marker(45.32, -75.67, BLUE, 'Ottawa, Canada', 'Nov 5 &middot; Tom &amp; Yoram&rsquo;s jet. Landed around 9:27 PM after crossing the continent.');
+marker(53.33, -113.57, BLUE, 'Edmonton, Canada', 'Nov 9 &middot; Tom &amp; Yoram&rsquo;s jet. Landed around 7:02 PM, nine days before the new Edmonton store opens.');
+
+/* Newest jet (G280) — teal */
+marker(37.13, -76.49, TEAL, 'Newport News, VA', 'Nov 9 &middot; The newest jet in the fleet, on the ground after a late-afternoon landing.');
+
+/* The 2015 G280 — slate, nudged slightly so it does not sit on top of the Dulles marker */
+marker(38.99, -77.38, SLATE, 'Near Washington Dulles', 'Nov 9 &middot; The 2015 G280, last seen near Dulles. Signal is stale, and this spot has been tied to another jet before. Marker nudged slightly so it does not hide the other Dulles stop.');
+
+map.fitBounds([[53.6, -122.3], [37.1, 126.8]], {padding: [30, 30]});
+</script>
+</body>
+</html>
