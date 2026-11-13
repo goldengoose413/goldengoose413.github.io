@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="dark" />
-<meta name="description" content="The Golden Goose of Springfield — One scan. The whole universe. Music, laughs, and family." />
+<meta name="description" content="The Golden Goose of Springfield — original music, free games, and family stories from Springfield, Massachusetts." />
 <link rel="icon" href="data:," />
-<title>The Golden Goose of Springfield — Link Hub</title>
+<title>The Golden Goose of Springfield</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
@@ -23,7 +23,6 @@
   --cream:#f5efdd;
   --muted:#cfc7ae;
   --muted2:#9a927c;
-  --orange:#ff7a1a;
   --radius:14px;
 }
 *{box-sizing:border-box}
@@ -39,22 +38,71 @@ body{
   min-height:100vh;
 }
 a{color:inherit;text-decoration:none}
+/* ---------- Top navigation ---------- */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 18px;
+  background:rgba(10,10,10,.92);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-brand{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-family:Cinzel, serif;
+  font-weight:700;
+  font-size:13px;
+  letter-spacing:.22em;
+  color:var(--gold-light);
+  white-space:nowrap;
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.nav-links a{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:4px 0;
+}
+.nav-links a:hover{color:var(--gold-light)}
+@media (max-width:420px){
+  .nav{padding:12px 14px}
+  .nav-brand{font-size:12px;letter-spacing:.16em}
+  .nav-links{gap:12px}
+  .nav-links a{font-size:11px;letter-spacing:.1em}
+}
+/* ---------- Gold diamond marker (replaces all icons) ---------- */
+.mark{
+  flex:0 0 10px;
+  width:10px;
+  height:10px;
+  background:var(--gold);
+  transform:rotate(45deg);
+  margin:0 6px 0 2px;
+}
+.mark-lg{
+  flex-basis:12px;
+  width:12px;
+  height:12px;
+}
 /* ---------- HERO (full portrait, nothing cropped) ---------- */
 .hero{
   background:#000;
   text-align:center;
-  padding:20px 0 0;
 }
-.chip{
-  display:inline-flex;align-items:center;gap:7px;
-  border:1px solid var(--line);
-  background:rgba(10,10,10,.55);
-  color:var(--gold-light);
-  font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
-  padding:7px 13px;border-radius:999px;
-  margin:0 18px 18px;
-}
-.chip i{font-style:normal;letter-spacing:0;font-size:13px}
 .hero-img{
   display:block;
   width:100%;height:auto;
@@ -66,12 +114,12 @@ a{color:inherit;text-decoration:none}
 /* ---------- Headline band below the portrait ---------- */
 .hero-band{
   text-align:center;
-  padding:26px 20px 8px;
+  padding:34px 20px 10px;
 }
 .hero-band h1{
   font-family:Cinzel, serif;
   font-size:clamp(28px, 6vw, 44px);
-  margin:0 0 10px;
+  margin:0 0 12px;
   color:var(--gold-light);
   letter-spacing:.02em;
 }
@@ -80,39 +128,56 @@ a{color:inherit;text-decoration:none}
   font-style:italic;
   font-size:clamp(16px, 3.5vw, 20px);
   color:var(--cream);
-  margin:0 0 6px;
+  margin:0 0 8px;
 }
 .subline{
   font-size:14px;
   color:var(--muted);
   margin:0;
+  max-width:480px;
+  margin-left:auto;
+  margin-right:auto;
 }
-.scan-note{
-  margin:14px 0 0;
-  font-size:12.5px;
-  color:var(--muted2);
+.hero-cta{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:24px;
 }
+.hero-cta a{
+  display:inline-block;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:12px 22px;
+  border-radius:999px;
+  border:1px solid var(--gold);
+  transition:background .15s ease, color .15s ease;
+}
+.hero-cta a.primary{
+  background:var(--gold);
+  color:#0a0a0a;
+}
+.hero-cta a.primary:hover{background:var(--gold-light)}
+.hero-cta a.secondary{
+  color:var(--gold-light);
+  background:transparent;
+}
+.hero-cta a.secondary:hover{background:rgba(217,164,33,.12)}
 /* ---------- Game buttons ---------- */
 .btn-game{
   display:flex;align-items:center;gap:14px;
   background:linear-gradient(180deg, rgba(217,164,33,.14), rgba(217,164,33,.06));
   border:1px solid var(--line);
   border-radius:var(--radius);
-  padding:14px 16px;
+  padding:16px 18px;
   transition:transform .15s ease, border-color .15s ease;
 }
 .btn-game:hover{
   transform:translateY(-2px);
   border-color:var(--gold);
-}
-.btn-game .icon{
-  flex:0 0 46px;
-  width:46px;height:46px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:24px;
-  background:rgba(0,0,0,.35);
-  border:1px solid var(--line-soft);
-  border-radius:12px;
 }
 .btn-game .copy{flex:1;min-width:0}
 .btn-game .title{
@@ -132,51 +197,43 @@ a{color:inherit;text-decoration:none}
   font-size:20px;
   color:var(--gold);
 }
-/* ---------- Marquee ---------- */
-.marquee{
-  overflow:hidden;
-  border-top:1px solid var(--line-soft);
-  border-bottom:1px solid var(--line-soft);
-  padding:10px 0;
-  margin:18px 0 0;
-  background:rgba(0,0,0,.25);
-}
-.marquee-track{
-  display:inline-block;
-  white-space:nowrap;
-  font-size:12px;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:var(--gold);
-  animation:marquee 22s linear infinite;
-}
-@keyframes marquee{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
-}
 /* ---------- Layout ---------- */
 .wrap{
   max-width:640px;
   margin:0 auto;
-  padding:0 18px 40px;
+  padding:0 18px 48px;
 }
 .section{
-  margin-top:34px;
+  margin-top:56px;
+  scroll-margin-top:76px;
 }
 .brand-head{
   text-align:center;
-  margin-bottom:16px;
+  margin-bottom:20px;
+}
+.eyebrow{
+  display:block;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:10px;
 }
 .brand-head h2{
   font-family:Cinzel, serif;
-  font-size:22px;
+  font-size:24px;
   color:var(--gold-light);
-  margin:0 0 6px;
+  margin:0 0 8px;
 }
 .pitch{
   font-size:14px;
+  line-height:1.55;
   color:var(--muted);
   margin:0;
+  max-width:480px;
+  margin-left:auto;
+  margin-right:auto;
 }
 .stack{
   display:flex;
@@ -188,21 +245,12 @@ a{color:inherit;text-decoration:none}
   background:var(--surface);
   border:1px solid var(--line-soft);
   border-radius:var(--radius);
-  padding:13px 15px;
+  padding:14px 16px;
   transition:transform .15s ease, border-color .15s ease;
 }
 .btn:hover{
   transform:translateY(-2px);
   border-color:var(--line);
-}
-.btn .icon{
-  flex:0 0 44px;
-  width:44px;height:44px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;
-  background:rgba(0,0,0,.3);
-  border:1px solid var(--line-soft);
-  border-radius:11px;
 }
 .btn .copy{flex:1;min-width:0}
 .btn .title{
@@ -222,7 +270,6 @@ a{color:inherit;text-decoration:none}
   color:var(--muted2);
 }
 .btn-album{min-height:58px;padding:12px 14px}
-.btn-album .icon{flex-basis:40px;width:40px;height:40px;font-size:19px;border-radius:10px}
 .btn-album .title{font-size:15.5px}
 .btn-disabled{
   opacity:.65;
@@ -242,26 +289,16 @@ a{color:inherit;text-decoration:none}
 .album-cover-coming{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line-soft)}
 .album-cover-coming img{display:block;width:100%;height:auto}
 .album-cover-coming .soon{position:absolute;top:12px;right:12px}
-.album-teaser{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line-soft);border-radius:12px;background:rgba(255,255,255,.03)}
-.album-teaser span{font-size:14px;white-space:nowrap}
+.album-teaser{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line-soft);border-radius:12px;background:rgba(255,255,255,.03)}
+.album-teaser span{font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
 .album-teaser audio{width:100%;height:36px;min-width:0}
-.qr-block{
-  text-align:center;
-  margin-top:22px;
-  padding:18px;
-  border:1px dashed var(--line-soft);
-  border-radius:var(--radius);
-}
-.qr-block img{
-  width:150px;height:150px;
-}
 .stripe{
   height:1px;
   background:linear-gradient(90deg, transparent, var(--line), transparent);
 }
 .sub-head{
   text-align:center;
-  margin:22px 0 12px;
+  margin:28px 0 14px;
 }
 .sub-head h3{
   font-family:Cinzel, serif;
@@ -271,7 +308,7 @@ a{color:inherit;text-decoration:none}
 }
 footer{
   text-align:center;
-  margin-top:36px;
+  margin-top:56px;
 }
 .footer-line{
   font-family:Cinzel, serif;
@@ -288,31 +325,39 @@ footer{
 </style>
 </head>
 <body>
-  <header class="hero">
-    <div>
-      <span class="chip"><i>🦃</i> Thanksgiving Season <i>🍂</i></span>
+  <nav class="nav" aria-label="Main navigation">
+    <a class="nav-brand" href="#"><span class="mark" aria-hidden="true"></span>Golden Goose</a>
+    <div class="nav-links">
+      <a href="#games">Games</a>
+      <a href="#music">Music</a>
+      <a href="#videos">Videos</a>
+      <a href="#family">Family</a>
     </div>
+  </nav>
+  <header class="hero">
     <img class="hero-img" src="hero-daniel-carmen.webp" alt="Daniel and Carmen under a golden spotlight, circus posters behind them" />
   </header>
   <!-- Headline band below the portrait -->
   <div class="hero-band">
     <h1>The Golden Goose<br />of Springfield</h1>
-    <p class="tagline">Welcome to the universe.</p>
-    <p class="subline">Music, laughs, and family — everything lives here.</p>
-  </div>
-  <div class="marquee" aria-hidden="true">
-    <span class="marquee-track">Stack the gold ✦ Clear the floor ✦ Respect the goose ✦ Earn your silver ✦ Stack the gold ✦ Clear the floor ✦ Respect the goose ✦ Earn your silver ✦&nbsp;</span>
+    <p class="tagline">Original music, free games, and family stories.</p>
+    <p class="subline">Everything Daniel makes lives here — the songs, the games, and the family.</p>
+    <div class="hero-cta">
+      <a class="primary" href="#games">Play the Games</a>
+      <a class="secondary" href="#music">Listen to the Music</a>
+    </div>
   </div>
   <main class="wrap">
-    <!-- SECTION A — THE GOLDEN GOOSE OF SPRINGFIELD -->
-    <section class="section" aria-labelledby="brand-goose">
+    <!-- SECTION A — GAMES -->
+    <section class="section" id="games" aria-labelledby="head-games">
       <div class="brand-head">
-        <h2 id="brand-goose">The Golden Goose of Springfield</h2>
-        <p class="pitch">The umbrella — one roof, every room.</p>
+        <span class="eyebrow">Games</span>
+        <h2 id="head-games">Play the Games</h2>
+        <p class="pitch">Five free games — no downloads, no sign-ups. Just play.</p>
       </div>
       <div class="stack">
         <a class="btn-game" href="https://golden-goose-great-escape.circusofhorrors.chatgpt.site" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🧩</span>
+          <span class="mark mark-lg" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">THE GREAT ESCAPE</span>
             <span class="desc">Sliding-block puzzle — free the goose. 24 levels.</span>
@@ -320,7 +365,7 @@ footer{
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn-game" href="games/goose/arena/index.html">
-          <span class="icon">🕹️</span>
+          <span class="mark mark-lg" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">PLAY THE GOLDEN GOOSE</span>
             <span class="desc">The arena game — 50 levels. Then survive.</span>
@@ -328,7 +373,7 @@ footer{
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn-game" href="golden-goose-crush.html">
-          <span class="icon">🪿</span>
+          <span class="mark mark-lg" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">GOLDEN GOOSE CRUSH</span>
             <span class="desc">Match 3 — crush the board, free to play.</span>
@@ -336,25 +381,77 @@ footer{
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn-game" href="golden-goose-walls.html">
-          <span class="icon">🏰</span>
+          <span class="mark mark-lg" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">GOLDEN GOOSE WALLS</span>
             <span class="desc">Castle puzzle — guard the goose, shut out the invaders. 10 levels.</span>
           </span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
+        <a class="btn-game" href="games/goose/kombat/index.html">
+          <span class="mark mark-lg" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">GOLDEN GOOSE KOMBAT</span>
+            <span class="desc">Fighting game — the Goose, the Ringmaster &amp; the whole family. 11 fighters.</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
       </div>
     </section>
-    <div class="stripe" style="margin-top:32px" aria-hidden="true"></div>
-    <!-- SECTION A2 — KIDS CORNER -->     <section class="section" aria-labelledby="brand-kids">       <div class="brand-head">         <h2 id="brand-kids">🧒 Kids Corner</h2>         <p class="pitch">Simple tap-and-play games for little Golden Geese — big buttons, no sign-ups, no downloads. Just tap and play!</p>       </div>       <div class="stack">         <a class="btn-game" href="kids-corner-golden-egg-tap.html">           <span class="icon">🥚</span>           <span class="copy">             <span class="title">GOLDEN EGG TAP</span>             <span class="desc">Tap the golden eggs as they pop up! Daniel cheers you on — home-run party every 10 points! ⚾</span>           </span>           <span class="arrow" aria-hidden="true">→</span>         </a>         <a class="btn-game" href="games/goose/kids.html">           <span class="icon">🧩</span>           <span class="copy">             <span class="title">LITTLE GOOSE ESCAPE</span>             <span class="desc">A little head start — finish the escape! Simple sliding puzzle for kids.</span>           </span>           <span class="arrow" aria-hidden="true">→</span>         </a>         <a class="btn-game" href="games/goose/blocks.html">           <span class="icon">🟦</span>           <span class="copy">             <span class="title">LITTLE GOOSE BLOCKS</span>             <span class="desc">Slow falling pieces, colorful rows, and your favorite Golden Goose songs.</span>           </span>           <span class="arrow" aria-hidden="true">→</span>         </a>         <a class="btn-game" href="games/goose/match.html">           <span class="icon">🃏</span>           <span class="copy">             <span class="title">GOLDEN GOOSE MATCH</span>             <span class="desc">Find matching pictures. Start with two pairs and grow into a memory superstar!</span>           </span>           <span class="arrow" aria-hidden="true">→</span>         </a>       </div>     </section>     <div class="stripe" style="margin-top:32px" aria-hidden="true"></div>  <!-- SECTION B — DANIEL'S CIRCUS OF HORRORS -->
-    <section class="section" aria-labelledby="brand-circus">
+    <div class="stripe" style="margin-top:56px" aria-hidden="true"></div>
+    <!-- SECTION A2 — KIDS CORNER -->
+    <section class="section" id="kids" aria-labelledby="head-kids">
       <div class="brand-head">
-        <h2 id="brand-circus">Daniel’s Circus of Horrors</h2>
-        <p class="pitch">The music — original songs and full albums; the family, turned into songs.</p>
+        <span class="eyebrow">For Kids</span>
+        <h2 id="head-kids">Kids Corner</h2>
+        <p class="pitch">Simple games for young players — big buttons, no sign-ups, no downloads.</p>
+      </div>
+      <div class="stack">
+        <a class="btn-game" href="kids-corner-golden-egg-tap.html">
+          <span class="mark mark-lg" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">GOLDEN EGG TAP</span>
+            <span class="desc">Tap the golden eggs as they appear — Daniel cheers you on, with a celebration every 10 points.</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="btn-game" href="games/goose/kids.html">
+          <span class="mark mark-lg" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">LITTLE GOOSE ESCAPE</span>
+            <span class="desc">A first step into the escape — a simple sliding puzzle for kids.</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="btn-game" href="games/goose/blocks.html">
+          <span class="mark mark-lg" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">LITTLE GOOSE BLOCKS</span>
+            <span class="desc">Slow falling pieces, colorful rows, and Golden Goose songs.</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="btn-game" href="games/goose/match.html">
+          <span class="mark mark-lg" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">GOLDEN GOOSE MATCH</span>
+            <span class="desc">Find the matching pictures. Start with two pairs and work your way up.</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+    <div class="stripe" style="margin-top:56px" aria-hidden="true"></div>
+    <!-- SECTION B — DANIEL'S CIRCUS OF HORRORS -->
+    <section class="section" id="music" aria-labelledby="head-circus">
+      <div class="brand-head">
+        <span class="eyebrow">Music</span>
+        <h2 id="head-circus">Daniel’s Circus of Horrors</h2>
+        <p class="pitch">Original songs and full albums — the family, turned into music.</p>
       </div>
       <div class="stack">
         <a class="btn" href="https://www.tiktok.com/@danielscircus" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🎪</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">TikTok</span>
             <span class="desc">@danielscircus</span>
@@ -362,7 +459,7 @@ footer{
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn" href="https://www.instagram.com/danielscircusofficial" target="_blank" rel="noopener noreferrer">
-          <span class="icon">📸</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">Instagram</span>
             <span class="desc">@danielscircusofficial</span>
@@ -370,7 +467,7 @@ footer{
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn" href="https://www.youtube.com/@danielscircusofhorrors" target="_blank" rel="noopener noreferrer">
-          <span class="icon">▶️</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">YouTube</span>
             <span class="desc">Videos, Shorts &amp; more</span>
@@ -378,7 +475,7 @@ footer{
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn" href="https://suno.com/@danielscircusofhorrors" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🎵</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">Listen on Suno</span>
             <span class="desc">The full catalog</span>
@@ -393,69 +490,70 @@ footer{
           <span class="soon">Coming soon</span>
         </div>
         <div class="album-teaser">
-          <span>🔊 Teaser</span>
+          <span>Teaser</span>
           <audio controls preload="metadata" src="la-reina-teaser-clip.mp3"></audio>
         </div>
         <div class="btn btn-album btn-disabled" aria-disabled="true">
-          <span class="icon">👑</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy">
-            <span class="title">LA REINA DE LA CASA — Ringmaster, coming soon</span>
-            <span class="desc">14 tracks for Carmen, the Queen — tropical merengue-pop. Link drops here first.</span>
+            <span class="title">LA REINA DE LA CASA — coming soon</span>
+            <span class="desc">Fourteen tracks for Carmen — tropical merengue-pop. The link will appear here first.</span>
           </span>
           <span class="soon">Soon</span>
         </div>
         <a class="btn btn-album" href="https://distrokid.com/hyperfollow/astoundingchamber/daniels-circus-of-horrors-3" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🎧</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy"><span class="title">Daniel’s Circus of Horrors (Album 1) — stream it</span></span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn btn-album" href="https://distrokid.com/hyperfollow/astoundingchamber/daniels-circus-of-horrors-the-encore-volume-3" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🎧</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy"><span class="title">The Encore Vol. 3 — stream it</span></span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn btn-album" href="https://distrokid.com/hyperfollow/astoundingchamber/daniels-circus-of-horrors-out-of-the-box" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🎧</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy"><span class="title">Out of the Box — stream it</span></span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn btn-album" href="https://distrokid.com/hyperfollow/astoundingchamber/milton-el-que-siempre-arregla-vol-1" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🎧</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy"><span class="title">Milton Vol. 1 — El Que Siempre Arregla — stream it</span></span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn btn-album" href="https://distrokid.com/hyperfollow/astoundingchamber/ringmaster-en-la-casa" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🎧</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy"><span class="title">Ringmaster En La Casa — stream it</span></span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn btn-album" href="https://distrokid.com/hyperfollow/astoundingchamber/salsa-after-dark-daniels-circus-of-horrors/" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🎧</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy"><span class="title">Salsa After Dark — stream it</span></span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn btn-album" href="https://distrokid.com/hyperfollow/astoundingchamber/daniels-circus-of-horrors-presents-noahs-money-show" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🎧</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy"><span class="title">Noah’s Money Show — stream it</span></span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn btn-album" href="https://distrokid.com/hyperfollow/astoundingchamber/daniels-circus-of-horrors-presents-noahs-money-mastery-album-2-level-up" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🎧</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy"><span class="title">Noah’s Money Mastery: Level Up — stream it</span></span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
       </div>
     </section>
-    <div class="stripe" style="margin-top:32px" aria-hidden="true"></div>
+    <div class="stripe" style="margin-top:56px" aria-hidden="true"></div>
     <!-- SECTION C — SCAN FOR A SMILE -->
-    <section class="section" aria-labelledby="brand-scan">
+    <section class="section" id="videos" aria-labelledby="head-scan">
       <div class="brand-head">
-        <h2 id="brand-scan">Scan for a Smile</h2>
-        <p class="pitch">Fun, quick videos — a smile in seconds.</p>
+        <span class="eyebrow">Videos</span>
+        <h2 id="head-scan">Scan for a Smile</h2>
+        <p class="pitch">Short videos, made to make you smile.</p>
       </div>
       <div class="stack">
         <a class="btn" href="https://www.tiktok.com/@scanforasmile" target="_blank" rel="noopener noreferrer">
-          <span class="icon">📲</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">Scan for a Smile</span>
             <span class="desc">TikTok — @scanforasmile</span>
@@ -464,16 +562,17 @@ footer{
         </a>
       </div>
     </section>
-    <div class="stripe" style="margin-top:32px" aria-hidden="true"></div>
+    <div class="stripe" style="margin-top:56px" aria-hidden="true"></div>
     <!-- SECTION E — PARANORMAL 413 -->
-    <section class="section" aria-labelledby="brand-paranormal">
+    <section class="section" aria-labelledby="head-paranormal">
       <div class="brand-head">
-        <h2 id="brand-paranormal">Paranormal 413</h2>
-        <p class="pitch">Nightly Blink clips from Noah’s room — real or not? You decide. 👻</p>
+        <span class="eyebrow">Videos</span>
+        <h2 id="head-paranormal">Paranormal 413</h2>
+        <p class="pitch">Nightly clips from Noah’s room — real or not? You decide.</p>
       </div>
       <div class="stack">
         <a class="btn" href="https://www.instagram.com/413paranormal/" target="_blank" rel="noopener noreferrer">
-          <span class="icon">📲</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">Paranormal 413 Instagram</span>
             <span class="desc">@413paranormal</span>
@@ -482,16 +581,17 @@ footer{
         </a>
       </div>
     </section>
-    <div class="stripe" style="margin-top:32px" aria-hidden="true"></div>
+    <div class="stripe" style="margin-top:56px" aria-hidden="true"></div>
     <!-- SECTION D — GARCIA FAMILY STORIES -->
-    <section class="section" aria-labelledby="brand-garcia">
+    <section class="section" id="family" aria-labelledby="head-garcia">
       <div class="brand-head">
-        <h2 id="brand-garcia">Garcia Family Stories</h2>
-        <p class="pitch">Fun AI adventures — Daniel &amp; Noah traveling the world.</p>
+        <span class="eyebrow">Family</span>
+        <h2 id="head-garcia">Garcia Family Stories</h2>
+        <p class="pitch">Daniel and Noah, traveling the world together.</p>
       </div>
       <div class="stack">
         <a class="btn" href="https://www.youtube.com/@GarciaFamilyStories" target="_blank" rel="noopener noreferrer">
-          <span class="icon">▶️</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">Garcia Family Stories — YouTube</span>
             <span class="desc">YouTube</span>
@@ -499,7 +599,7 @@ footer{
           <span class="arrow" aria-hidden="true">→</span>
         </a>
         <a class="btn" href="https://www.tiktok.com/@garciafamilystories" target="_blank" rel="noopener noreferrer">
-          <span class="icon">👨‍👩‍👧‍👦</span>
+          <span class="mark" aria-hidden="true"></span>
           <span class="copy">
             <span class="title">Garcia Family Stories</span>
             <span class="desc">TikTok</span>
@@ -511,7 +611,7 @@ footer{
     <footer>
       <div class="stripe" style="margin-bottom:24px" aria-hidden="true"></div>
       <p class="footer-line">The Golden Goose Never Flies Alone.</p>
-      <p class="footer-small"><span>New albums land here first.</span><br />🦃 Happy Thanksgiving from Springfield</p>
+      <p class="footer-small"><span>New albums land here first.</span></p>
     </footer>
   </main>
   <script data-goatcounter="https://goldengoose.goatcounter.com/count"
