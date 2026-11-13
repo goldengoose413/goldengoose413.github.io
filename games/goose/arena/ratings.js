@@ -1,0 +1,11 @@
+// The server is authoritative. Local storage holds only an anonymous voter token.
+let voter;
+try{voter=localStorage.getItem('goose-rating-voter');if(!/^[a-f0-9-]{36}$/i.test(voter||'')){voter=crypto.randomUUID();localStorage.setItem('goose-rating-voter',voter);}}catch{voter=crypto.randomUUID();}
+const stars=[...document.querySelectorAll('[data-stars]')];
+const summary=document.getElementById('rating-summary'),status=document.getElementById('rating-status');
+let selected=0,saving=false;
+function render(data){selected=data.myRating||0;summary.textContent=data.count?`${data.average.toFixed(1)} / 5 · ${data.count.toLocaleString()} ${data.count===1?'rating':'ratings'}`:'No ratings yet. Be the first.';stars.forEach(b=>{const value=Number(b.dataset.stars);b.classList.toggle('selected',value<=selected);b.setAttribute('aria-pressed',String(value===selected));});}
+async function request(method='GET',rating){const response=await fetch(method==='GET'?`/api/ratings?voter=${encodeURIComponent(voter)}`:'/api/ratings',{method,headers:method==='POST'?{'Content-Type':'application/json'}:{},body:method==='POST'?JSON.stringify({voter,stars:rating}):undefined});const data=await response.json();if(!response.ok)throw new Error(data.error||'Unable to load ratings.');return data;}
+request().then(render).catch(()=>{summary.textContent='Ratings are temporarily unavailable.';});
+stars.forEach(button=>button.addEventListener('click',async()=>{if(saving)return;saving=true;stars.forEach(b=>b.disabled=true);status.textContent='Saving your rating…';try{render(await request('POST',Number(button.dataset.stars)));status.textContent='Thanks, challenger. Your rating is saved.';}catch{status.textContent='Could not save your rating. Please try again.';}finally{saving=false;stars.forEach(b=>b.disabled=false);}}));
+const share=document.getElementById('share-game');share.addEventListener('click',async()=>{const data={title:'The Golden Goose — Main Event',text:'Gold is taken. Think you can earn silver?',url:location.origin+'/'};try{if(navigator.share){await navigator.share(data);return;}await navigator.clipboard.writeText(data.url);status.textContent='Game link copied. Send it to your challengers.';}catch(error){if(error.name!=='AbortError')status.textContent='Share this page’s address to invite your challengers.';}});
