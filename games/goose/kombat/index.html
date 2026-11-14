@@ -55,6 +55,7 @@
 <div class="topbar">
   <a href="../../index.html">&larr; Back to the Hub</a>
   <button class="mute" id="muteBtn" type="button">🔊 Sound: On</button>
+  <audio id="bgm" src="music.mp3" loop preload="auto"></audio>
 </div>
 <h1 class="logo">GOLDEN GOOSE KOMBAT</h1>
 <div class="sub">DANIEL'S CIRCUS OF HORRORS &bull; 11 FIGHTERS &bull; ONE CHAMPION</div>
@@ -164,7 +165,10 @@ const FIGHTERS = [
 "use strict";
 /* ============ AUDIO (WebAudio bleeps, no files) ============ */
 let AC = null, muted = false;
-function audio(){ if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(AC && AC.state==="suspended") AC.resume(); return AC; }
+const bgm = document.getElementById("bgm");
+let musicStarted = false;
+function startMusic(){ if(musicStarted) return; musicStarted = true; if(bgm){ bgm.volume = 0.5; if(!muted) bgm.play().catch(()=>{}); } }
+function audio(){ if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(AC && AC.state==="suspended") AC.resume(); startMusic(); return AC; }
 function beep(f0,f1,dur,type,vol){
   if(muted) return; const ac=audio(); if(!ac) return;
   const o=ac.createOscillator(), g=ac.createGain(), t=ac.currentTime;
@@ -184,6 +188,7 @@ const SFX = {
 };
 document.getElementById("muteBtn").addEventListener("click", function(){
   muted=!muted; this.textContent = muted ? "🔇 Sound: Off" : "🔊 Sound: On";
+  if(bgm){ if(muted) bgm.pause(); else if(musicStarted) bgm.play().catch(()=>{}); }
 });
 
 /* ============ STATE ============ */
