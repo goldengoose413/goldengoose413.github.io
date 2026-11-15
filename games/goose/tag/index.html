@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Golden Goose Tag — Dad vs Noah</title>
+<style>
+  :root{--gold:#f4c563;--gold2:#d4a017;--black:#100e11;--panel:#1b181c;--cream:#fff6d8}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:var(--black);color:var(--cream);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overscroll-behavior:none}
+  body{min-height:100dvh;display:flex;flex-direction:column;align-items:center}
+  a{color:var(--gold)}
+  header{width:100%;max-width:640px;padding:14px 16px 4px;text-align:center}
+  h1{margin:0;font-size:clamp(28px,7vw,44px);letter-spacing:.04em;color:var(--gold);text-transform:uppercase;line-height:1.05}
+  .sub{margin:6px 0 0;font-size:clamp(14px,3.6vw,18px);opacity:.9}
+  .topbar{width:100%;max-width:640px;display:flex;justify-content:space-between;align-items:center;padding:8px 16px}
+  .pill{background:var(--panel);border:2px solid var(--gold);border-radius:999px;padding:6px 14px;font-weight:800;font-size:18px;color:var(--gold);min-width:86px;text-align:center}
+  .pill small{display:block;font-size:11px;font-weight:600;opacity:.75;letter-spacing:.08em}
+  .btn{background:linear-gradient(180deg,#ffd97a,#d4a017);color:#241a00;border:0;border-radius:16px;padding:16px 20px;font-size:20px;font-weight:900;cursor:pointer;width:100%;box-shadow:0 4px 0 #8a6a0b}
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a6a0b}
+  .btn.ghost{background:var(--panel);color:var(--gold);border:2px solid var(--gold);box-shadow:none;font-size:16px;padding:12px 16px}
+  #menu,#over{width:100%;max-width:640px;padding:10px 16px 22px;display:flex;flex-direction:column;gap:14px;align-items:center}
+  .faces{display:flex;gap:18px;align-items:flex-end;justify-content:center}
+  .faces figure{margin:0;text-align:center}
+  .faces img{height:150px;width:auto;max-width:38vw;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))}
+  .faces figcaption{font-weight:800;color:var(--gold);margin-top:4px}
+  .mode{background:var(--panel);border:2px solid #3a3340;border-radius:18px;padding:14px;width:100%;display:flex;gap:14px;align-items:center;cursor:pointer;text-align:left}
+  .mode img{height:84px;width:auto;flex:0 0 auto}
+  .mode b{display:block;font-size:19px;color:var(--gold)}
+  .mode span{font-size:15px;opacity:.9;line-height:1.35;display:block;margin-top:2px}
+  .howto{font-size:15px;line-height:1.5;opacity:.92;text-align:center}
+  .howto b{color:var(--gold)}
+  #yard{position:relative;width:100%;max-width:640px;height:min(62dvh,520px);margin:0 12px;border:3px solid var(--gold);border-radius:20px;overflow:hidden;touch-action:none;background:linear-gradient(180deg,#7ec8f7 0 55%,#58a447 55% 100%);user-select:none;-webkit-user-select:none}
+  #yard::before{content:"";position:absolute;left:8%;top:8%;width:64px;height:64px;border-radius:50%;background:#ffe98a;box-shadow:0 0 40px #ffe98a}
+  .bush{position:absolute;bottom:0;width:110px;height:44px;border-radius:50% 50% 0 0;background:#3f7d33;opacity:.85}
+  .flower{position:absolute;font-size:26px;opacity:.95}
+  .char{position:absolute;left:0;top:0;will-change:transform;pointer-events:none;filter:drop-shadow(0 5px 6px rgba(0,0,0,.45))}
+  .char img{display:block;height:118px;width:auto;max-width:34vw}
+  .char.noah img{height:104px}
+  .char.tagged{animation:wiggle .45s ease}
+  @keyframes wiggle{0%{transform:rotate(0)}25%{transform:rotate(-10deg)}55%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}100%{transform:rotate(0)}}
+  .burst{position:absolute;font-size:34px;pointer-events:none;animation:pop .7s ease forwards}
+  @keyframes pop{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}100%{opacity:0;transform:translate(-50%,-140%) scale(1.4)}}
+  #big{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+  #big span{font-size:clamp(64px,18vw,110px);font-weight:900;color:#fff;text-shadow:0 4px 0 rgba(0,0,0,.35);opacity:0}
+  #big span.show{animation:zoom .8s ease}
+  @keyframes zoom{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(1)}}
+  #over h2{font-size:clamp(26px,6.5vw,36px);color:var(--gold);margin:4px 0 0;text-align:center}
+  #over .score{font-size:64px;font-weight:900;color:#fff;line-height:1}
+  #over p{font-size:18px;text-align:center;margin:0}
+  .hidden{display:none!important}
+  footer{padding:0 16px 18px;text-align:center;font-size:13px;opacity:.6}
+</style>
+</head>
+<body>
+<header>
+  <h1>Golden Goose Tag</h1>
+  <p class="sub">Dad is the Goose. Noah is IT. Catch him if you can!</p>
+</header>
+
+<div class="topbar">
+  <div class="pill"><small>TIME</small><span id="clock">30</span></div>
+  <div class="pill"><small>TAGS</small><span id="tags">0</span></div>
+  <button class="btn ghost" id="soundBtn" style="width:auto;min-width:86px">🔊 Sound on</button>
+</div>
+
+<div id="menu">
+  <div class="faces">
+    <figure><img src="goose.png" alt="The Golden Goose"><figcaption>THE GOOSE (DAD)</figcaption></figure>
+    <figure><img src="noah.png" alt="Noah"><figcaption>NOAH (IT!)</figcaption></figure>
+  </div>
+  <button class="mode" id="soloBtn">
+    <img src="noah.png" alt="">
+    <span><b>NOAH PLAYS ALONE</b><span>The Goose runs by himself. Drag Noah to chase him and tag him!</span></span>
+  </button>
+  <button class="mode" id="versusBtn">
+    <img src="goose.png" alt="">
+    <span><b>DAD vs NOAH</b><span>Two fingers, one phone! Dad drags the Goose to dodge. Noah drags himself to chase. 30 seconds!</span></span>
+  </button>
+  <p class="howto"><b>How to play:</b> put your finger on your player and drag. When Noah touches the Goose — <b>TAG!</b> The Goose honks and runs away faster. Most tags in 30 seconds wins!</p>
+</div>
+
+<div id="yard" class="hidden">
+  <div class="bush" style="left:-10px"></div>
+  <div class="bush" style="right:-16px"></div>
+  <div class="flower" style="left:12%;bottom:8%">🌼</div>
+  <div class="flower" style="right:14%;bottom:14%">🌸</div>
+  <div class="flower" style="left:46%;bottom:4%">🌼</div>
+  <div class="char goose" id="goose"><img src="goose.png" alt="Golden Goose"></div>
+  <div class="char noah" id="noah"><img src="noah.png" alt="Noah"></div>
+  <div id="big"><span id="bigText"></span></div>
+</div>
+
+<div id="over" class="hidden">
+  <h2>Time!</h2>
+  <div class="score"><span id="finalTags">0</span> tags!</div>
+  <p id="cheer">Noah's always been perfect.</p>
+  <button class="btn" id="againBtn">▶ Play again</button>
+  <button class="btn ghost" id="changeBtn">Change game</button>
+</div>
+
+<footer><a href="../../index.html">← Back to Golden Goose games</a></footer>
+
+<script>
+'use strict';
+const yard=document.getElementById('yard');
+const gooseEl=document.getElementById('goose');
+const noahEl=document.getElementById('noah');
+const clockEl=document.getElementById('clock');
+const tagsEl=document.getElementById('tags');
+const bigText=document.getElementById('bigText');
+const menu=document.getElementById('menu');
+const over=document.getElementById('over');
+const finalTags=document.getElementById('finalTags');
+const cheer=document.getElementById('cheer');
+let soundOn=true, actx=null;
+
+function ac(){ if(!actx){ try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } if(actx&&actx.state==='suspended')actx.resume(); return actx; }
+function tone(f0,f1,dur,type,vol,when){
+  if(!soundOn)return; const c=ac(); if(!c)return;
+  const o=c.createOscillator(),g=c.createGain(),t=c.currentTime+(when||0);
+  o.type=type||'sawtooth'; o.frequency.setValueAtTime(f0,t);
+  o.frequency.exponentialRampToValueAtTime(Math.max(40,f1),t+dur);
+  g.gain.setValueAtTime(vol||.16,t); g.gain.exponentialRampToValueAtTime(.001,t+dur);
+  o.connect(g).connect(c.destination); o.start(t); o.stop(t+dur+.02);
+}
+function honk(){ tone(760,420,.16,'sawtooth',.22,0); tone(640,360,.2,'sawtooth',.22,.14); }
+function fanfare(){ [523,659,784,1047].forEach((f,i)=>tone(f,f,.22,'triangle',.2,i*.12)); }
+function blip(){ tone(880,1200,.08,'sine',.12,0); }
+
+document.getElementById('soundBtn').onclick=e=>{
+  soundOn=!soundOn; e.target.textContent=soundOn?'🔊 Sound on':'🔇 Sound off'; if(soundOn)blip();
+};
+
+const G={x:0,y:0,vx:0,vy:0,speed:250,cool:0,w:90,h:118};
+const N={x:0,y:0,speed:430,w:80,h:104};
+let mode='solo', state='menu', tags=0, timeLeft=30, lastT=0, raf=0;
+let wp={x:0,y:0,t:0};           // goose wander target (solo)
+let noahPtr=null, goosePtr=null; // {id,x,y}
+let dashT=0;
+
+function yardRect(){ return yard.getBoundingClientRect(); }
+function clampChar(c){
+  const r=yardRect();
+  c.x=Math.max(8,Math.min(r.width-c.w-8,c.x));
+  c.y=Math.max(8,Math.min(r.height-c.h-8,c.y));
+}
+function place(){
+  gooseEl.style.transform='translate('+G.x+'px,'+G.y+'px)';
+  noahEl.style.transform='translate('+N.x+'px,'+N.y+'px)';
+}
+function resetPositions(){
+  const r=yardRect();
+  G.x=r.width-140; G.y=60; G.vx=0; G.vy=0; G.speed=250; G.cool=0;
+  N.x=40; N.y=r.height-150; wp={x:G.x,y:G.y,t:0};
+  noahPtr=null; goosePtr=null; dashT=0; place();
+}
+function burst(x,y,txt){
+  const s=document.createElement('div'); s.className='burst'; s.textContent=txt||'⭐';
+  s.style.left=x+'px'; s.style.top=y+'px'; yard.appendChild(s);
+  setTimeout(()=>s.remove(),750);
+}
+function big(txt){ bigText.textContent=txt; bigText.classList.remove('show'); void bigText.offsetWidth; bigText.classList.add('show'); }
+
+function startGame(m){
+  mode=m; ac(); blip();
+  menu.classList.add('hidden'); over.classList.add('hidden'); yard.classList.remove('hidden');
+  tags=0; timeLeft=30; tagsEl.textContent='0'; clockEl.textContent='30';
+  state='playing'; resetPositions();
+  big('GO!');
+  lastT=performance.now();
+  cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
+}
+function endGame(){
+  state='over'; cancelAnimationFrame(raf); fanfare();
+  finalTags.textContent=tags;
+  cheer.textContent = tags>=10 ? "Noah's always been perfect. TEN tags — superstar!"
+    : tags>=5 ? "Noah's always been perfect. Great chasing!"
+    : "Noah's always been perfect. Try again!";
+  yard.classList.add('hidden'); over.classList.remove('hidden');
+}
+
+function loop(t){
+  if(state!=='playing')return;
+  const dt=Math.min(.05,(t-lastT)/1000); lastT=t;
+  timeLeft-=dt;
+  clockEl.textContent=Math.max(0,Math.ceil(timeLeft));
+  if(timeLeft<=0){ endGame(); return; }
+
+  // Noah chases the finger
+  if(noahPtr){
+    const dx=noahPtr.x-(N.x+N.w/2), dy=noahPtr.y-(N.y+N.h/2);
+    const d=Math.hypot(dx,dy);
+    if(d>6){ const s=Math.min(N.speed, d*6); N.x+=dx/d*s*dt; N.y+=dy/d*s*dt; }
+  }
+  // Goose: dad drags it in versus, AI runs it in solo
+  if(mode==='versus'&&goosePtr){
+    G.x=goosePtr.x-G.w/2; G.y=goosePtr.y-G.h/2;
+  } else {
+    const dx=N.x-G.x, dy=N.y-G.y, d=Math.hypot(dx,dy);
+    if(dashT>0){ dashT-=dt; G.x+=G.vx*dt; G.y+=G.vy*dt; }
+    else if(d<170){ // flee!
+      const s=G.speed*1.25, m=Math.max(1,d);
+      G.x+=-dx/m*s*dt; G.y+=-dy/m*s*dt;
+    } else {
+      wp.t-=dt;
+      if(wp.t<=0){ const r=yardRect(); wp.x=20+Math.random()*(r.width-140); wp.y=20+Math.random()*(r.height-180); wp.t=1+Math.random()*1.5; }
+      const wx=wp.x-G.x, wy=wp.y-G.y, wd=Math.hypot(wx,wy);
+      if(wd>10){ G.x+=wx/wd*G.speed*.55*dt; G.y+=wy/wd*G.speed*.55*dt; }
+    }
+  }
+  clampChar(G); clampChar(N); place();
+
+  // TAG!
+  G.cool=Math.max(0,G.cool-dt);
+  const cx=(G.x+G.w/2)-(N.x+N.w/2), cy=(G.y+G.h/2)-(N.y+N.h/2);
+  if(G.cool<=0 && Math.hypot(cx,cy)<82){
+    tags++; tagsEl.textContent=tags; honk();
+    burst(G.x+G.w/2, G.y+10, '⭐'); burst(N.x+N.w/2, N.y+10, '🎉');
+    big('TAG!');
+    gooseEl.classList.remove('tagged'); void gooseEl.offsetWidth; gooseEl.classList.add('tagged');
+    G.cool=.9; G.speed=Math.min(430,G.speed+14);
+    const m=Math.max(1,Math.hypot(cx,cy));
+    G.vx=cx/m*620; G.vy=cy/m*620; dashT=.38;
+  }
+  raf=requestAnimationFrame(loop);
+}
+
+function ptrPos(e){
+  const r=yardRect();
+  return {x:e.clientX-r.left, y:e.clientY-r.top};
+}
+yard.addEventListener('pointerdown',e=>{
+  if(state!=='playing')return;
+  e.preventDefault(); ac();
+  const p=ptrPos(e);
+  const dNoah=Math.hypot(p.x-(N.x+N.w/2), p.y-(N.y+N.h/2));
+  const dGoose=Math.hypot(p.x-(G.x+G.w/2), p.y-(G.y+G.h/2));
+  if(mode==='versus' && dGoose<dNoah && dGoose<140){ goosePtr={id:e.pointerId,x:p.x,y:p.y}; }
+  else if(!noahPtr){ noahPtr={id:e.pointerId,x:p.x,y:p.y}; }
+  try{yard.setPointerCapture(e.pointerId);}catch(err){}
+});
+yard.addEventListener('pointermove',e=>{
+  if(state!=='playing')return;
+  const p=ptrPos(e);
+  if(noahPtr&&e.pointerId===noahPtr.id){ noahPtr.x=p.x; noahPtr.y=p.y; }
+  if(goosePtr&&e.pointerId===goosePtr.id){ goosePtr.x=p.x; goosePtr.y=p.y; }
+});
+function ptrUp(e){
+  if(noahPtr&&e.pointerId===noahPtr.id)noahPtr=null;
+  if(goosePtr&&e.pointerId===goosePtr.id)goosePtr=null;
+}
+yard.addEventListener('pointerup',ptrUp);
+yard.addEventListener('pointercancel',ptrUp);
+
+document.getElementById('soloBtn').onclick=()=>startGame('solo');
+document.getElementById('versusBtn').onclick=()=>startGame('versus');
+document.getElementById('againBtn').onclick=()=>startGame(mode);
+document.getElementById('changeBtn').onclick=()=>{
+  state='menu'; cancelAnimationFrame(raf);
+  over.classList.add('hidden'); yard.classList.add('hidden'); menu.classList.remove('hidden');
+};
+</script>
+</body>
+</html>
