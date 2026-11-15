@@ -13,9 +13,9 @@
   header{width:100%;max-width:640px;padding:14px 16px 4px;text-align:center}
   h1{margin:0;font-size:clamp(28px,7vw,44px);letter-spacing:.04em;color:var(--gold);text-transform:uppercase;line-height:1.05}
   .sub{margin:6px 0 0;font-size:clamp(14px,3.6vw,18px);opacity:.9}
-  .topbar{width:100%;max-width:640px;display:flex;justify-content:space-between;align-items:center;padding:8px 16px;gap:8px}
-  .pill{background:var(--panel);border:2px solid var(--gold);border-radius:999px;padding:6px 14px;font-weight:800;font-size:18px;color:var(--gold);min-width:86px;text-align:center}
-  .pill small{display:block;font-size:11px;font-weight:600;opacity:.75;letter-spacing:.08em}
+  .topbar{width:100%;max-width:640px;display:flex;justify-content:space-between;align-items:center;padding:8px 10px;gap:6px}
+  .pill{background:var(--panel);border:2px solid var(--gold);border-radius:999px;padding:6px 8px;font-weight:800;font-size:16px;color:var(--gold);min-width:64px;text-align:center;flex:1}
+  .pill small{display:block;font-size:10px;font-weight:600;opacity:.75;letter-spacing:.06em;white-space:nowrap}
   .btn{background:linear-gradient(180deg,#ffd97a,#d4a017);color:#241a00;border:0;border-radius:16px;padding:16px 20px;font-size:20px;font-weight:900;cursor:pointer;width:100%;box-shadow:0 4px 0 #8a6a0b}
   .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a6a0b}
   .btn.ghost{background:var(--panel);color:var(--gold);border:2px solid var(--gold);box-shadow:none;font-size:16px;padding:12px 16px}
@@ -45,7 +45,7 @@
   .char img{display:block;height:200px;width:auto}
   .char.tagged{animation:wiggle .45s ease}
   @keyframes wiggle{0%{transform:rotate(0)}25%{transform:rotate(-10deg)}55%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}100%{transform:rotate(0)}}
-  .nametag{position:absolute;left:0;top:0;transform:translate(-50%,-100%);font-weight:900;font-size:clamp(20px,3.6vw,32px);letter-spacing:.03em;white-space:nowrap;pointer-events:none;z-index:4;text-shadow:0 2px 0 #000,0 0 10px rgba(0,0,0,.8)}
+  .nametag{position:absolute;left:0;top:0;transform:translate(-50%,-100%);font-weight:900;font-size:clamp(24px,4.5vw,40px);letter-spacing:.03em;white-space:nowrap;pointer-events:none;z-index:4;text-shadow:0 2px 0 #000,0 0 10px rgba(0,0,0,.8)}
   .nametag.goose{color:var(--gold)}
   .nametag.noah{color:#7fe7ff}
   .burst{position:absolute;font-size:34px;pointer-events:none;animation:pop .7s ease forwards;z-index:5}
@@ -56,7 +56,7 @@
   @keyframes zoom{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(1)}}
   #hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:rgba(16,14,17,.75);color:var(--gold);font-weight:700;font-size:15px;padding:8px 14px;border-radius:999px;white-space:nowrap;z-index:7;pointer-events:none;transition:opacity .6s}
   #over h2{font-size:clamp(26px,6.5vw,36px);color:var(--gold);margin:4px 0 0;text-align:center}
-  #over .score{font-size:64px;font-weight:900;color:#fff;line-height:1}
+  #over .score{font-size:clamp(40px,9vw,64px);font-weight:900;color:#fff;line-height:1.1;text-align:center}
   #over p{font-size:18px;text-align:center;margin:0}
   .hidden{display:none!important}
   footer{padding:0 16px 18px;text-align:center;font-size:13px;opacity:.6}
@@ -70,8 +70,9 @@
 
 <div class="topbar">
   <div class="pill"><small>TIME</small><span id="clock">30</span></div>
-  <div class="pill"><small>NOAH'S TAGS</small><span id="tags">0</span></div>
-  <button class="btn ghost" id="soundBtn" style="width:auto;min-width:86px">🔊 Sound on</button>
+  <div class="pill"><small>🪿 DAD'S TAGS</small><span id="dadTags">0</span></div>
+  <div class="pill"><small>🏃 NOAH'S TAGS</small><span id="noahTags">0</span></div>
+  <button class="btn ghost" id="soundBtn" style="width:auto;min-width:48px;padding:6px 10px">🔊</button>
 </div>
 <div id="padLine">🎮 Connect controllers, then press a button</div>
 
@@ -86,9 +87,9 @@
   </button>
   <button class="mode" id="versusBtn">
     <img src="goose.png" alt="">
-    <span><b>DAD vs NOAH</b><span>Two players! Dad is the Goose, Noah is IT. 30 seconds!</span></span>
+    <span><b>DAD vs NOAH</b><span>Two players! Either one can tag the other. Most tags in 30 seconds wins!</span></span>
   </button>
-  <p class="howto"><b>Touch:</b> put your finger on your player and drag. When Noah touches the Goose — <b>TAG!</b><br><b>Controllers:</b> plug in the Backbone first (Goose = Dad), then pair the Xbox controller (Noah). Left stick to move, <b>A to dash</b>. Open the game in Safari so the controllers work.<br><b>TV:</b> hold the phone sideways (landscape) — that's how the Backbone holds it — and mirror to the TV. The yard fills the whole screen.</p>
+  <p class="howto"><b>Touch:</b> put your finger on your player and drag. Touch the other player to <b>TAG</b> them!<br><b>Controllers:</b> plug in the Backbone first (Goose = Dad), then pair the Xbox controller (Noah). Left stick to move, <b>A to dash</b>. Open the game in Safari so the controllers work.<br><b>TV:</b> hold the phone sideways (landscape) — that's how the Backbone holds it — and mirror to the TV. The yard fills the whole screen and the screen stays on while you play.</p>
 </div>
 
 <div id="yard" class="hidden">
@@ -106,8 +107,8 @@
 </div>
 
 <div id="over" class="hidden">
-  <h2>Time!</h2>
-  <div class="score"><span id="finalTags">0</span> tags!</div>
+  <h2 id="overTitle">Time!</h2>
+  <div class="score" id="finalScore">🪿 0 · 🏃 0</div>
   <p id="cheer">Noah's always been perfect.</p>
   <button class="btn" id="againBtn">▶ Play again</button>
   <button class="btn ghost" id="changeBtn">Change game</button>
@@ -125,11 +126,13 @@ const noahImg=noahEl.querySelector('img');
 const labelGoose=document.getElementById('labelGoose');
 const labelNoah=document.getElementById('labelNoah');
 const clockEl=document.getElementById('clock');
-const tagsEl=document.getElementById('tags');
+const dadTagsEl=document.getElementById('dadTags');
+const noahTagsEl=document.getElementById('noahTags');
 const bigText=document.getElementById('bigText');
 const menu=document.getElementById('menu');
 const over=document.getElementById('over');
-const finalTags=document.getElementById('finalTags');
+const overTitle=document.getElementById('overTitle');
+const finalScore=document.getElementById('finalScore');
 const cheer=document.getElementById('cheer');
 const padLine=document.getElementById('padLine');
 const hint=document.getElementById('hint');
@@ -152,6 +155,7 @@ function noteAt(freq,time,dur,type,vol){
   o.connect(g).connect(c.destination); o.start(time); o.stop(time+dur+.02);
 }
 function honk(){ tone(760,420,.16,'sawtooth',.22,0); tone(640,360,.2,'sawtooth',.22,.14); }
+function quack(){ tone(300,150,.18,'sawtooth',.22,0); tone(260,140,.2,'sawtooth',.22,.14); }
 function fanfare(){ [523,659,784,1047].forEach((f,i)=>tone(f,f,.22,'triangle',.2,i*.12)); }
 function blip(){ tone(880,1200,.08,'sine',.12,0); }
 
@@ -185,14 +189,24 @@ function startMusic(){
 }
 function stopMusic(){ if(musicTimer){clearInterval(musicTimer); musicTimer=null;} }
 
+/* ---- Keep the screen awake while playing (so mirroring never cuts out) ---- */
+let wakeLock=null;
+async function lockScreen(){
+  try{ if('wakeLock' in navigator){ wakeLock=await navigator.wakeLock.request('screen'); } }catch(e){}
+}
+function releaseScreen(){ try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){} }
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&state==='playing'){ lockScreen(); ac(); }
+});
+
 document.getElementById('soundBtn').onclick=e=>{
-  soundOn=!soundOn; e.target.textContent=soundOn?'🔊 Sound on':'🔇 Sound off';
+  soundOn=!soundOn; e.target.textContent=soundOn?'🔊':'🔇';
   if(!soundOn)stopMusic(); else { blip(); if(state==='playing')startMusic(); }
 };
 
-const G={x:0,y:0,vx:0,vy:0,speed:250,cool:0,w:90,h:140,dashT:0,dashCool:0};
-const N={x:0,y:0,speed:430,w:80,h:120,dashT:0,dashCool:0};
-let mode='solo', state='menu', tags=0, timeLeft=30, lastT=0, raf=0, S=1;
+const G={x:0,y:0,vx:0,vy:0,px:0,py:0,speed:250,cool:0,w:90,h:140,dashT:0,dashCool:0};
+const N={x:0,y:0,px:0,py:0,speed:430,w:80,h:120,dashT:0,dashCool:0};
+let mode='solo', state='menu', dadTags=0, noahTags=0, timeLeft=30, lastT=0, raf=0, S=1;
 let wp={x:0,y:0,t:0};
 let noahPtr=null, goosePtr=null;
 let dashT=0;
@@ -201,9 +215,9 @@ let hintTimer=0;
 function yardRect(){ return yard.getBoundingClientRect(); }
 function syncSizes(){
   const r=yardRect();
-  // Characters BIG: half the yard height for the Goose, a little less for Noah
-  gooseImg.style.height=Math.round(Math.min(r.height*.52,340))+'px';
-  noahImg.style.height=Math.round(Math.min(r.height*.46,300))+'px';
+  // Characters WAY bigger: the Goose fills most of the yard height
+  gooseImg.style.height=Math.round(r.height*.82)+'px';
+  noahImg.style.height=Math.round(r.height*.74)+'px';
   const gr=gooseImg.getBoundingClientRect();
   const nr=noahImg.getBoundingClientRect();
   G.w=Math.max(60,gr.width); G.h=Math.max(80,gr.height);
@@ -213,7 +227,7 @@ function syncSizes(){
 function clampChar(c){
   const r=yardRect();
   c.x=Math.max(8,Math.min(r.width-c.w-8,c.x));
-  c.y=Math.max(8,Math.min(r.height-c.h-8,c.y));
+  c.y=Math.max(76,Math.min(r.height-c.h-8,c.y));
 }
 function place(){
   gooseEl.style.transform='translate('+G.x+'px,'+G.y+'px)';
@@ -223,8 +237,9 @@ function place(){
 }
 function resetPositions(){
   const r=yardRect();
-  G.x=r.width-G.w-30; G.y=90; G.vx=0; G.vy=0; G.speed=250; G.cool=0; G.dashT=0; G.dashCool=0;
-  N.x=30; N.y=r.height-N.h-30; N.dashT=0; N.dashCool=0;
+  G.x=r.width-G.w-30; G.y=100; G.vx=0; G.vy=0; G.speed=250; G.cool=0; G.dashT=0; G.dashCool=0;
+  N.x=30; N.y=r.height-N.h-20; N.dashT=0; N.dashCool=0;
+  G.px=G.x; G.py=G.y; N.px=N.x; N.py=N.y;
   wp={x:G.x,y:G.y,t:0};
   noahPtr=null; goosePtr=null; dashT=0; place();
 }
@@ -239,7 +254,8 @@ function startGame(m){
   mode=m; ac(); blip();
   document.body.classList.add('playing');
   menu.classList.add('hidden'); over.classList.add('hidden'); yard.classList.remove('hidden');
-  tags=0; timeLeft=30; tagsEl.textContent='0'; clockEl.textContent='30';
+  dadTags=0; noahTags=0; timeLeft=30;
+  dadTagsEl.textContent='0'; noahTagsEl.textContent='0'; clockEl.textContent='30';
   hint.textContent = (window.innerHeight>window.innerWidth)
     ? '🕹️ Left stick to move · A to dash · Turn phone sideways for the big screen!'
     : '🕹️ Left stick to move · A to dash';
@@ -247,20 +263,20 @@ function startGame(m){
   state='playing';
   syncSizes(); resetPositions();
   try{ if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{}); }catch(e){}
+  lockScreen();
   startMusic();
   big('GO!');
   lastT=performance.now();
   cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
 }
 function endGame(){
-  state='over'; cancelAnimationFrame(raf); stopMusic(); fanfare();
+  state='over'; cancelAnimationFrame(raf); stopMusic(); releaseScreen(); fanfare();
   document.body.classList.remove('playing');
   if(document.fullscreenElement){ try{document.exitFullscreen().catch(()=>{});}catch(e){} }
-  finalTags.textContent=tags;
-  cheer.textContent = tags>=10 ? "Noah tagged Dad "+tags+" times — superstar! Noah's always been perfect."
-    : tags>=5 ? "Noah tagged Dad "+tags+" times! Great chasing. Noah's always been perfect."
-    : tags>0 ? "Noah tagged Dad "+tags+" time"+(tags>1?"s":"")+"! Noah's always been perfect."
-    : "Dad the Goose got away this time! Noah's always been perfect.";
+  finalScore.textContent='🪿 '+dadTags+' · 🏃 '+noahTags;
+  if(noahTags>dadTags){ overTitle.textContent='🏆 NOAH WINS!'; cheer.textContent="Noah tagged Dad "+noahTags+" times — superstar! Noah's always been perfect."; }
+  else if(dadTags>noahTags){ overTitle.textContent='🏆 DAD WINS!'; cheer.textContent="Dad tagged Noah "+dadTags+" times — the Goose is too fast!"; }
+  else { overTitle.textContent='🤝 TIE!'; cheer.textContent="Even at "+dadTags+" tags each — rematch! Noah's always been perfect."; }
   yard.classList.add('hidden'); over.classList.remove('hidden');
 }
 
@@ -318,6 +334,7 @@ function loop(t){
   const pp=pollPads();
   G.dashT=Math.max(0,G.dashT-dt); G.dashCool=Math.max(0,G.dashCool-dt);
   N.dashT=Math.max(0,N.dashT-dt); N.dashCool=Math.max(0,N.dashCool-dt);
+  G.px=G.x; G.py=G.y; N.px=N.x; N.py=N.y;
 
   // Noah: controller first, else finger drag
   const nv=pp.noahPad?padVec(pp.noahPad):null;
@@ -343,24 +360,38 @@ function loop(t){
       G.x+=-dx/m*s*dt; G.y+=-dy/m*s*dt;
     } else {
       wp.t-=dt;
-      if(wp.t<=0){ const r=yardRect(); wp.x=20+Math.random()*(r.width-160); wp.y=20+Math.random()*(r.height-200); wp.t=1+Math.random()*1.5; }
+      if(wp.t<=0){ const r=yardRect(); wp.x=20+Math.random()*Math.max(40,r.width-G.w-40); wp.y=76+Math.random()*Math.max(20,r.height-76-G.h-20); wp.t=1+Math.random()*1.5; }
       const wx=wp.x-G.x, wy=wp.y-G.y, wd=Math.hypot(wx,wy);
       if(wd>10){ G.x+=wx/wd*G.speed*S*.55*dt; G.y+=wy/wd*G.speed*S*.55*dt; }
     }
   }
   clampChar(G); clampChar(N); place();
 
-  // TAG!
+  // TAG! Whoever runs into the other one scores (versus mode; solo = Noah only)
   G.cool=Math.max(0,G.cool-dt);
   const cx=(G.x+G.w/2)-(N.x+N.w/2), cy=(G.y+G.h/2)-(N.y+N.h/2);
   const tagDist=(G.w/2+N.w/2)*.85;
   if(G.cool<=0 && Math.hypot(cx,cy)<tagDist){
-    tags++; tagsEl.textContent=tags; honk();
-    burst(G.x+G.w/2, G.y+10, '⭐'); burst(N.x+N.w/2, N.y+10, '🎉');
-    big('NOAH TAGGED DAD! ⭐');
-    gooseEl.classList.remove('tagged'); void gooseEl.offsetWidth; gooseEl.classList.add('tagged');
-    G.cool=.9; G.speed=Math.min(430,G.speed+14);
+    // Tagger = whoever was moving toward the other one fastest
     const m=Math.max(1,Math.hypot(cx,cy));
+    const dirX=cx/m, dirY=cy/m; // from Noah toward Goose
+    const gVx=(G.x-G.px)/Math.max(dt,.001), gVy=(G.y-G.py)/Math.max(dt,.001);
+    const nVx=(N.x-N.px)/Math.max(dt,.001), nVy=(N.y-N.py)/Math.max(dt,.001);
+    const approachG=gVx*(-dirX)+gVy*(-dirY); // Goose moving toward Noah
+    const approachN=nVx*dirX+nVy*dirY;       // Noah moving toward Goose
+    const dadTagged = mode==='versus' && approachG>approachN;
+    if(dadTagged){
+      dadTags++; dadTagsEl.textContent=dadTags; quack();
+      big('DAD TAGGED NOAH! 🪿');
+      noahEl.classList.remove('tagged'); void noahEl.offsetWidth; noahEl.classList.add('tagged');
+      burst(N.x+N.w/2, N.y+10, '⭐');
+    } else {
+      noahTags++; noahTagsEl.textContent=noahTags; honk();
+      big('NOAH TAGGED DAD! ⭐');
+      gooseEl.classList.remove('tagged'); void gooseEl.offsetWidth; gooseEl.classList.add('tagged');
+      burst(G.x+G.w/2, G.y+10, '⭐'); burst(N.x+N.w/2, N.y+10, '🎉');
+    }
+    G.cool=.9; G.speed=Math.min(430,G.speed+14);
     G.vx=cx/m*620*S; G.vy=cy/m*620*S; dashT=.38;
   }
   raf=requestAnimationFrame(loop);
@@ -414,7 +445,7 @@ document.getElementById('soloBtn').onclick=()=>startGame('solo');
 document.getElementById('versusBtn').onclick=()=>startGame('versus');
 document.getElementById('againBtn').onclick=()=>startGame(mode);
 document.getElementById('changeBtn').onclick=()=>{
-  state='menu'; cancelAnimationFrame(raf); stopMusic();
+  state='menu'; cancelAnimationFrame(raf); stopMusic(); releaseScreen();
   document.body.classList.remove('playing');
   over.classList.add('hidden'); yard.classList.add('hidden'); menu.classList.remove('hidden');
 };
