@@ -300,20 +300,20 @@ function ai(f,dt){
  aiT-=dt;
  if(aiT<=0){
    const hard=level==='hard',rookie=level==='easy';
-   aiT=(hard?.17:rookie?.52:.29)+Math.random()*.14;
+   aiT=(hard?.08:rookie?.38:.18)+Math.random()*.1;
    const roll=Math.random();
-   f.block=!f.stun&&!f.cd&&distance<230&&roll<(rookie?.07:hard?.36:.25);
+   f.block=!f.stun&&!f.cd&&distance<230&&roll<(rookie?.12:hard?.55:.35);
    if(f.block)f.guardStart=clock;
    aiDirection=distance>150?1:roll<.25?-1:0;
    if(hard&&f.stun&&f.power>=200){meterAction(f,'breaker');return}
    if(f.stun||f.block||(rookie&&roll<.32))return;
-   if(hard&&distance<260&&f.power>=300&&roll>.5){meterAction(f,'super');return}
-   if(hard&&distance<205&&enemy.cd>.12&&!enemy.pendingStrike){attack(f,'heavyPunch');return}
+   if(hard&&distance<260&&f.power>=300&&roll>.25){meterAction(f,'super');return}
+   if(hard&&distance<205&&enemy.cd>.05&&!enemy.pendingStrike){attack(f,'heavyPunch');return}
    if(distance<210 && roster[f.i].kind==='counter' && enemy.pendingStrike)attack(f,'special');
    else if(distance<210)attack(f,['punch','kick','heavyPunch','heavyKick'][Math.floor(Math.random()*4)]);
-   else if(roll>.74){if(hard&&f.power>=100)meterAction(f,'enhanced');else attack(f,'special')}
+   else if(roll>(hard?.6:.74)){if(hard&&f.power>=100)meterAction(f,'enhanced');else attack(f,'special')}
  }
- if(!f.block&&!f.stun&&!f.cd){f.x+=aiDirection*f.side*roster[f.i].speed*235*dt*(f.slow?.5:1);if(aiDirection)f.action='walk'}
+ if(!f.block&&!f.stun&&!f.cd){f.x+=aiDirection*f.side*roster[f.i].speed*235*(hard?1.25:1)*dt*(f.slow?.5:1);if(aiDirection)f.action='walk'}
 }
 function endRound(){state='roundover';roundDelay=2.5;let a=fighters[0],b=fighters[1];let win=a.hp===b.hp?null:a.hp>b.hp?a:b;if(win)win.wins++;tone(145,.45,'sawtooth');notice=win?roster[win.i].name+' WINS':'DRAW';noticeT=2.5;tone(500,.5);if(win&&win.wins===2){stats.matches++;if(win===a)stats.wins++;try{localStorage.setItem('circusStats',JSON.stringify(stats))}catch{}}}
 // Finale is optional. Expiry and skip both lead to the same rematch screen.
