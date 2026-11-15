@@ -13,7 +13,7 @@
   header{width:100%;max-width:640px;padding:14px 16px 4px;text-align:center}
   h1{margin:0;font-size:clamp(28px,7vw,44px);letter-spacing:.04em;color:var(--gold);text-transform:uppercase;line-height:1.05}
   .sub{margin:6px 0 0;font-size:clamp(14px,3.6vw,18px);opacity:.9}
-  .topbar{width:100%;max-width:640px;display:flex;justify-content:space-between;align-items:center;padding:8px 16px}
+  .topbar{width:100%;max-width:640px;display:flex;justify-content:space-between;align-items:center;padding:8px 16px;gap:8px}
   .pill{background:var(--panel);border:2px solid var(--gold);border-radius:999px;padding:6px 14px;font-weight:800;font-size:18px;color:var(--gold);min-width:86px;text-align:center}
   .pill small{display:block;font-size:11px;font-weight:600;opacity:.75;letter-spacing:.08em}
   .btn{background:linear-gradient(180deg,#ffd97a,#d4a017);color:#241a00;border:0;border-radius:16px;padding:16px 20px;font-size:20px;font-weight:900;cursor:pointer;width:100%;box-shadow:0 4px 0 #8a6a0b}
@@ -30,21 +30,27 @@
   .mode span{font-size:15px;opacity:.9;line-height:1.35;display:block;margin-top:2px}
   .howto{font-size:15px;line-height:1.5;opacity:.92;text-align:center}
   .howto b{color:var(--gold)}
+  #padLine{width:100%;max-width:640px;text-align:center;font-size:14px;font-weight:700;color:var(--gold);padding:2px 16px 8px;min-height:22px}
   #yard{position:relative;width:100%;max-width:640px;height:min(62dvh,520px);margin:0 12px;border:3px solid var(--gold);border-radius:20px;overflow:hidden;touch-action:none;background:linear-gradient(180deg,#7ec8f7 0 55%,#58a447 55% 100%);user-select:none;-webkit-user-select:none}
+  body.playing #yard{position:fixed;inset:0;z-index:20;width:100%;max-width:none;height:100dvh;margin:0;border:0;border-radius:0}
+  body.playing header,body.playing #menu,body.playing #over,body.playing footer{display:none!important}
+  body.playing .topbar{position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:30;background:rgba(16,14,17,.72);border-radius:0 0 16px 16px;max-width:640px}
+  body.playing #padLine{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:30;text-shadow:0 2px 4px rgba(0,0,0,.7)}
   #yard::before{content:"";position:absolute;left:8%;top:8%;width:64px;height:64px;border-radius:50%;background:#ffe98a;box-shadow:0 0 40px #ffe98a}
   .bush{position:absolute;bottom:0;width:110px;height:44px;border-radius:50% 50% 0 0;background:#3f7d33;opacity:.85}
   .flower{position:absolute;font-size:26px;opacity:.95}
   .char{position:absolute;left:0;top:0;will-change:transform;pointer-events:none;filter:drop-shadow(0 5px 6px rgba(0,0,0,.45))}
-  .char img{display:block;height:118px;width:auto;max-width:34vw}
-  .char.noah img{height:104px}
+  .char img{display:block;height:clamp(120px,22vh,220px);width:auto}
+  .char.noah img{height:clamp(104px,19vh,190px)}
   .char.tagged{animation:wiggle .45s ease}
   @keyframes wiggle{0%{transform:rotate(0)}25%{transform:rotate(-10deg)}55%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}100%{transform:rotate(0)}}
-  .burst{position:absolute;font-size:34px;pointer-events:none;animation:pop .7s ease forwards}
+  .burst{position:absolute;font-size:34px;pointer-events:none;animation:pop .7s ease forwards;z-index:5}
   @keyframes pop{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}100%{opacity:0;transform:translate(-50%,-140%) scale(1.4)}}
-  #big{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+  #big{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:6}
   #big span{font-size:clamp(64px,18vw,110px);font-weight:900;color:#fff;text-shadow:0 4px 0 rgba(0,0,0,.35);opacity:0}
   #big span.show{animation:zoom .8s ease}
   @keyframes zoom{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(1)}}
+  #hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:rgba(16,14,17,.75);color:var(--gold);font-weight:700;font-size:15px;padding:8px 14px;border-radius:999px;white-space:nowrap;z-index:7;pointer-events:none;transition:opacity .6s}
   #over h2{font-size:clamp(26px,6.5vw,36px);color:var(--gold);margin:4px 0 0;text-align:center}
   #over .score{font-size:64px;font-weight:900;color:#fff;line-height:1}
   #over p{font-size:18px;text-align:center;margin:0}
@@ -63,6 +69,7 @@
   <div class="pill"><small>TAGS</small><span id="tags">0</span></div>
   <button class="btn ghost" id="soundBtn" style="width:auto;min-width:86px">🔊 Sound on</button>
 </div>
+<div id="padLine">🎮 Connect controllers, then press a button</div>
 
 <div id="menu">
   <div class="faces">
@@ -75,9 +82,9 @@
   </button>
   <button class="mode" id="versusBtn">
     <img src="goose.png" alt="">
-    <span><b>DAD vs NOAH</b><span>Two fingers, one phone! Dad drags the Goose to dodge. Noah drags himself to chase. 30 seconds!</span></span>
+    <span><b>DAD vs NOAH</b><span>Two players! Dad is the Goose, Noah is IT. 30 seconds!</span></span>
   </button>
-  <p class="howto"><b>How to play:</b> put your finger on your player and drag. When Noah touches the Goose — <b>TAG!</b> The Goose honks and runs away faster. Most tags in 30 seconds wins!</p>
+  <p class="howto"><b>Touch:</b> put your finger on your player and drag. When Noah touches the Goose — <b>TAG!</b><br><b>Controllers:</b> plug in the Backbone first (Goose), then pair the Xbox controller (Noah). Left stick to move, <b>A to dash</b>. Open the game in Safari so the controllers work. Mirror the phone to the TV!</p>
 </div>
 
 <div id="yard" class="hidden">
@@ -89,6 +96,7 @@
   <div class="char goose" id="goose"><img src="goose.png" alt="Golden Goose"></div>
   <div class="char noah" id="noah"><img src="noah.png" alt="Noah"></div>
   <div id="big"><span id="bigText"></span></div>
+  <div id="hint">🕹️ Left stick to move · A to dash</div>
 </div>
 
 <div id="over" class="hidden">
@@ -113,6 +121,8 @@ const menu=document.getElementById('menu');
 const over=document.getElementById('over');
 const finalTags=document.getElementById('finalTags');
 const cheer=document.getElementById('cheer');
+const padLine=document.getElementById('padLine');
+const hint=document.getElementById('hint');
 let soundOn=true, actx=null;
 
 function ac(){ if(!actx){ try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } if(actx&&actx.state==='suspended')actx.resume(); return actx; }
@@ -132,14 +142,22 @@ document.getElementById('soundBtn').onclick=e=>{
   soundOn=!soundOn; e.target.textContent=soundOn?'🔊 Sound on':'🔇 Sound off'; if(soundOn)blip();
 };
 
-const G={x:0,y:0,vx:0,vy:0,speed:250,cool:0,w:90,h:118};
-const N={x:0,y:0,speed:430,w:80,h:104};
-let mode='solo', state='menu', tags=0, timeLeft=30, lastT=0, raf=0;
-let wp={x:0,y:0,t:0};           // goose wander target (solo)
-let noahPtr=null, goosePtr=null; // {id,x,y}
+const G={x:0,y:0,vx:0,vy:0,speed:250,cool:0,w:90,h:140,dashT:0,dashCool:0};
+const N={x:0,y:0,speed:430,w:80,h:120,dashT:0,dashCool:0};
+let mode='solo', state='menu', tags=0, timeLeft=30, lastT=0, raf=0, S=1;
+let wp={x:0,y:0,t:0};
+let noahPtr=null, goosePtr=null;
 let dashT=0;
+let hintTimer=0;
 
 function yardRect(){ return yard.getBoundingClientRect(); }
+function syncSizes(){
+  const gr=gooseEl.querySelector('img').getBoundingClientRect();
+  const nr=noahEl.querySelector('img').getBoundingClientRect();
+  G.w=Math.max(60,gr.width); G.h=Math.max(80,gr.height);
+  N.w=Math.max(56,nr.width); N.h=Math.max(70,nr.height);
+  S=Math.max(1,Math.min(1.9, yardRect().width/640));
+}
 function clampChar(c){
   const r=yardRect();
   c.x=Math.max(8,Math.min(r.width-c.w-8,c.x));
@@ -151,8 +169,9 @@ function place(){
 }
 function resetPositions(){
   const r=yardRect();
-  G.x=r.width-140; G.y=60; G.vx=0; G.vy=0; G.speed=250; G.cool=0;
-  N.x=40; N.y=r.height-150; wp={x:G.x,y:G.y,t:0};
+  G.x=r.width-160; G.y=80; G.vx=0; G.vy=0; G.speed=250; G.cool=0; G.dashT=0; G.dashCool=0;
+  N.x=40; N.y=r.height-170; N.dashT=0; N.dashCool=0;
+  wp={x:G.x,y:G.y,t:0};
   noahPtr=null; goosePtr=null; dashT=0; place();
 }
 function burst(x,y,txt){
@@ -164,15 +183,21 @@ function big(txt){ bigText.textContent=txt; bigText.classList.remove('show'); vo
 
 function startGame(m){
   mode=m; ac(); blip();
+  document.body.classList.add('playing');
   menu.classList.add('hidden'); over.classList.add('hidden'); yard.classList.remove('hidden');
   tags=0; timeLeft=30; tagsEl.textContent='0'; clockEl.textContent='30';
-  state='playing'; resetPositions();
+  hint.style.opacity='1'; hintTimer=4;
+  state='playing';
+  syncSizes(); resetPositions();
+  try{ if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{}); }catch(e){}
   big('GO!');
   lastT=performance.now();
   cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
 }
 function endGame(){
   state='over'; cancelAnimationFrame(raf); fanfare();
+  document.body.classList.remove('playing');
+  if(document.fullscreenElement){ try{document.exitFullscreen().catch(()=>{});}catch(e){} }
   finalTags.textContent=tags;
   cheer.textContent = tags>=10 ? "Noah's always been perfect. TEN tags — superstar!"
     : tags>=5 ? "Noah's always been perfect. Great chasing!"
@@ -180,33 +205,88 @@ function endGame(){
   yard.classList.add('hidden'); over.classList.remove('hidden');
 }
 
+/* ---- Gamepads: Backbone = Goose (Dad), Xbox = Noah ---- */
+function pads(){
+  try{ if(typeof navigator.getGamepads!=='function')return [];
+    return Array.from(navigator.getGamepads()).filter(p=>p&&p.connected!==false);
+  }catch(e){ return []; }
+}
+function padVec(p){
+  let x=0,y=0;
+  if(p.axes&&p.axes.length>=2){ x=p.axes[0]||0; y=p.axes[1]||0; }
+  if(p.buttons){
+    const b=i=>!!(p.buttons[i]&&p.buttons[i].pressed);
+    if(b(14))x=-1; if(b(15))x=1; if(b(12))y=-1; if(b(13))y=1;
+  }
+  const m=Math.hypot(x,y);
+  if(m<.28)return null;
+  if(m>1){x/=m;y/=m;}
+  return {x:x,y:y};
+}
+function padPressed(p,i){ return !!(p.buttons&&p.buttons[i]&&p.buttons[i].pressed); }
+let prevA={};
+function pollPads(){
+  const list=pads();
+  const bb=list.find(p=>/backbone/i.test(p.id||''));
+  const others=list.filter(p=>p!==bb);
+  const goosePad = mode==='versus' ? (bb||list[0]||null) : null;
+  const noahPad  = mode==='versus' ? (others[0]||list[1]||null) : (list[0]||null);
+  // status line
+  if(list.length===0) padLine.textContent='🎮 Connect controllers, then press a button';
+  else if(mode==='versus') padLine.textContent='🎮 '+(goosePad?('Goose: '+(bb?'Backbone':'Pad 1')):'Goose: —')+' · '+(noahPad?('Noah: '+(bb&&noahPad===others[0]?'Xbox':'Pad 2')):'Noah: —');
+  else padLine.textContent='🎮 '+(noahPad?('Noah: '+((noahPad.id||'Controller').split(' (')[0])):'Noah: —');
+  return {goosePad:goosePad,noahPad:noahPad};
+}
+function moveByPad(c,vec,dt){
+  if(!vec)return;
+  const boost=c.dashT>0?1.8:1;
+  c.x+=vec.x*c.speed*S*boost*dt;
+  c.y+=vec.y*c.speed*S*boost*dt;
+}
+function tryDash(c,pressed){
+  const key=c===G?'G':'N';
+  if(pressed&&!prevA[key]&&c.dashCool<=0){ c.dashT=.35; c.dashCool=1.2; tone(300,700,.12,'square',.1,0); }
+  prevA[key]=pressed;
+}
+
 function loop(t){
   if(state!=='playing')return;
   const dt=Math.min(.05,(t-lastT)/1000); lastT=t;
   timeLeft-=dt;
   clockEl.textContent=Math.max(0,Math.ceil(timeLeft));
+  if(hintTimer>0){ hintTimer-=dt; if(hintTimer<=0)hint.style.opacity='0'; }
   if(timeLeft<=0){ endGame(); return; }
 
-  // Noah chases the finger
-  if(noahPtr){
+  const pp=pollPads();
+  G.dashT=Math.max(0,G.dashT-dt); G.dashCool=Math.max(0,G.dashCool-dt);
+  N.dashT=Math.max(0,N.dashT-dt); N.dashCool=Math.max(0,N.dashCool-dt);
+
+  // Noah: controller first, else finger drag
+  const nv=pp.noahPad?padVec(pp.noahPad):null;
+  if(nv){ moveByPad(N,nv,dt); tryDash(N,padPressed(pp.noahPad,0)); }
+  else if(noahPtr){
     const dx=noahPtr.x-(N.x+N.w/2), dy=noahPtr.y-(N.y+N.h/2);
     const d=Math.hypot(dx,dy);
-    if(d>6){ const s=Math.min(N.speed, d*6); N.x+=dx/d*s*dt; N.y+=dy/d*s*dt; }
+    if(d>6){ const s=Math.min(N.speed*S, d*6); N.x+=dx/d*s*dt; N.y+=dy/d*s*dt; }
   }
-  // Goose: dad drags it in versus, AI runs it in solo
-  if(mode==='versus'&&goosePtr){
+  // Goose: controller in versus, else dad's finger, else AI
+  if(mode==='versus'&&pp.goosePad){
+    const gv=padVec(pp.goosePad);
+    if(gv)moveByPad(G,gv,dt);
+    tryDash(G,padPressed(pp.goosePad,0));
+  } else if(mode==='versus'&&goosePtr){
     G.x=goosePtr.x-G.w/2; G.y=goosePtr.y-G.h/2;
   } else {
     const dx=N.x-G.x, dy=N.y-G.y, d=Math.hypot(dx,dy);
     if(dashT>0){ dashT-=dt; G.x+=G.vx*dt; G.y+=G.vy*dt; }
-    else if(d<170){ // flee!
-      const s=G.speed*1.25, m=Math.max(1,d);
+    else if(d<170*S){ // flee!
+      const s=G.speed*S*1.25, m=Math.max(1,d);
       G.x+=-dx/m*s*dt; G.y+=-dy/m*s*dt;
     } else {
       wp.t-=dt;
-      if(wp.t<=0){ const r=yardRect(); wp.x=20+Math.random()*(r.width-140); wp.y=20+Math.random()*(r.height-180); wp.t=1+Math.random()*1.5; }
+      if(wp.t<=0){ const r=yardRect(); wp.x=20+Math.random()*(r.width-160); wp.y=20+Math.random()*(r.height-200); wp.t=1+Math.random()*1.5; }
       const wx=wp.x-G.x, wy=wp.y-G.y, wd=Math.hypot(wx,wy);
-      if(wd>10){ G.x+=wx/wd*G.speed*.55*dt; G.y+=wy/wd*G.speed*.55*dt; }
+      if(wd>10){ G.x+=wx/wd*G.speed*S*.55*dt; G.y+=wy/wd*G.speed*S*.55*dt; }
     }
   }
   clampChar(G); clampChar(N); place();
@@ -214,14 +294,14 @@ function loop(t){
   // TAG!
   G.cool=Math.max(0,G.cool-dt);
   const cx=(G.x+G.w/2)-(N.x+N.w/2), cy=(G.y+G.h/2)-(N.y+N.h/2);
-  if(G.cool<=0 && Math.hypot(cx,cy)<82){
+  if(G.cool<=0 && Math.hypot(cx,cy)<82*S){
     tags++; tagsEl.textContent=tags; honk();
     burst(G.x+G.w/2, G.y+10, '⭐'); burst(N.x+N.w/2, N.y+10, '🎉');
     big('TAG!');
     gooseEl.classList.remove('tagged'); void gooseEl.offsetWidth; gooseEl.classList.add('tagged');
     G.cool=.9; G.speed=Math.min(430,G.speed+14);
     const m=Math.max(1,Math.hypot(cx,cy));
-    G.vx=cx/m*620; G.vy=cy/m*620; dashT=.38;
+    G.vx=cx/m*620*S; G.vy=cy/m*620*S; dashT=.38;
   }
   raf=requestAnimationFrame(loop);
 }
@@ -236,7 +316,7 @@ yard.addEventListener('pointerdown',e=>{
   const p=ptrPos(e);
   const dNoah=Math.hypot(p.x-(N.x+N.w/2), p.y-(N.y+N.h/2));
   const dGoose=Math.hypot(p.x-(G.x+G.w/2), p.y-(G.y+G.h/2));
-  if(mode==='versus' && dGoose<dNoah && dGoose<140){ goosePtr={id:e.pointerId,x:p.x,y:p.y}; }
+  if(mode==='versus' && dGoose<dNoah && dGoose<140*S){ goosePtr={id:e.pointerId,x:p.x,y:p.y}; }
   else if(!noahPtr){ noahPtr={id:e.pointerId,x:p.x,y:p.y}; }
   try{yard.setPointerCapture(e.pointerId);}catch(err){}
 });
@@ -253,13 +333,32 @@ function ptrUp(e){
 yard.addEventListener('pointerup',ptrUp);
 yard.addEventListener('pointercancel',ptrUp);
 
+/* Menu / end-screen controller buttons: A starts versus, A replays */
+let menuPadPrev=false;
+function menuPadTick(){
+  if(state==='menu'||state==='over'){
+    const list=pads();
+    const a=list.some(p=>padPressed(p,0));
+    if(a&&!menuPadPrev){
+      if(state==='menu')startGame('versus');
+      else startGame(mode);
+    }
+    menuPadPrev=a;
+  } else menuPadPrev=false;
+  pollPads();
+  requestAnimationFrame(menuPadTick);
+}
+requestAnimationFrame(menuPadTick);
+
 document.getElementById('soloBtn').onclick=()=>startGame('solo');
 document.getElementById('versusBtn').onclick=()=>startGame('versus');
 document.getElementById('againBtn').onclick=()=>startGame(mode);
 document.getElementById('changeBtn').onclick=()=>{
   state='menu'; cancelAnimationFrame(raf);
+  document.body.classList.remove('playing');
   over.classList.add('hidden'); yard.classList.add('hidden'); menu.classList.remove('hidden');
 };
+addEventListener('resize',()=>{ if(state==='playing'){ syncSizes(); clampChar(G); clampChar(N); place(); } });
 </script>
 </body>
 </html>
