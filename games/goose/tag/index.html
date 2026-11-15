@@ -35,19 +35,23 @@
   body.playing #yard{position:fixed;inset:0;z-index:20;width:100%;max-width:none;height:100dvh;margin:0;border:0;border-radius:0}
   body.playing header,body.playing #menu,body.playing #over,body.playing footer{display:none!important}
   body.playing .topbar{position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:30;background:rgba(16,14,17,.72);border-radius:0 0 16px 16px;max-width:640px}
-  body.playing #padLine{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:30;text-shadow:0 2px 4px rgba(0,0,0,.7)}
+  body.playing #padLine{display:none}
   #yard::before{content:"";position:absolute;left:8%;top:8%;width:64px;height:64px;border-radius:50%;background:#ffe98a;box-shadow:0 0 40px #ffe98a}
   .bush{position:absolute;bottom:0;width:110px;height:44px;border-radius:50% 50% 0 0;background:#3f7d33;opacity:.85}
   .flower{position:absolute;font-size:26px;opacity:.95}
-  .char{position:absolute;left:0;top:0;will-change:transform;pointer-events:none;filter:drop-shadow(0 5px 6px rgba(0,0,0,.45))}
-  .char img{display:block;height:clamp(120px,22vh,220px);width:auto}
-  .char.noah img{height:clamp(104px,19vh,190px)}
+  .char{position:absolute;left:0;top:0;will-change:transform;pointer-events:none}
+  .char.goose{filter:drop-shadow(0 0 14px rgba(244,197,99,.9)) drop-shadow(0 5px 6px rgba(0,0,0,.45))}
+  .char.noah{filter:drop-shadow(0 0 14px rgba(127,231,255,.9)) drop-shadow(0 5px 6px rgba(0,0,0,.45))}
+  .char img{display:block;height:200px;width:auto}
   .char.tagged{animation:wiggle .45s ease}
   @keyframes wiggle{0%{transform:rotate(0)}25%{transform:rotate(-10deg)}55%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}100%{transform:rotate(0)}}
+  .nametag{position:absolute;left:0;top:0;transform:translate(-50%,-100%);font-weight:900;font-size:clamp(20px,3.6vw,32px);letter-spacing:.03em;white-space:nowrap;pointer-events:none;z-index:4;text-shadow:0 2px 0 #000,0 0 10px rgba(0,0,0,.8)}
+  .nametag.goose{color:var(--gold)}
+  .nametag.noah{color:#7fe7ff}
   .burst{position:absolute;font-size:34px;pointer-events:none;animation:pop .7s ease forwards;z-index:5}
   @keyframes pop{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}100%{opacity:0;transform:translate(-50%,-140%) scale(1.4)}}
   #big{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:6}
-  #big span{font-size:clamp(64px,18vw,110px);font-weight:900;color:#fff;text-shadow:0 4px 0 rgba(0,0,0,.35);opacity:0}
+  #big span{font-size:clamp(38px,9vw,88px);font-weight:900;color:#fff;text-shadow:0 4px 0 rgba(0,0,0,.35);opacity:0;white-space:nowrap}
   #big span.show{animation:zoom .8s ease}
   @keyframes zoom{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(1)}}
   #hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:rgba(16,14,17,.75);color:var(--gold);font-weight:700;font-size:15px;padding:8px 14px;border-radius:999px;white-space:nowrap;z-index:7;pointer-events:none;transition:opacity .6s}
@@ -66,15 +70,15 @@
 
 <div class="topbar">
   <div class="pill"><small>TIME</small><span id="clock">30</span></div>
-  <div class="pill"><small>TAGS</small><span id="tags">0</span></div>
+  <div class="pill"><small>NOAH'S TAGS</small><span id="tags">0</span></div>
   <button class="btn ghost" id="soundBtn" style="width:auto;min-width:86px">🔊 Sound on</button>
 </div>
 <div id="padLine">🎮 Connect controllers, then press a button</div>
 
 <div id="menu">
   <div class="faces">
-    <figure><img src="goose.png" alt="The Golden Goose"><figcaption>THE GOOSE (DAD)</figcaption></figure>
-    <figure><img src="noah.png" alt="Noah"><figcaption>NOAH (IT!)</figcaption></figure>
+    <figure><img src="goose.png" alt="The Golden Goose"><figcaption>🪿 DAD = THE GOOSE</figcaption></figure>
+    <figure><img src="noah.png" alt="Noah"><figcaption>🏃 NOAH = IT!</figcaption></figure>
   </div>
   <button class="mode" id="soloBtn">
     <img src="noah.png" alt="">
@@ -84,7 +88,7 @@
     <img src="goose.png" alt="">
     <span><b>DAD vs NOAH</b><span>Two players! Dad is the Goose, Noah is IT. 30 seconds!</span></span>
   </button>
-  <p class="howto"><b>Touch:</b> put your finger on your player and drag. When Noah touches the Goose — <b>TAG!</b><br><b>Controllers:</b> plug in the Backbone first (Goose), then pair the Xbox controller (Noah). Left stick to move, <b>A to dash</b>. Open the game in Safari so the controllers work. Mirror the phone to the TV!</p>
+  <p class="howto"><b>Touch:</b> put your finger on your player and drag. When Noah touches the Goose — <b>TAG!</b><br><b>Controllers:</b> plug in the Backbone first (Goose = Dad), then pair the Xbox controller (Noah). Left stick to move, <b>A to dash</b>. Open the game in Safari so the controllers work.<br><b>TV:</b> hold the phone sideways (landscape) — that's how the Backbone holds it — and mirror to the TV. The yard fills the whole screen.</p>
 </div>
 
 <div id="yard" class="hidden">
@@ -95,6 +99,8 @@
   <div class="flower" style="left:46%;bottom:4%">🌼</div>
   <div class="char goose" id="goose"><img src="goose.png" alt="Golden Goose"></div>
   <div class="char noah" id="noah"><img src="noah.png" alt="Noah"></div>
+  <div class="nametag goose" id="labelGoose">🪿 DAD</div>
+  <div class="nametag noah" id="labelNoah">🏃 NOAH</div>
   <div id="big"><span id="bigText"></span></div>
   <div id="hint">🕹️ Left stick to move · A to dash</div>
 </div>
@@ -114,6 +120,10 @@
 const yard=document.getElementById('yard');
 const gooseEl=document.getElementById('goose');
 const noahEl=document.getElementById('noah');
+const gooseImg=gooseEl.querySelector('img');
+const noahImg=noahEl.querySelector('img');
+const labelGoose=document.getElementById('labelGoose');
+const labelNoah=document.getElementById('labelNoah');
 const clockEl=document.getElementById('clock');
 const tagsEl=document.getElementById('tags');
 const bigText=document.getElementById('bigText');
@@ -134,12 +144,50 @@ function tone(f0,f1,dur,type,vol,when){
   g.gain.setValueAtTime(vol||.16,t); g.gain.exponentialRampToValueAtTime(.001,t+dur);
   o.connect(g).connect(c.destination); o.start(t); o.stop(t+dur+.02);
 }
+function noteAt(freq,time,dur,type,vol){
+  const c=ac(); if(!c)return;
+  const o=c.createOscillator(),g=c.createGain();
+  o.type=type; o.frequency.setValueAtTime(freq,time);
+  g.gain.setValueAtTime(vol,time); g.gain.exponentialRampToValueAtTime(.001,time+dur);
+  o.connect(g).connect(c.destination); o.start(time); o.stop(time+dur+.02);
+}
 function honk(){ tone(760,420,.16,'sawtooth',.22,0); tone(640,360,.2,'sawtooth',.22,.14); }
 function fanfare(){ [523,659,784,1047].forEach((f,i)=>tone(f,f,.22,'triangle',.2,i*.12)); }
 function blip(){ tone(880,1200,.08,'sine',.12,0); }
 
+/* ---- Fun music loop: bouncy C-major tune, 150 BPM, 32 eighth-note steps ---- */
+const MEL=[523,659,784,1047,784,659,523,659, 880,784,659,523,587,659,587,523, 698,659,587,659,698,880,784,659, 587,523,587,659,523,0,392,523];
+const BASSROOTS=[131,175,196,131];
+let musicTimer=null, musicStep=0, musicNext=0;
+function scheduleStep(step,time){
+  const f=MEL[step];
+  if(f)noteAt(f,time,.18,'triangle',.10);
+  if(step%4===0){
+    const root=BASSROOTS[Math.floor(step/8)];
+    noteAt(root,time,.22,'square',.06);
+  }
+  if(step%8===6){
+    const root=BASSROOTS[Math.floor(step/8)];
+    noteAt(root*1.5,time,.18,'square',.05);
+  }
+}
+function startMusic(){
+  if(!soundOn)return; stopMusic();
+  const c=ac(); if(!c)return;
+  musicStep=0; musicNext=c.currentTime+.06;
+  musicTimer=setInterval(()=>{
+    const cc=ac(); if(!cc)return;
+    while(musicNext<cc.currentTime+.12){
+      scheduleStep(musicStep,musicNext);
+      musicNext+=60/150/2; musicStep=(musicStep+1)%32;
+    }
+  },30);
+}
+function stopMusic(){ if(musicTimer){clearInterval(musicTimer); musicTimer=null;} }
+
 document.getElementById('soundBtn').onclick=e=>{
-  soundOn=!soundOn; e.target.textContent=soundOn?'🔊 Sound on':'🔇 Sound off'; if(soundOn)blip();
+  soundOn=!soundOn; e.target.textContent=soundOn?'🔊 Sound on':'🔇 Sound off';
+  if(!soundOn)stopMusic(); else { blip(); if(state==='playing')startMusic(); }
 };
 
 const G={x:0,y:0,vx:0,vy:0,speed:250,cool:0,w:90,h:140,dashT:0,dashCool:0};
@@ -152,11 +200,15 @@ let hintTimer=0;
 
 function yardRect(){ return yard.getBoundingClientRect(); }
 function syncSizes(){
-  const gr=gooseEl.querySelector('img').getBoundingClientRect();
-  const nr=noahEl.querySelector('img').getBoundingClientRect();
+  const r=yardRect();
+  // Characters BIG: half the yard height for the Goose, a little less for Noah
+  gooseImg.style.height=Math.round(Math.min(r.height*.52,340))+'px';
+  noahImg.style.height=Math.round(Math.min(r.height*.46,300))+'px';
+  const gr=gooseImg.getBoundingClientRect();
+  const nr=noahImg.getBoundingClientRect();
   G.w=Math.max(60,gr.width); G.h=Math.max(80,gr.height);
   N.w=Math.max(56,nr.width); N.h=Math.max(70,nr.height);
-  S=Math.max(1,Math.min(1.9, yardRect().width/640));
+  S=Math.max(1,Math.min(1.9, r.width/640));
 }
 function clampChar(c){
   const r=yardRect();
@@ -166,11 +218,13 @@ function clampChar(c){
 function place(){
   gooseEl.style.transform='translate('+G.x+'px,'+G.y+'px)';
   noahEl.style.transform='translate('+N.x+'px,'+N.y+'px)';
+  labelGoose.style.left=(G.x+G.w/2)+'px'; labelGoose.style.top=(G.y+4)+'px';
+  labelNoah.style.left=(N.x+N.w/2)+'px'; labelNoah.style.top=(N.y+4)+'px';
 }
 function resetPositions(){
   const r=yardRect();
-  G.x=r.width-160; G.y=80; G.vx=0; G.vy=0; G.speed=250; G.cool=0; G.dashT=0; G.dashCool=0;
-  N.x=40; N.y=r.height-170; N.dashT=0; N.dashCool=0;
+  G.x=r.width-G.w-30; G.y=90; G.vx=0; G.vy=0; G.speed=250; G.cool=0; G.dashT=0; G.dashCool=0;
+  N.x=30; N.y=r.height-N.h-30; N.dashT=0; N.dashCool=0;
   wp={x:G.x,y:G.y,t:0};
   noahPtr=null; goosePtr=null; dashT=0; place();
 }
@@ -186,22 +240,27 @@ function startGame(m){
   document.body.classList.add('playing');
   menu.classList.add('hidden'); over.classList.add('hidden'); yard.classList.remove('hidden');
   tags=0; timeLeft=30; tagsEl.textContent='0'; clockEl.textContent='30';
-  hint.style.opacity='1'; hintTimer=4;
+  hint.textContent = (window.innerHeight>window.innerWidth)
+    ? '🕹️ Left stick to move · A to dash · Turn phone sideways for the big screen!'
+    : '🕹️ Left stick to move · A to dash';
+  hint.style.opacity='1'; hintTimer=5;
   state='playing';
   syncSizes(); resetPositions();
   try{ if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{}); }catch(e){}
+  startMusic();
   big('GO!');
   lastT=performance.now();
   cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
 }
 function endGame(){
-  state='over'; cancelAnimationFrame(raf); fanfare();
+  state='over'; cancelAnimationFrame(raf); stopMusic(); fanfare();
   document.body.classList.remove('playing');
   if(document.fullscreenElement){ try{document.exitFullscreen().catch(()=>{});}catch(e){} }
   finalTags.textContent=tags;
-  cheer.textContent = tags>=10 ? "Noah's always been perfect. TEN tags — superstar!"
-    : tags>=5 ? "Noah's always been perfect. Great chasing!"
-    : "Noah's always been perfect. Try again!";
+  cheer.textContent = tags>=10 ? "Noah tagged Dad "+tags+" times — superstar! Noah's always been perfect."
+    : tags>=5 ? "Noah tagged Dad "+tags+" times! Great chasing. Noah's always been perfect."
+    : tags>0 ? "Noah tagged Dad "+tags+" time"+(tags>1?"s":"")+"! Noah's always been perfect."
+    : "Dad the Goose got away this time! Noah's always been perfect.";
   yard.classList.add('hidden'); over.classList.remove('hidden');
 }
 
@@ -231,9 +290,8 @@ function pollPads(){
   const others=list.filter(p=>p!==bb);
   const goosePad = mode==='versus' ? (bb||list[0]||null) : null;
   const noahPad  = mode==='versus' ? (others[0]||list[1]||null) : (list[0]||null);
-  // status line
   if(list.length===0) padLine.textContent='🎮 Connect controllers, then press a button';
-  else if(mode==='versus') padLine.textContent='🎮 '+(goosePad?('Goose: '+(bb?'Backbone':'Pad 1')):'Goose: —')+' · '+(noahPad?('Noah: '+(bb&&noahPad===others[0]?'Xbox':'Pad 2')):'Noah: —');
+  else if(mode==='versus') padLine.textContent='🎮 '+(goosePad?('Goose (Dad): '+(bb?'Backbone':'Pad 1')):'Goose: —')+' · '+(noahPad?('Noah: '+(bb&&noahPad===others[0]?'Xbox':'Pad 2')):'Noah: —');
   else padLine.textContent='🎮 '+(noahPad?('Noah: '+((noahPad.id||'Controller').split(' (')[0])):'Noah: —');
   return {goosePad:goosePad,noahPad:noahPad};
 }
@@ -278,8 +336,9 @@ function loop(t){
     G.x=goosePtr.x-G.w/2; G.y=goosePtr.y-G.h/2;
   } else {
     const dx=N.x-G.x, dy=N.y-G.y, d=Math.hypot(dx,dy);
+    const fleeDist=(G.w+N.w)*.9;
     if(dashT>0){ dashT-=dt; G.x+=G.vx*dt; G.y+=G.vy*dt; }
-    else if(d<170*S){ // flee!
+    else if(d<fleeDist){ // flee!
       const s=G.speed*S*1.25, m=Math.max(1,d);
       G.x+=-dx/m*s*dt; G.y+=-dy/m*s*dt;
     } else {
@@ -294,10 +353,11 @@ function loop(t){
   // TAG!
   G.cool=Math.max(0,G.cool-dt);
   const cx=(G.x+G.w/2)-(N.x+N.w/2), cy=(G.y+G.h/2)-(N.y+N.h/2);
-  if(G.cool<=0 && Math.hypot(cx,cy)<82*S){
+  const tagDist=(G.w/2+N.w/2)*.85;
+  if(G.cool<=0 && Math.hypot(cx,cy)<tagDist){
     tags++; tagsEl.textContent=tags; honk();
     burst(G.x+G.w/2, G.y+10, '⭐'); burst(N.x+N.w/2, N.y+10, '🎉');
-    big('TAG!');
+    big('NOAH TAGGED DAD! ⭐');
     gooseEl.classList.remove('tagged'); void gooseEl.offsetWidth; gooseEl.classList.add('tagged');
     G.cool=.9; G.speed=Math.min(430,G.speed+14);
     const m=Math.max(1,Math.hypot(cx,cy));
@@ -354,7 +414,7 @@ document.getElementById('soloBtn').onclick=()=>startGame('solo');
 document.getElementById('versusBtn').onclick=()=>startGame('versus');
 document.getElementById('againBtn').onclick=()=>startGame(mode);
 document.getElementById('changeBtn').onclick=()=>{
-  state='menu'; cancelAnimationFrame(raf);
+  state='menu'; cancelAnimationFrame(raf); stopMusic();
   document.body.classList.remove('playing');
   over.classList.add('hidden'); yard.classList.add('hidden'); menu.classList.remove('hidden');
 };
