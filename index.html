@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="dark" />
-<meta name="description" content="The Golden Goose of Springfield — original music, free games, and family stories from Springfield, Massachusetts." />
+<meta name="description" content="The Golden Goose of Springfield — original music, free games, and family stories from Springfield, Massachusetts. Follow the family everywhere, and meet Always Answered, the AI receptionist for small businesses." />
 <link rel="icon" href="data:," />
 <title>The Golden Goose of Springfield</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -296,6 +296,45 @@ a{color:inherit;text-decoration:none}
   height:1px;
   background:linear-gradient(90deg, transparent, var(--line), transparent);
 }
+/* ---------- Always Answered promo band ---------- */
+.promo{
+  border:1px solid var(--gold);
+  border-radius:18px;
+  padding:28px 22px;
+  text-align:center;
+  background:
+    radial-gradient(420px 200px at 50% 0%, rgba(217,164,33,.22) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(217,164,33,.12), rgba(217,164,33,.04));
+}
+.promo h2{
+  font-family:Cinzel, serif;
+  font-size:24px;
+  color:var(--gold-light);
+  margin:0 0 10px;
+}
+.promo .pitch{max-width:460px}
+.promo .offer{
+  margin:16px 0 20px;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--gold-light);
+}
+.promo .offer span{color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:none}
+.promo a.cta{
+  display:inline-block;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:12px 24px;
+  border-radius:999px;
+  background:var(--gold);
+  color:#0a0a0a;
+  transition:background .15s ease;
+}
+.promo a.cta:hover{background:var(--gold-light)}
 .sub-head{
   text-align:center;
   margin:28px 0 14px;
@@ -328,9 +367,10 @@ footer{
   <nav class="nav" aria-label="Main navigation">
     <a class="nav-brand" href="#"><span class="mark" aria-hidden="true"></span>Golden Goose</a>
     <div class="nav-links">
+      <a href="#follow">Follow</a>
       <a href="#games">Games</a>
       <a href="#music">Music</a>
-      <a href="#videos">Videos</a>
+      <a href="#business">Business</a>
       <a href="#family">Family</a>
     </div>
   </nav>
@@ -345,9 +385,106 @@ footer{
     <div class="hero-cta">
       <a class="primary" href="#games">Play the Games</a>
       <a class="secondary" href="#music">Listen to the Music</a>
+      <a class="secondary" href="#follow">Follow the Family</a>
     </div>
   </div>
   <main class="wrap">
+    <!-- SECTION — FOLLOW THE FAMILY -->
+    <section class="section" id="follow" aria-labelledby="head-follow" style="margin-top:44px">
+      <div class="brand-head">
+        <span class="eyebrow">Follow</span>
+        <h2 id="head-follow">Follow the Family</h2>
+        <p class="pitch">Every brand, every platform — follow along wherever you watch, listen, and scroll.</p>
+      </div>
+      <div class="sub-head"><h3>Daniel’s Circus of Horrors — The Golden Goose</h3></div>
+      <div class="stack">
+        <a class="btn" href="https://www.facebook.com/danielscircusofficial/" target="_blank" rel="noopener noreferrer">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">Facebook</span>
+            <span class="desc">Daniel’s Circus of Horrors — Page</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="btn" href="https://www.instagram.com/danielscircusofficial/" target="_blank" rel="noopener noreferrer">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">Instagram</span>
+            <span class="desc">@danielscircusofficial</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="btn" href="https://www.tiktok.com/@danielscircus" target="_blank" rel="noopener noreferrer">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">TikTok</span>
+            <span class="desc">@danielscircus</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="btn" href="https://www.youtube.com/@danielscircusofhorrors" target="_blank" rel="noopener noreferrer">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">YouTube</span>
+            <span class="desc">The Golden Goose of Springfield</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="sub-head"><h3>Scan for a Smile</h3></div>
+      <div class="stack">
+        <a class="btn" href="https://www.tiktok.com/@scanforasmile" target="_blank" rel="noopener noreferrer">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">TikTok</span>
+            <span class="desc">@scanforasmile — a smile in every scan</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="sub-head"><h3>Garcia Family Stories</h3></div>
+      <div class="stack">
+        <a class="btn" href="https://www.tiktok.com/@garciafamilystories" target="_blank" rel="noopener noreferrer">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">TikTok</span>
+            <span class="desc">@garciafamilystories</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="btn" href="https://www.youtube.com/@GarciaFamilyStories" target="_blank" rel="noopener noreferrer">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">YouTube</span>
+            <span class="desc">Garcia Family Stories</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="sub-head"><h3>Money Moves</h3></div>
+      <div class="stack">
+        <a class="btn" href="https://www.instagram.com/413moneymoves/" target="_blank" rel="noopener noreferrer">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">Instagram</span>
+            <span class="desc">@413moneymoves — real numbers, real plays</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="sub-head"><h3>More from Daniel</h3></div>
+      <div class="stack">
+        <a class="btn" href="https://www.youtube.com/@DanielHernandez-ru7gy" target="_blank" rel="noopener noreferrer">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="copy">
+            <span class="title">YouTube</span>
+            <span class="desc">Daniel Hernandez</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+    <div class="stripe" style="margin-top:56px" aria-hidden="true"></div>
     <!-- SECTION A — GAMES -->
     <section class="section" id="games" aria-labelledby="head-games">
       <div class="brand-head">
@@ -447,6 +584,17 @@ footer{
           </span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
+      </div>
+    </section>
+    <div class="stripe" style="margin-top:56px" aria-hidden="true"></div>
+    <!-- SECTION — ALWAYS ANSWERED (AI RECEPTIONIST) -->
+    <section class="section" id="business" aria-labelledby="head-business">
+      <div class="promo">
+        <span class="eyebrow">For Small Businesses</span>
+        <h2 id="head-business">Never Miss Another Customer Call</h2>
+        <p class="pitch">Always Answered is an AI receptionist for small businesses — it answers every call, takes the message, and helps book the job, even after hours and while you’re busy working.</p>
+        <p class="offer">$99/mo <span>·</span> $0 setup <span>·</span> First 30 days free <span>·</span> Cancel anytime</p>
+        <a class="cta" href="https://goldengoose413.com/receptionist/">Meet Always Answered</a>
       </div>
     </section>
     <div class="stripe" style="margin-top:56px" aria-hidden="true"></div>
