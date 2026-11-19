@@ -16,7 +16,7 @@ const roster=[{name:'GOLDEN GOOSE',color:'#f4c563',move:'GOLD RUSH',desc:'Spring
 {name:'SINED',color:'#e4ad64',move:'JAILBREAK',kind:'counter',image:'assets/sined-profile.png',desc:'Time Jailbreak just before a punch or kick to slip the strike and land a right hook.'},
 {name:'THE WITCH WANDA',color:'#f7cd73',move:'LIGHTS OUT',kind:'moths',image:'assets/wanda-profile.png',desc:'Send a swarm of golden moths. On an unblocked hit, Wanda reappears behind her opponent.'},
 // Fighter 19 — THE QUEEN OF THE HOUSE (Carmen, the Dark Queen). Added Nov 19, 2026 on Daniel's explicit approval ("you can add her") — a normal playable roster fighter.
-{name:'THE QUEEN OF THE HOUSE',color:'#ff6f91',move:'PETAL STORM',kind:'petals',desc:'The Dark Queen takes her throne in the arena. Petal Storm sends a whirlwind of hibiscus petals down the lane. Special: 40 power.'}];
+{name:'THE QUEEN OF THE HOUSE',color:'#ff6f91',move:'PETAL STORM',kind:'petals',image:'assets/fighter18.png?v=stance-2026-11-19',desc:'The Dark Queen takes her throne in the arena. Petal Storm sends a whirlwind of hibiscus petals down the lane. Special: 40 power.'}];
 
 const imgs=roster.map((f,i)=>{let im=new Image();im.src=f.image||'assets/fighter'+i+'.png';return im});
 let selected=0, opponentPick=3, nextSeat=0, fighters=[],state='menu', paused=false,round=1,timer=60,particles=[],shots=[],notice='',noticeT=0,shake=0,clock=0,last=0,roundDelay=0,activeStage='carnival',activeMode='cpu',level='normal',audioOn=false,ctx,stats={wins:0,matches:0};
