@@ -145,3 +145,11 @@ body.playing{overflow:hidden;overscroll-behavior:none}
 .pick small{color:#f2ce91;font:700 clamp(10px,1.3vw,17px) Arial;margin:0}.pick:nth-child(2) small{color:#addcf3}
 .pick strong{margin:5px 0;font:700 clamp(14px,2.4vw,32px)/1.06 Arial;color:white}
 .pick span{font:600 clamp(10px,1.2vw,16px)/1.3 Arial;color:#ddd}.pick.ready span{color:#b9eea6}
+
+.fighter.oppick{border-color:#e4574d;box-shadow:inset 0 -3px #e4574d}
+.fighter.oppick:after{content:'P2';position:absolute;right:5px;top:5px;color:#fff;background:#c93a32;font-size:9px;padding:3px}
+#pick-status{font-size:12px;color:#cfc5bd;letter-spacing:.4px;margin:0 0 12px;min-height:16px}
+body.dual-picking .fighter.selected{outline:2px solid var(--gold);outline-offset:2px}
+body.dual-picking .fighter.oppick{outline:2px solid #e4574d;outline-offset:2px}
+.settings{grid-template-columns:repeat(3,1fr)}
+@media(max-width:700px){.settings{grid-template-columns:1fr 1fr}}

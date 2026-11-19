@@ -17,18 +17,21 @@ const roster=[{name:'GOLDEN GOOSE',color:'#f4c563',move:'GOLD RUSH',desc:'Spring
 {name:'THE WITCH WANDA',color:'#f7cd73',move:'LIGHTS OUT',kind:'moths',image:'assets/wanda-profile.png',desc:'Send a swarm of golden moths. On an unblocked hit, Wanda reappears behind her opponent.'}];
 
 const imgs=roster.map((f,i)=>{let im=new Image();im.src=f.image||'assets/fighter'+i+'.png';return im});
-let selected=0, fighters=[],state='menu', paused=false,round=1,timer=60,particles=[],shots=[],notice='',noticeT=0,shake=0,clock=0,last=0,roundDelay=0,activeStage='carnival',activeMode='cpu',level='normal',audioOn=false,ctx,stats={wins:0,matches:0};
+let selected=0, opponentPick=3, nextSeat=0, fighters=[],state='menu', paused=false,round=1,timer=60,particles=[],shots=[],notice='',noticeT=0,shake=0,clock=0,last=0,roundDelay=0,activeStage='carnival',activeMode='cpu',level='normal',audioOn=false,ctx,stats={wins:0,matches:0};
 try{stats=JSON.parse(localStorage.getItem('circusStats'))||stats}catch{}
 const keys=new Set();
-function choose(i){selected=i;document.querySelectorAll('.fighter').forEach((b,j)=>b.classList.toggle('selected',j===i));$('selected-name').textContent=roster[i].name;$('fighter-info').textContent=roster[i].desc.replace(' Special: 40 power.','')+'  ·  Speed '+Math.round(roster[i].speed*100)+'  /  Power '+Math.round(roster[i].powerStat*100)+'  /  Defense '+Math.round(roster[i].defense*100)+'  ·  '+roster[i].superName+'  ·  String '+roster[i].string.map(a=>({punch:'X',kick:'A',heavyPunch:'Y',heavyKick:'B',special:'RB'})[a]).join(' → ');document.querySelectorAll('.fighter').forEach((b,j)=>b.setAttribute('aria-pressed',String(j===i)));idle()}
-roster.forEach((f,i)=>{let b=document.createElement('button');b.className='fighter';b.setAttribute('aria-label','Choose '+f.name);b.innerHTML='<img src="'+imgs[i].src+'" alt=""><span>'+f.name+'</span>';b.onclick=()=>choose(i);$('roster').append(b);let o=document.createElement('option');o.value=i;o.textContent=f.name;$('opponent').append(o)});$('opponent').value='3';
+function showInfo(i){$('selected-name').textContent=roster[i].name;$('fighter-info').textContent=roster[i].desc.replace(' Special: 40 power.','')+'  ·  Speed '+Math.round(roster[i].speed*100)+'  /  Power '+Math.round(roster[i].powerStat*100)+'  /  Defense '+Math.round(roster[i].defense*100)+'  ·  '+roster[i].superName+'  ·  String '+roster[i].string.map(a=>({punch:'X',kick:'A',heavyPunch:'Y',heavyKick:'B',special:'RB'})[a]).join(' → ')}
+function renderPicks(){document.querySelectorAll('.fighter').forEach((b,j)=>{b.classList.toggle('selected',j===selected);b.classList.toggle('oppick',j===opponentPick);b.setAttribute('aria-pressed',String(j===selected))});const s=$('pick-status');if(s)s.textContent='P1 · '+roster[selected].name+'  vs  P2 · '+roster[opponentPick].name+'   —   tap a fighter for P1, tap another for P2'}
+function choose(i){selected=i;showInfo(i);renderPicks();idle()}
+function setOpponent(i){opponentPick=i;showInfo(i);renderPicks();idle()}
+function tileClick(i){if(nextSeat===0)choose(i);else setOpponent(i);nextSeat=1-nextSeat}
+roster.forEach((f,i)=>{let b=document.createElement('button');b.className='fighter';b.setAttribute('aria-label','Choose '+f.name);b.innerHTML='<img src="'+imgs[i].src+'" alt=""><span>'+f.name+'</span>';b.onclick=()=>tileClick(i);$('roster').append(b)});renderPicks();
 // Match state and round transitions.
 function fighter(i,x,side){return {i,x,side,y:0,vy:0,hp:100,power:100,wins:0,cd:0,action:'idle',anim:0,stun:0,block:false,combo:0,lastHit:-Infinity,queued:null,pendingStrike:null,chainReady:false,dashTime:0,dashLock:0,slow:0,fx:0}}
-function idle(){if(state==='menu'||state==='matchover'){fighters=[fighter(selected,320,1),fighter(+$('opponent').value,880,-1)]}}
-$('opponent').onchange=idle;
+function idle(){if(state==='menu'||state==='matchover'){fighters=[fighter(selected,320,1),fighter(opponentPick,880,-1)]}}
 $('stage').onchange=()=>{if(state==='menu'||state==='matchover'){activeStage=$('stage').value;$('arena-label').textContent=$('stage').selectedOptions[0].textContent}};
 function show(title,txt,button){$('overlay-title').textContent=title;$('overlay-text').textContent=txt;$('start').textContent=button;$('overlay').classList.remove('hidden')}
-function begin(){pairedMatch=false;document.body.classList.add('playing');document.querySelector('.arena-shell').scrollIntoView({block:'start'});keys.clear();activeStage=$('stage').value;activeMode=$('mode').value;level=$('difficulty').value;$('arena-label').textContent=$('stage').selectedOptions[0].textContent;fighters=[fighter(selected,320,1),fighter(+$('opponent').value,880,-1)];historyKeys.length=0;$('inputs').textContent='Inputs';$('inputs').hidden=activeMode!=='training';round=1;paused=false;$('pause').textContent='Pause';newRound();$('overlay').classList.add('hidden');unlock()}
+function begin(){pairedMatch=false;document.body.classList.add('playing');document.querySelector('.arena-shell').scrollIntoView({block:'start'});keys.clear();activeStage=$('stage').value;activeMode=$('mode').value;level=$('difficulty').value;$('arena-label').textContent=$('stage').selectedOptions[0].textContent;fighters=[fighter(selected,320,1),fighter(opponentPick,880,-1)];historyKeys.length=0;$('inputs').textContent='Inputs';$('inputs').hidden=activeMode!=='training';round=1;paused=false;$('pause').textContent='Pause';newRound();$('overlay').classList.add('hidden');unlock()}
 function newRound(){cinema=null;fighters.forEach((f,i)=>Object.assign(f,{x:i?880:320,y:0,vy:0,hp:100,power:100,counterUntil:0,blackoutUntil:0,comboDamage:0,prevX:i?880:320,prevY:0,cd:0,stun:0,anim:0,action:'idle',block:false,slow:0,fx:0,combo:0,lastHit:-Infinity,queued:null,pendingStrike:null,chainReady:false,dashTime:0,dashLock:0}));shots=[];particles=[];timer=60;state='countdown';roundDelay=2.6;notice=round===1?roster[fighters[0].i].name+'  vs  '+roster[fighters[1].i].name:'Round '+round;cameraPush=.09;noticeT=2.6;$('status').textContent=activeMode==='cpu'?'YOU VS COMPUTER':'LOCAL TWO PLAYER'}
 $('start').onclick=()=>{if(state==='paused'){togglePause()}else begin()};
 function togglePause(){if(paused&&pairedMatch&&padState.indexes.length<2)return;if(state==='menu'||state==='matchover')return;paused=!paused;$('pause').textContent=paused?'Resume':'Pause';keys.clear();fighters.forEach(f=>{f.queued=null});if(paused){$('exit-match').hidden=false;show('Show on hold','Take a breath. Your fight will be waiting.','Resume');storeState=state;state='paused'}else{$('exit-match').hidden=true;state=storeState;$('overlay').classList.add('hidden')}}let storeState='fight';$('pause').onclick=togglePause;
@@ -641,7 +644,7 @@ function padPressed(p,index){const b=p.buttons?.[index];return typeof b==='numbe
 function padMessage(message,connected=false){if(padState.message!==message){$('controller-status').textContent=message;padState.message=message}$('controller-status').classList.toggle('connected',connected)}
 function padMenu(){return state==='menu'||state==='matchover'}
 function padReturnToMenu(){$('exit-match').hidden=true;$('finale').hidden=true;document.body.classList.remove('playing');cinema=null;keys.clear();padKeys.clear();paused=false;state='menu';$('pause').textContent='Pause';noticeT=0;idle();show('Choose your fighter','Controller: ← / → choose · LB / RB opponent · X / □ arena · A / ✕ fight','Fight now');$('status').textContent='Choose your next challenger'}
-function cyclePadOpponent(direction){$('opponent').value=String((+$('opponent').value+direction+roster.length)%roster.length);idle()}
+function cyclePadOpponent(direction){setOpponent((opponentPick+direction+roster.length)%roster.length)}
 function mapPadCombat(pad, player, previous) {
   const bindings = playerBindings[player];
   const x = pad.axes?.[0] || 0;
@@ -664,37 +667,35 @@ function clearPick(seat){Object.assign(seat,{ready:false,direction:0,wait:0,disp
 function showPicker(visible){
  if(visible===pickerVisible)return;
  pickerVisible=visible;
- $('overlay').classList.toggle('dual-select',visible);
- $('dual-picks').hidden=!visible;
+ $('dual-picks').hidden=true;
+ document.body.classList.toggle('dual-picking',visible);
  pickSeats.forEach(clearPick);
- if(visible)document.querySelector('.arena-shell').scrollIntoView({block:'start'});
 }
+function gridCols(){try{return getComputedStyle($('roster')).gridTemplateColumns.split(' ').length||5}catch{return 5}}
 function dualPick(pads,current,prior,dt){
+ const cols=gridCols();
  for(let i=0;i<2;i++){
    const seat=pickSeats[i], pad=pads[i], buttons=current[i];
    const edge=n=>buttons[n]&&!prior[i][n];
-   let fighterIndex=i?Number($('opponent').value):selected;
+   let fighterIndex=i?opponentPick:selected;
    if(seat.pick!==fighterIndex)seat.ready=false;
-   const axis=pad.axes?.[0]||0;
-   const direction=Number(axis>.5||buttons[15])-Number(axis<-.5||buttons[14]);
+   const axisX=pad.axes?.[0]||0, axisY=pad.axes?.[1]||0;
+   const dx=Number(axisX>.5||buttons[15])-Number(axisX<-.5||buttons[14]);
+   const dy=Number(axisY>.5||buttons[13])-Number(axisY<-.5||buttons[12]);
+   const dirKey=dx+dy*10;
    seat.wait-=dt;
-   if(!seat.ready&&direction&&(seat.direction!==direction||seat.wait<=0)){
-     fighterIndex=(fighterIndex+direction+roster.length)%roster.length;
-     if(i){$('opponent').value=String(fighterIndex);idle()}else choose(fighterIndex);
-     seat.wait=seat.direction===direction?.24:.42;
+   if(!seat.ready&&(dx||dy)&&(seat.direction!==dirKey||seat.wait<=0)){
+     let next=Math.max(0,Math.min(roster.length-1,fighterIndex+dx+dy*cols));
+     if(next!==fighterIndex){if(i)setOpponent(next);else choose(next);fighterIndex=next}
+     seat.wait=seat.direction===dirKey?.24:.42;
    }
-   seat.pick=fighterIndex;seat.direction=direction;
+   seat.pick=fighterIndex;seat.direction=dirKey;
    if(edge(1))seat.ready=false;
    else if(edge(0)||edge(9))seat.ready=true;
-   const device=/backbone/i.test(pad.id)?'Backbone':/xbox/i.test(pad.id)?'Xbox':'Controller';
-   const display=[fighterIndex,seat.ready,device].join('/');
+   const display=[fighterIndex,seat.ready].join('/');
    if(display!==seat.display){
      seat.display=display;
-     $('pick-pad-'+i).textContent='P'+(i+1)+' · '+device;
-     $('pick-art-'+i).src=imgs[fighterIndex].src;
-     $('pick-name-'+i).textContent=roster[fighterIndex].name;
-     $('pick-state-'+i).textContent=seat.ready?'Ready · B to change':'◀ ▶ Choose · A to ready';
-     $('pick-state-'+i).closest('.pick').classList.toggle('ready',seat.ready);
+     const s=$('pick-status');if(s)s.textContent='P1 · '+roster[selected].name+(pickSeats[0].ready?' ✓ READY':'')+'  vs  P2 · '+roster[opponentPick].name+(pickSeats[1].ready?' ✓ READY':'')+'   —   move on the grid · A to ready · B to change';
    }
  }
  if(pickSeats.every(seat=>seat.ready)){showPicker(false);begin();pairedMatch=true}
