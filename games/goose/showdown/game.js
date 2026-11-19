@@ -13,8 +13,6 @@ const roster=[{name:'GOLDEN GOOSE',color:'#f4c563',move:'GOLD RUSH',desc:'Spring
 {name:'UNDERGROUND',color:'#efc963',move:'ALLIANCE BREAKER',kind:'dash',desc:'Black cape. Gold standard. Alliance Breaker closes the distance with a powerful charging strike. Special: 40 power.'},
 {name:'RADIO COMMANDER',color:'#84d7ff',move:'RADIO WAVE',kind:'radio',desc:'Clear the channel. Radio Wave fires a signal pulse that briefly disrupts an unguarded opponent. Special: 40 power.'},
 {name:'TUCKER THE FUCKER',color:'#efbd50',move:'GOLDEN HAYMAKER',kind:'dash',image:'assets/tucker-corrected.png',desc:'Tucker steps into the ring in Golden Goose satin. Golden Haymaker sends him charging across the canvas.'},
-{name:'SINED',color:'#e4ad64',move:'JAILBREAK',kind:'counter',image:'assets/sined-profile.png',desc:'Time Jailbreak just before a punch or kick to slip the strike and land a right hook.'},
-{name:'THE WITCH WANDA',color:'#f7cd73',move:'LIGHTS OUT',kind:'moths',image:'assets/wanda-profile.png',desc:'Send a swarm of golden moths. On an unblocked hit, Wanda reappears behind her opponent.'},
 // Fighter 19 — THE QUEEN OF THE HOUSE (Carmen, the Dark Queen). Added Nov 19, 2026 on Daniel's explicit approval ("you can add her") — a normal playable roster fighter.
 {name:'THE QUEEN OF THE HOUSE',color:'#ff6f91',move:'PETAL STORM',kind:'petals',image:'assets/fighter18.png?v=stance-2026-11-19',desc:'The Dark Queen takes her throne in the arena. Petal Storm sends a whirlwind of hibiscus petals down the lane. Special: 40 power.'}];
 
