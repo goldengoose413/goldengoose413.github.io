@@ -153,7 +153,6 @@ const strikes = {
 const GAME={fighters:roster,moves:strikes};
 const signatures=[
  ['Gilded Orbit','The crown stays in Springfield.',1.04,1.02,.98],
- ['Midnight Watch','The city sleeps easy.',.96,1.05,1.08],
  ['Scarlet Comet','Keep up next time.',1.13,.98,.92],
  ['Three Ring Eclipse','Take your bow.',1.02,1.03,.96],
  ['Cloud Chamber','Lost in the fog again?',.95,1.04,1.09],
@@ -165,11 +164,7 @@ const signatures=[
  ['Silver Dividend','Meeting adjourned.',1.1,1.01,.93],
  ['Gift Avalanche','Here’s your receipt!',1.18,.91,.9],
  ['Velvet Ovation','One more curtain call.',1.03,1.06,.95],
- ['Alliance Anthem','Together we stand.',.91,1.09,1.14],
  ['Dead Air','Over and out.',1.12,.96,.97],
- ['Satin Knockout','You saw the jacket. You should’ve ducked.',1.09,1.04,.95],
- ['The Last Lock','Keep the cuffs.',.99,1.07,1.04],
- ['Midnight Bloom','Sweet dreams, darling.',1.08,1.01,.95],
  ['Royal Decree','The house always wins.',1,1.06,1.05]
 ];
 signatures.forEach(([superName,quote,speed,powerStat,defense],i)=>{
