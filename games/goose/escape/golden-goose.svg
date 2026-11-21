@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 220" fill="none">
+  <defs>
+    <linearGradient id="gold" x1="60" y1="55" x2="180" y2="195" gradientUnits="userSpaceOnUse"><stop stop-color="#fff4bb"/><stop offset=".35" stop-color="#edcc72"/><stop offset=".64" stop-color="#bf882b"/><stop offset=".84" stop-color="#f8dc87"/><stop offset="1" stop-color="#93601b"/></linearGradient>
+    <linearGradient id="wing" x1="72" y1="119" x2="134" y2="175" gradientUnits="userSpaceOnUse"><stop stop-color="#fff2b3"/><stop offset="1" stop-color="#bb8022"/></linearGradient>
+    <linearGradient id="crown" x1="152" y1="15" x2="184" y2="52" gradientUnits="userSpaceOnUse"><stop stop-color="#fff5c4"/><stop offset=".55" stop-color="#e4b64d"/><stop offset="1" stop-color="#a4681c"/></linearGradient>
+  </defs>
+  <ellipse cx="117" cy="202" rx="72" ry="5" fill="#a77927" opacity=".18"/>
+  <path d="M103 174l-4 22-17 5h30l-4-6 5-21M139 174l5 22-12 5h29l-11-7-1-24" fill="url(#gold)" stroke="#b18232" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M46 123l-22-18 8 31c4 29 35 48 76 48 33 0 55-11 62-35 7-23-8-41-7-61 0-10 5-16 14-16 15 0 24-7 24-18 0-13-10-21-24-21-20 0-32 16-32 38 0 21 9 38 6 48-3 9-12 11-24 8-29-9-58-8-81-4Z" fill="url(#gold)" stroke="#8c601f" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M197 51l23 9-24 7c4-5 4-10 1-16Z" fill="#b87922" stroke="#80521b" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M195 55l20 5-18 2" stroke="#f4ce72" stroke-width="2" stroke-linecap="round"/>
+  <path d="M57 134c23-12 54-7 80 10-18 27-51 30-72 11l-17-18 9-3Z" fill="url(#wing)" stroke="#a67423" stroke-width="2"/>
+  <path d="M64 140c18 14 38 17 59 9M70 150c14 10 30 11 45 6M151 112c-5-16-9-33-6-47 2-14 10-24 21-27" stroke="#fff1b3" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+  <circle cx="184" cy="49" r="3.6" fill="#2c1d10"/><circle cx="185" cy="48" r="1.1" fill="#fff4ca"/>
+  <path d="M155 33l-5-17 13 8 7-16 8 16 14-8-5 20Z" fill="url(#crown)" stroke="#9c7027" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M156 33l31 3-1 6-30-3Z" fill="#e4b958" stroke="#9c7027" stroke-width="1.5"/>
+  <path d="M171 25l3 4-4 4-3-4Z" fill="#5d263e"/>
+  <path d="M54 64v14m-7-7h14M215 109v10m-5-5h10M27 164v8m-4-4h8" stroke="#f4d787" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+</svg>
